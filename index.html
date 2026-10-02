@@ -1272,6 +1272,113 @@ button:hover, .m7-btn:hover { transform: translateY(-3px) scale(1.025); }
  .m7-prices > *, .prices > *, .pricing > *, .price-grid > *, .pricing-grid > *, .price-card, .pricing-card, .price, [class*="price-card"], [class*="pricing-card"] { border-radius: 34px !important; clip-path: inset(0 round 34px) !important; }
 }
 </style>
+
+<style id="FINAL-FAST-ROUND">
+/* FINAL: stronger rounding + early image reveal */
+body.m7 .m7-media,
+body.m7 .m7-media img,
+body.m7 .m7-stack-card,
+body.m7 .m7-stack-card img,
+body.m7 .m7-card,
+body.m7 .svc-item,
+body.m7 .price,
+body.m7 .pay-item,
+body.m7 .m7-q,
+body.m7 .contact-block,
+body.m7 .tg,
+body.m7 .info-pill,
+body.m7 .thanks {
+  border-radius: 32px !important;
+}
+body.m7 .m7-media,
+body.m7 .m7-stack-card,
+body.m7 .m7-card,
+body.m7 .svc-item,
+body.m7 .price,
+body.m7 .pay-item,
+body.m7 .m7-q,
+body.m7 .contact-block {
+  overflow: hidden !important;
+  clip-path: inset(0 round 32px) !important;
+}
+body.m7 .m7-media img,
+body.m7 .m7-stack-card img { clip-path: inset(0 round 32px) !important; }
+/* kill the old late reveal for media */
+body.m7 .m7-reveal-img { opacity:1 !important; transform:none !important; clip-path:inset(0 round 32px) !important; }
+@media(max-width:700px){
+ body.m7 .m7-media,body.m7 .m7-media img,body.m7 .m7-stack-card,body.m7 .m7-stack-card img,
+ body.m7 .m7-card,body.m7 .svc-item,body.m7 .price,body.m7 .pay-item,body.m7 .m7-q,body.m7 .contact-block {border-radius:26px !important; clip-path:inset(0 round 26px) !important;}
+}
+</style>
+
+
+<style id="payment-icons-extra-round">
+/* Extra rounded payment section + icons */
+body.m7 #s3 .pay-row,
+body.m7 #s3 .pay-item {
+  border-radius: 28px !important;
+  overflow: hidden !important;
+}
+
+body.m7 #s3 .pay-item {
+  position: relative !important;
+  margin: 8px !important;
+  min-height: 120px;
+  transition: transform .45s cubic-bezier(.16,1,.3,1),
+              box-shadow .45s cubic-bezier(.16,1,.3,1),
+              border-radius .35s ease !important;
+}
+
+body.m7 #s3 .pay-item:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 20px 45px rgba(0,0,0,.14) !important;
+}
+
+body.m7 #s3 .pay-item > *,
+body.m7 #s3 .pay-item svg,
+body.m7 #s3 .pay-item img,
+body.m7 #s3 .pay-item .icon,
+body.m7 #s3 .pay-item [class*="icon"] {
+  border-radius: 22px !important;
+}
+
+body.m7 #s3 .pay-item svg,
+body.m7 #s3 .pay-item img,
+body.m7 #s3 .pay-item .icon,
+body.m7 #s3 .pay-item [class*="icon"] {
+  overflow: hidden !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.m7 #s3 .pay-item .pay-icon,
+body.m7 #s3 .pay-item .payment-icon {
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 18px !important;
+}
+
+@media (max-width:760px) {
+  body.m7 #s3 .pay-row {
+    gap: 10px !important;
+  }
+  body.m7 #s3 .pay-item {
+    margin: 4px 0 !important;
+    border-radius: 24px !important;
+    min-height: 105px;
+  }
+  body.m7 #s3 .pay-item .pay-icon,
+  body.m7 #s3 .pay-item .payment-icon,
+  body.m7 #s3 .pay-item svg,
+  body.m7 #s3 .pay-item img,
+  body.m7 #s3 .pay-item .icon,
+  body.m7 #s3 .pay-item [class*="icon"] {
+    border-radius: 16px !important;
+  }
+}
+</style>
+
 </head>
 <body class="m7">
 
@@ -2223,6 +2330,34 @@ button:hover, .m7-btn:hover { transform: translateY(-3px) scale(1.025); }
   const secs=[...document.querySelectorAll('section[data-sec]')];
   const sIO=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('m7-active')}),{threshold:.3});
   secs.forEach(s=>sIO.observe(s));
+})();
+</script>
+
+
+<script id="FINAL-FAST-IMAGES">
+(()=>{
+  /* Start animations BEFORE the element reaches the screen. */
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets=[...document.querySelectorAll('.m7-media,.m7-stack-card,.m7-card,.svc-item,.price,.pay-item,.m7-q,.contact-block')];
+  if(!reduce){
+    targets.forEach((el,i)=>{
+      el.classList.add('m7-final-reveal');
+      el.style.transitionDelay=(Math.min(i%5*.045,.18))+'s';
+    });
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){e.target.classList.add('m7-final-in');io.unobserve(e.target)}
+      });
+    },{threshold:0,rootMargin:'600px 0px 600px 0px'});
+    targets.forEach(el=>io.observe(el));
+  } else targets.forEach(el=>el.classList.add('m7-final-in'));
+
+  /* Ask the browser to fetch all portfolio images early. */
+  document.querySelectorAll('img').forEach((img,i)=>{
+    img.loading='eager';
+    img.decoding='async';
+    if(i<8) img.fetchPriority='high';
+  });
 })();
 </script>
 
