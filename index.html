@@ -164,7 +164,11 @@ label.f{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
 <script>
 // ====== НАСТРОЙКИ ======
 // Адрес вашей функции в Supabase. Если она называется не "api", замените последнее слово.
-const API_URL = 'https://jkkaxhidrqqnrbvxukbi.supabase.co/functions/v1/quick-function';
+const API_BASE = 'https://jkkaxhidrqqnrbvxukbi.supabase.co/functions/v1/';
+// Имена ваших функций с кодом api_index.ts. Приложение само выберет ту, где лежит самая новая версия.
+const API_NAMES = ['api', 'quick-function'];
+const VERSION = '2026-10-04.3';
+let API_URL = API_BASE + API_NAMES[0];
 // Нужен только если у функции включён "Verify JWT" (лучше его выключить). Можно оставить пустым.
 const PUBLIC_KEY = '';
 // =======================
@@ -189,7 +193,7 @@ const T = {
     errAi:'Не удалось получить ответ от AI. Попробуй ещё раз через несколько секунд.', errRate:'Слишком много запросов. Подожди минуту.',
     errNet:'Нет соединения. Проверь интернет и попробуй снова.', errAuth:'Откройте приложение через Telegram.', errGen:'Что-то пошло не так. Попробуй ещё раз.', errDb:'База данных не готова: выполните 2_planner.sql в Supabase (SQL Editor).',
     progress:(d,n)=>`Выполнено ${d} из ${n}`, planDay:'Разобрать день с ассистентом', planPrompt:'Составь план на сегодня: расставь приоритеты по моим делам и подскажи, с чего начать.',
-    yourId:'Ваш ID', adminBtn:'Админ: AI-подключения', adminT:'AI-подключения', adminS:'Добавляйте сколько угодно ключей. Сначала используется меньший приоритет, внутри группы выбор случайный. Сбойный ключ отдыхает от 30 секунд до 10 минут.',
+    yourId:'Ваш ID', ver:'Сайт', serverVer:'сервер', serverOld:'СТАРАЯ — вставьте новый api_index.ts в функцию', adminBtn:'Админ: AI-подключения', adminT:'AI-подключения', adminS:'Добавляйте сколько угодно ключей. Сначала используется меньший приоритет, внутри группы выбор случайный. Сбойный ключ отдыхает от 30 секунд до 10 минут.',
     add:'＋ Добавить', provEmpty:'Пока нет подключений. Сейчас работают ключи из секретов Supabase.', off:'выключено', test:'Тест', testOk:'Работает', testFail:'Ошибка',
     preset:'Сервис', name:'Название', url:'Адрес API', model:'Модель', keys:'API-ключи (по одному на строку)', key:'API-ключ', keyKeep:'Оставьте пустым, чтобы не менять',
     prio:'Приоритет (меньше — раньше)', strictJson:'Строгий JSON (если сервис поддерживает)', enabled:'Включено', custom2:'Другой (OpenAI-совместимый)',
@@ -216,7 +220,7 @@ const T = {
     errAi:'Could not get a response from the AI. Please try again in a few seconds.', errRate:'Too many requests. Wait a minute.',
     errNet:'No connection. Check your internet and try again.', errAuth:'Please open the app from Telegram.', errGen:'Something went wrong. Please try again.', errDb:'Database is not ready: run 2_planner.sql in Supabase (SQL Editor).',
     progress:(d,n)=>`Done ${d} of ${n}`, planDay:'Plan my day with the assistant', planPrompt:'Plan my day: prioritize my tasks and tell me where to start.',
-    yourId:'Your ID', adminBtn:'Admin: AI connections', adminT:'AI connections', adminS:'Add as many keys as you like. Lower priority is used first, random within a group. A failing key rests 30 seconds to 10 minutes.',
+    yourId:'Your ID', ver:'Site', serverVer:'server', serverOld:'OLD — paste the new api_index.ts into the function', adminBtn:'Admin: AI connections', adminT:'AI connections', adminS:'Add as many keys as you like. Lower priority is used first, random within a group. A failing key rests 30 seconds to 10 minutes.',
     add:'＋ Add', provEmpty:'No connections yet. Keys from Supabase secrets are used for now.', off:'off', test:'Test', testOk:'Works', testFail:'Error',
     preset:'Service', name:'Name', url:'API address', model:'Model', keys:'API keys (one per line)', key:'API key', keyKeep:'Leave empty to keep the current one',
     prio:'Priority (lower = earlier)', strictJson:'Strict JSON (if supported)', enabled:'Enabled', custom2:'Other (OpenAI-compatible)',
@@ -233,7 +237,7 @@ const T = {
 };
 const t = (k, ...a) => { const v = T[L][k]; return typeof v === 'function' ? v(...a) : v; };
 
-const S = { admin: false, uid: 0, tab: 'today', entries: [], convs: [], cur: null, msgs: [], busy: false, failed: null, status: null, settings: { style: 'balanced', custom_instruction: '' }, title: '' };
+const S = { server: '', admin: false, uid: 0, tab: 'today', entries: [], convs: [], cur: null, msgs: [], busy: false, failed: null, status: null, settings: { style: 'balanced', custom_instruction: '' }, title: '' };
 
 // ---------- утилиты ----------
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -248,10 +252,31 @@ function haptic(k) { try { tg.HapticFeedback.notificationOccurred(k || 'success'
 function applyTheme() { document.documentElement.dataset.theme = (tg && tg.colorScheme) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
 applyTheme(); if (tg && tg.onEvent) tg.onEvent('themeChanged', applyTheme);
 
+function hdrs() {
+  const h = { 'Content-Type': 'application/json', 'x-telegram-init-data': (tg && tg.initData) || '' };
+  if (PUBLIC_KEY) { h.apikey = PUBLIC_KEY; h.Authorization = 'Bearer ' + PUBLIC_KEY; }
+  return h;
+}
+// Проверяет все функции из API_NAMES и берёт ту, что отвечает самой новой версией кода.
+async function pickApi() {
+  let fallback = null;
+  for (const n of API_NAMES) {
+    const url = API_BASE + n;
+    try {
+      const r = await fetch(url, { method: 'POST', headers: hdrs(), body: JSON.stringify({ action: 'me' }) });
+      const d = await r.json();
+      if (r.ok && d && d.user) {
+        if (d.version) { API_URL = url; return d; }
+        if (!fallback) fallback = { url, d };
+      }
+    } catch (e) {}
+  }
+  if (fallback) { API_URL = fallback.url; return fallback.d; }
+  throw new ApiError('network', 0);
+}
 class ApiError extends Error { constructor(code, status) { super(code); this.code = code; this.status = status; } }
 async function api(action, body) {
-  const headers = { 'Content-Type': 'application/json', 'x-telegram-init-data': (tg && tg.initData) || '' };
-  if (PUBLIC_KEY) { headers.apikey = PUBLIC_KEY; headers.Authorization = 'Bearer ' + PUBLIC_KEY; }
+  const headers = hdrs();
   let r;
   try { r = await fetch(API_URL, { method: 'POST', headers, body: JSON.stringify({ action, ...(body || {}) }) }); }
   catch (e) { throw new ApiError('network', 0); }
@@ -450,7 +475,7 @@ async function openSettings() {
     '<label class="f" for="custom">' + t('custom') + '</label><textarea id="custom" class="inp" rows="3" maxlength="500" placeholder="' + esc(t('customPh')) + '">' + esc(s.custom_instruction || '') + '</textarea>' +
     '<button class="btn pri" id="setSave">' + t('save') + '</button><button class="btn sec2" id="setPro">' + t('proT') + '</button>' +
     (S.admin ? '<button class="btn sec2" id="setAdmin">' + t('adminBtn') + '</button>' : '') +
-    '<div class="idline">' + t('yourId') + ': <b id="myId">' + esc(String(S.uid || '')) + '</b></div>';
+    '<div class="idline">' + t('yourId') + ': <b id="myId">' + esc(String(S.uid || '')) + '</b><br>' + t('ver') + ' ' + VERSION + ' · ' + t('serverVer') + ': ' + (S.server ? esc(S.server) : t('serverOld')) + '<br>' + esc(API_URL) + '</div>';
   $('styleSeg').querySelectorAll('button').forEach((b) => (b.onclick = () => { style = b.dataset.k; $('styleSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
   $('setSave').onclick = async () => { try { await api('ai.settings.save', { style, custom_instruction: $('custom').value }); S.settings = { style, custom_instruction: $('custom').value }; toast(t('saved')); closeLayers(); } catch (e) { toast(errText(e)); } };
   $('setPro').onclick = () => openPro();
@@ -594,7 +619,7 @@ function showGate(msg, e) {
 (async function init() {
   $('gateTxt').textContent = t('loading'); renderHeader();
   if (!tg || !tg.initData) { showGate(t('openTg')); return; }
-  try { const me = await api('me'); S.admin = !!me.admin; S.uid = (me.user && me.user.id) || 0; } catch (e) { showGate(errText(e), e); return; }
+  try { const me = await pickApi(); S.admin = !!me.admin; S.uid = (me.user && me.user.id) || 0; S.server = me.version || ''; } catch (e) { showGate(errText(e), e); return; }
   loadEntries(); loadStatus(); await loadConvs();
   api('ai.settings.get').then((s) => (S.settings = s)).catch(() => {});
 })();
