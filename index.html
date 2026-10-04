@@ -167,7 +167,7 @@ label.f{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
 const API_BASE = 'https://jkkaxhidrqqnrbvxukbi.supabase.co/functions/v1/';
 // Имена ваших функций с кодом api_index.ts. Приложение само выберет ту, где лежит самая новая версия.
 const API_NAMES = ['api', 'quick-function'];
-const VERSION = '2026-10-04.3';
+const VERSION = '2026-10-04.4';
 let API_URL = API_BASE + API_NAMES[0];
 // Нужен только если у функции включён "Verify JWT" (лучше его выключить). Можно оставить пустым.
 const PUBLIC_KEY = '';
@@ -281,7 +281,7 @@ async function api(action, body) {
   try { r = await fetch(API_URL, { method: 'POST', headers, body: JSON.stringify({ action, ...(body || {}) }) }); }
   catch (e) { throw new ApiError('network', 0); }
   let d = {}; try { d = await r.json(); } catch (e) {}
-  if (!r.ok) throw new ApiError(d.error || 'server_error', r.status);
+  if (!r.ok) { const er = new ApiError(d.error || 'server_error', r.status); er.detail = d.detail; throw er; }
   return d;
 }
 function errText(e) {
@@ -577,7 +577,7 @@ function renderMsgs(loading) {
   }
   S.msgs.forEach((m) => { const el = document.createElement('div'); if (m.role === 'user') { el.className = 'm u'; el.textContent = m.content; } else { el.className = 'm a'; el.innerHTML = md(m.content); } box.appendChild(el); });
   if (S.busy) { const el = document.createElement('div'); el.className = 'm a'; el.innerHTML = '<span class="typing" aria-label="loading"><i></i><i></i><i></i></span>'; box.appendChild(el); }
-  if (S.failed) { const el = document.createElement('div'); el.className = 'm err'; el.innerHTML = esc(S.failed.text) + '<button>' + t('retry') + '</button>'; el.querySelector('button').onclick = retry; box.appendChild(el); }
+  if (S.failed) { const el = document.createElement('div'); el.className = 'm err'; el.innerHTML = esc(S.failed.text).replace(/\n/g, '<br><small style="color:var(--muted);word-break:break-all">') + (S.failed.text.includes('\n') ? '</small>' : '') + '<button>' + t('retry') + '</button>'; el.querySelector('button').onclick = retry; box.appendChild(el); }
   box.scrollTop = box.scrollHeight;
 }
 async function send(text, opts) {
@@ -594,7 +594,7 @@ async function send(text, opts) {
     if (r.changes && r.changes.length) { haptic(); loadEntries(); }
   } catch (e) {
     if (e.code === 'quota_exceeded') { S.msgs.pop(); $('inp').value = text; openPro(t('limitHit')); loadStatus(); }
-    else S.failed = { text: errText(e), mode: e.code === 'ai_unavailable' ? 'retry' : 'resend', msg: text };
+    else S.failed = { text: errText(e) + (e.detail ? '\n' + e.detail : ''), mode: e.code === 'ai_unavailable' ? 'retry' : 'resend', msg: text };
   }
   S.busy = false; $('btnSend').disabled = false; renderMsgs();
 }
