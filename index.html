@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -117,87 +118,6 @@ label.f{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
 .voice-rec{position:fixed;inset:auto 18px 92px 18px;z-index:30;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 15px 45px #0005;display:none}
 .voice-rec.on{display:block}
 .rem-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-/* ===== LifeVault SUPER UI ===== */
-:root{
-  --bg:#f4f6fb;--card:rgba(255,255,255,.92);--card-solid:#fff;--text:#10131a;
-  --muted:#697386;--line:#e5e9f2;--acc:#5b5cf0;--acc2:#7c5cff;--soft:#eef0ff;
-  --ok:#20a56b;--warn:#e6a11a;--danger:#e0525d;--shadow:0 16px 45px rgba(31,41,67,.08);
-  --safe:env(safe-area-inset-bottom,0px)
-}
-[data-theme=dark]{
-  --bg:#090b10;--card:rgba(20,24,33,.94);--card-solid:#141821;--text:#f2f4f8;
-  --muted:#8f99aa;--line:#29303c;--acc:#8b83ff;--acc2:#a27cff;--soft:#202137;
-  --ok:#36c98b;--warn:#e7ad4c;--danger:#ff707b;--shadow:0 20px 60px rgba(0,0,0,.3)
-}
-body{background:
- radial-gradient(circle at 10% -10%,color-mix(in srgb,var(--acc) 12%,transparent),transparent 35%),
- radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--acc2) 10%,transparent),transparent 30%),
- var(--bg)}
-header{padding:12px 16px 8px;position:relative}
-header:after{content:"";position:absolute;left:16px;right:16px;bottom:0;height:1px;background:var(--line)}
-header h1{font-size:21px}
-.ib{border:1px solid transparent}
-.ib:hover{border-color:var(--line);box-shadow:var(--shadow)}
-.view{padding-top:3px}
-.scroll{padding:8px 16px 100px}
-.quick{margin:5px 0 15px}
-.quick input{height:48px;box-shadow:0 5px 20px rgba(30,40,80,.04)}
-.quick button,.send,.fab{background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 10px 25px color-mix(in srgb,var(--acc) 25%,transparent)}
-.sec{margin:20px 2px 8px}
-.card{box-shadow:var(--shadow);backdrop-filter:blur(12px)}
-.row{padding:14px}
-.row:active{background:var(--soft)}
-.m.a{box-shadow:0 8px 25px rgba(30,40,80,.06)}
-.composer{padding:8px 14px 11px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(18px)}
-.composer textarea{box-shadow:0 5px 20px rgba(30,40,80,.05)}
-nav{backdrop-filter:blur(20px);box-shadow:0 -10px 30px rgba(20,30,60,.05)}
-nav button.on span{transform:translateY(-1px) scale(1.08)}
-nav button.on{background:var(--soft);margin:0 2px}
-.sheet{box-shadow:0 -20px 70px rgba(0,0,0,.25);backdrop-filter:blur(20px)}
-.sheet .hero{
-  padding:16px;border:1px solid var(--line);border-radius:18px;
-  background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 12%,var(--card)),var(--card));
-  margin:8px 0 14px
-}
-.sheet .hero h4{margin:0 0 4px;font-size:17px}
-.sheet .hero p{margin:0;color:var(--muted);font-size:13px}
-.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0}
-.feature{
-  border:1px solid var(--line);background:var(--card-solid);border-radius:16px;padding:13px;
-  text-align:left;min-height:76px
-}
-.feature b{display:block;font-size:13px;margin-bottom:3px}.feature span{font-size:11px;color:var(--muted)}
-.model-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow:auto;margin-top:8px}
-.model-item{
-  width:100%;display:flex;align-items:center;gap:11px;padding:12px;border:1px solid var(--line);
-  background:var(--card-solid);border-radius:15px;text-align:left
-}
-.model-item.active{border-color:var(--acc);background:var(--soft)}
-.model-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--soft);font-weight:800}
-.model-meta{flex:1;min-width:0}.model-meta b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.model-meta small{display:block;color:var(--muted);margin-top:2px}
-.pill{padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--acc);font-size:10px;font-weight:800}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
-.toggle{
- width:48px;height:28px;border-radius:99px;background:var(--line);padding:3px;transition:.2s
-}.toggle:after{content:"";display:block;width:22px;height:22px;border-radius:50%;background:var(--card-solid);transition:.2s}
-.toggle.on{background:var(--acc)}.toggle.on:after{transform:translateX(20px)}
-.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.theme-choice{
- border:1px solid var(--line);border-radius:15px;padding:12px;text-align:left;background:var(--card-solid)
-}.theme-choice.on{border-color:var(--acc);background:var(--soft)}
-.provider{
- border:1px solid var(--line);border-radius:16px;padding:13px;background:var(--card-solid);margin-top:8px
-}.provider-top{display:flex;align-items:center;gap:10px}.provider-top strong{flex:1}
-.provider a{color:var(--acc);font-size:12px;font-weight:700;text-decoration:none}
-.badge-free{color:var(--ok);font-size:10px;font-weight:800}
-.status-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block}
-.tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:10px 0}
-.tool{
- border:1px solid var(--line);background:var(--card-solid);border-radius:16px;padding:14px;text-align:left
-}.tool b{display:block;margin-bottom:3px}.tool span{font-size:11px;color:var(--muted)}
-@media(min-width:680px){.scroll{padding-left:20px;padding-right:20px}.feature-grid,.tools-grid{grid-template-columns:repeat(3,1fr)}}
-
 </style>
 </style>
 </head>
@@ -207,7 +127,7 @@ nav button.on{background:var(--soft);margin:0 2px}
     <h1 id="hTitle"></h1>
     <button class="ib" id="btnHist" aria-label="chats" hidden>☰</button>
     <button class="ib" id="btnNewChat" aria-label="new chat" hidden>＋</button>
-    <button class="ib" id="btnTheme" aria-label="theme">◐</button><button class="ib" id="btnSet" aria-label="settings">⚙</button>
+    <button class="ib" id="btnSet" aria-label="settings">⚙</button>
   </header>
   <main>
     <section class="view on" id="v-today">
@@ -314,12 +234,7 @@ const fmtDate = (s) => new Date(s + 'T12:00:00').toLocaleDateString(LOC, { weekd
 let toastTimer;
 function toast(m) { const el = $('toast'); el.textContent = m; el.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 2200); }
 function haptic(k) { try { tg.HapticFeedback.notificationOccurred(k || 'success'); } catch (e) {} }
-function applyTheme() {
-  const saved=localStorage.getItem('lv_theme');
-  const theme=saved || ((tg && tg.colorScheme) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-  document.documentElement.dataset.theme=theme;
-  if(tg && tg.setHeaderColor) tg.setHeaderColor(theme==='dark'?'#090b10':'#f4f6fb');
-}
+function applyTheme() { document.documentElement.dataset.theme = (tg && tg.colorScheme) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
 applyTheme(); if (tg && tg.onEvent) tg.onEvent('themeChanged', applyTheme);
 
 class ApiError extends Error { constructor(code, status) { super(code); this.code = code; this.status = status; } }
@@ -524,146 +439,21 @@ function modelOpts(models, cur) {
   models.forEach((m) => { (groups[m.provider_label] = groups[m.provider_label] || []).push(m); });
   return Object.keys(groups).map((g) => '<optgroup label=\"' + esc(g) + '\">' + groups[g].map((m) => '<option value=\"' + esc(m.id) + '\"' + (m.id === cur ? ' selected' : '') + '>' + esc(m.label) + '</option>').join('') + '</optgroup>').join('');
 }
-
 async function openSettings() {
-  let s = S.settings || {style:'balanced', custom_instruction:'', model:'auto'};
-  let models = [];
-  try { models = (await api('ai.models')).items || []; } catch(e) {}
-
-  const providerInfo = [
-    {n:'OpenRouter',i:'OR',d:'Один API-ключ → сотни моделей и провайдеров',u:'https://openrouter.ai/keys',tag:'500+ моделей'},
-    {n:'Google AI Studio',i:'G',d:'Прямые Gemini API-ключи',u:'https://aistudio.google.com/apikey',tag:'Gemini'},
-    {n:'Groq',i:'GQ',d:'Очень быстрые модели и Whisper',u:'https://console.groq.com/keys',tag:'Fast'},
-    {n:'Mistral',i:'M',d:'Mistral API + Agents + Document AI',u:'https://console.mistral.ai/api-keys',tag:'API'},
-  ];
-
-  const modelRows = models.length ? models.map(m => {
-    const active = (s.model || 'auto') === m.id;
-    return `<button class="model-item ${active?'active':''}" data-model="${esc(m.id)}">
-      <span class="model-icon">${esc((m.provider_label||'AI').slice(0,2).toUpperCase())}</span>
-      <span class="model-meta"><b>${esc(m.label||m.id)}</b><small>${esc(m.provider_label||'AI')}</small></span>
-      ${active?'<span class="pill">АКТИВНА</span>':''}
-    </button>`;
-  }).join('') : '<div class="empty" style="padding:18px">Модели будут показаны после подключения AI-провайдера.</div>';
-
-  $('shSet').innerHTML = `
-    <h3>${t('settings')}</h3>
-    <div class="hero">
-      <h4>LifeVault AI Control Center</h4>
-      <p>Выбирай модель вручную или оставь Auto — сервер сам использует доступную модель и резервные ключи.</p>
-    </div>
-
-    <label class="f">Тема приложения</label>
-    <div class="theme-grid">
-      <button class="theme-choice ${localStorage.getItem('lv_theme')==='light'?'on':''}" id="themeLight">☀️ <b>Светлая</b><br><small>Чистая и яркая</small></button>
-      <button class="theme-choice ${localStorage.getItem('lv_theme')==='dark'?'on':''}" id="themeDark">🌙 <b>Тёмная</b><br><small>Комфортно вечером</small></button>
-    </div>
-
-    <label class="f">Режим AI</label>
-    <div class="seg" id="aiModeSeg">
-      <button data-k="auto" class="${!s.model||s.model==='auto'?'on':''}">⚡ Auto</button>
-      <button data-k="manual" class="${s.model&&s.model!=='auto'?'on':''}">🎯 Модель</button>
-    </div>
-
-    <label class="f">Модели, доступные серверу</label>
-    <div class="model-list">
-      <button class="model-item ${!s.model||s.model==='auto'?'active':''}" data-model="auto">
-        <span class="model-icon">⚡</span>
-        <span class="model-meta"><b>Auto Router</b><small>Выбор по задаче + резервный провайдер</small></span>
-        <span class="pill">РЕКОМЕНДУЕТСЯ</span>
-      </button>
-      ${modelRows}
-    </div>
-
-    <label class="f">${t('style')}</label>
-    <div class="seg" id="styleSeg">
-      ${['brief','balanced','detailed'].map(k=>`<button data-k="${k}" class="${s.style===k?'on':''}">${t(k)}</button>`).join('')}
-    </div>
-
-    <label class="f" for="custom">${t('custom')}</label>
-    <textarea id="custom" class="inp" rows="3" maxlength="500" placeholder="${esc(t('customPh'))}">${esc(s.custom_instruction||'')}</textarea>
-
-    <div class="tools-grid">
-      <button class="tool" id="openProviders"><b>🔑 API-провайдеры</b><span>Где быстро получить ключи</span></button>
-      <button class="tool" id="openFeatures"><b>🧰 Возможности</b><span>Фото, голос, память, планер</span></button>
-    </div>
-
-    <button class="btn pri" id="setSave">${t('save')}</button>
-    <button class="btn sec2" id="setPro">${t('proT')}</button>
-  `;
-
-  let style=s.style, chosen=s.model||'auto';
-  $('styleSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    style=b.dataset.k;$('styleSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
-  });
-  $('aiModeSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-    if(b.dataset.k==='auto') chosen='auto';
-    $('aiModeSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
-    document.querySelectorAll('.model-item').forEach(x=>x.classList.toggle('active',x.dataset.model===chosen));
-  });
-  document.querySelectorAll('.model-item').forEach(b=>b.onclick=()=>{
-    chosen=b.dataset.model; document.querySelectorAll('.model-item').forEach(x=>x.classList.toggle('active',x.dataset.model===chosen));
-    $('aiModeSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',(chosen==='auto')===(x.dataset.k==='auto')));
-  });
-
-  const setTheme=(theme)=>{
-    localStorage.setItem('lv_theme',theme);
-    document.documentElement.dataset.theme=theme;
-    if(tg && tg.setHeaderColor) tg.setHeaderColor(theme==='dark'?'#090b10':'#f4f6fb');
-    $('themeLight').classList.toggle('on',theme==='light'); $('themeDark').classList.toggle('on',theme==='dark');
-  };
-  $('themeLight').onclick=()=>setTheme('light');
-  $('themeDark').onclick=()=>setTheme('dark');
-
-  $('setSave').onclick=async()=>{
-    try{
-      await api('ai.settings.save',{style,custom_instruction:$('custom').value,model:chosen});
-      S.settings={style,custom_instruction:$('custom').value,model:chosen};
-      toast(t('saved')); closeLayers();
-    }catch(e){toast(errText(e))}
-  };
-  $('setPro').onclick=()=>openPro();
-  $('openProviders').onclick=()=>openProviders();
-  $('openFeatures').onclick=()=>openFeatures();
+  try { S.settings = await api('ai.settings.get'); } catch (e) {}
+  let models = []; try { models = (await api('ai.models')).items || []; } catch (e) {}
+  const s = S.settings; let style = s.style;
+  $('shSet').innerHTML = '<h3>' + t('settings') + '</h3><label class="f">' + t('style') + '</label><div class="seg" id="styleSeg">' +
+    ['brief', 'balanced', 'detailed'].map((k) => '<button data-k="' + k + '" class="' + (style === k ? 'on' : '') + '">' + t(k) + '</button>').join('') + '</div>' +
+    '<label class="f" for="mdl">' + MODEL_LBL() + '</label><select id="mdl" class="inp"><option value="auto">' + MODEL_AUTO() + '</option>' + modelOpts(models, s.model) + '</select>' +
+    '<label class="f" for="custom">' + t('custom') + '</label><textarea id="custom" class="inp" rows="3" maxlength="500" placeholder="' + esc(t('customPh')) + '">' + esc(s.custom_instruction || '') + '</textarea>' +
+    '<button class="btn pri" id="setSave">' + t('save') + '</button><button class="btn sec2" id="setPro">' + t('proT') + '</button>';
+  $('styleSeg').querySelectorAll('button').forEach((b) => (b.onclick = () => { style = b.dataset.k; $('styleSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
+  $('setSave').onclick = async () => { try { const model = $('mdl').value; await api('ai.settings.save', { style, custom_instruction: $('custom').value, model }); S.settings = { style, custom_instruction: $('custom').value, model }; toast(t('saved')); closeLayers(); } catch (e) { toast(errText(e)); } };
+  $('setPro').onclick = () => openPro();
   closeLayers(); openLayer($('shSet'));
 }
-$('btnTheme').onclick = () => { const cur=document.documentElement.dataset.theme||'light'; const next=cur==='dark'?'light':'dark'; localStorage.setItem('lv_theme',next); applyTheme(); haptic(); }; $('btnSet').onclick = openSettings;
-
-function openProviders(){
-  $('shSet').innerHTML=`
-    <h3>AI-провайдеры</h3>
-    <p class="sub">Ключи хранятся на сервере/Supabase Secrets. Никогда не вставляй их в index.html.</p>
-    ${[
-      ['OpenRouter','OR','Один ключ для 500+ моделей от 80+ провайдеров. Удобнее всего для большого каталога.','https://openrouter.ai/keys','500+ моделей'],
-      ['Google AI Studio','G','Прямые ключи Gemini. Подходит как основной провайдер LifeVault.','https://aistudio.google.com/apikey','Gemini'],
-      ['Groq','GQ','Быстрый inference, Llama/GPT-OSS и Whisper. Отличный fallback.','https://console.groq.com/keys','Fast'],
-      ['Mistral','M','Mistral API, Agents, Document AI и другие возможности.','https://console.mistral.ai/api-keys','Mistral']
-    ].map(p=>`<div class="provider"><div class="provider-top"><span class="model-icon">${p[1]}</span><strong>${p[0]}</strong><span class="badge-free">${p[4]}</span></div><p class="sub" style="margin:7px 0">${p[2]}</p><a href="${p[3]}" target="_blank" rel="noopener">Получить API key →</a></div>`).join('')}
-    <button class="btn sec2" id="providersBack">Назад</button>
-  `;
-  $('providersBack').onclick=openSettings;
-  closeLayers();openLayer($('shSet'));
-}
-function openFeatures(){
-  $('shSet').innerHTML=`
-    <h3>Возможности LifeVault</h3>
-    <div class="feature-grid">
-      <div class="feature"><b>🧠 AI-планер</b><span>Понимает обычный текст и создаёт записи.</span></div>
-      <div class="feature"><b>🎙️ Голос</b><span>Распознавание голосовых через AI-провайдера.</span></div>
-      <div class="feature"><b>📷 Фото</b><span>Анализ изображений и извлечение полезной информации.</span></div>
-      <div class="feature"><b>⏰ Напоминания</b><span>Дата, время и интервал напоминания.</span></div>
-      <div class="feature"><b>🔄 Fallback</b><span>Резервный AI, если основной провайдер недоступен.</span></div>
-      <div class="feature"><b>🧩 Память</b><span>Контекст и история диалогов LifeVault.</span></div>
-      <div class="feature"><b>⭐ Premium</b><span>Расширенные лимиты и функции.</span></div>
-      <div class="feature"><b>🌍 Timezone</b><span>Учитывает локальный часовой пояс пользователя.</span></div>
-      <div class="feature"><b>🛡️ Server-side keys</b><span>API-ключи не находятся в браузере.</span></div>
-    </div>
-    <button class="btn sec2" id="featuresBack">Назад</button>
-  `;
-  $('featuresBack').onclick=openSettings;
-  closeLayers();openLayer($('shSet'));
-}
-
+$('btnSet').onclick = openSettings;
 
 // ---------- диалоги ----------
 async function loadConvs() { try { S.convs = (await api('ai.conversations.list')).items; } catch (e) { S.convs = []; } }
