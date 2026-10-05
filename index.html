@@ -32,6 +32,17 @@ nav button.on{color:var(--acc)}
 .quick button{width:46px;border-radius:14px;background:var(--acc);color:var(--on);font-size:22px;font-weight:600}
 .sec{margin:16px 0 6px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
 .sec.warn{color:var(--danger)}
+[hidden]{display:none!important}
+.thumb{display:block;max-width:180px;max-height:180px;border-radius:12px;margin-bottom:6px;object-fit:cover}
+#pend{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px}
+.pchip{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:12px;background:var(--card);max-width:100%}
+.pchip img{width:36px;height:36px;border-radius:8px;object-fit:cover}
+.pchip .pn{font-size:13px;max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pchip button{color:var(--muted);padding:2px 6px}
+#recbar{display:flex;align-items:center;gap:12px;padding:8px 14px 12px}
+#recbar .sp{flex:1}
+.recdot{width:12px;height:12px;border-radius:50%;background:var(--danger);animation:b 1s infinite}
+.composer .ib{flex:none;width:44px;height:44px}
 .prog{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:13px;color:var(--muted)}
 .prog .bar{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
 .prog .bar i{display:block;height:100%;background:var(--ok);border-radius:99px;transition:width .3s}
@@ -142,7 +153,10 @@ label.f{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
     <section class="view" id="v-chat">
       <div id="msgs"></div>
       <div class="usage"><span id="usageTxt"></span><button class="link" id="usageBuy"></button></div>
-      <div class="composer"><textarea id="inp" rows="1" aria-label="message"></textarea><button class="send" id="btnSend" aria-label="send">↑</button></div>
+      <div id="pend"></div>
+      <div id="recbar" hidden><span class="recdot"></span><b id="recT">0:00</b><span class="sp"></span><button class="ib" id="recCancel" aria-label="cancel">✕</button><button class="send" id="recSend" aria-label="send">↑</button></div>
+      <div class="composer" id="composer"><button class="ib" id="btnAttach" aria-label="attach">📎</button><textarea id="inp" rows="1" aria-label="message"></textarea><button class="send" id="btnMic" aria-label="voice">🎙</button><button class="send" id="btnSend" aria-label="send" hidden>↑</button></div>
+      <input type="file" id="file" accept="image/*,application/pdf" hidden>
     </section>
   </main>
   <nav>
@@ -167,7 +181,7 @@ label.f{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
 const API_BASE = 'https://jkkaxhidrqqnrbvxukbi.supabase.co/functions/v1/';
 // Имена ваших функций с кодом api_index.ts. Приложение само выберет ту, где лежит самая новая версия.
 const API_NAMES = ['api', 'quick-function'];
-const VERSION = '2026-10-04.4';
+const VERSION = '2026-10-05.1';
 let API_URL = API_BASE + API_NAMES[0];
 // Нужен только если у функции включён "Verify JWT" (лучше его выключить). Можно оставить пустым.
 const PUBLIC_KEY = '';
@@ -193,6 +207,9 @@ const T = {
     errAi:'Не удалось получить ответ от AI. Попробуй ещё раз через несколько секунд.', errRate:'Слишком много запросов. Подожди минуту.',
     errNet:'Нет соединения. Проверь интернет и попробуй снова.', errAuth:'Откройте приложение через Telegram.', errGen:'Что-то пошло не так. Попробуй ещё раз.', errDb:'База данных не готова: выполните 2_planner.sql в Supabase (SQL Editor).',
     progress:(d,n)=>`Выполнено ${d} из ${n}`, planDay:'Разобрать день с ассистентом', planPrompt:'Составь план на сегодня: расставь приоритеты по моим делам и подскажи, с чего начать.',
+    errGemini:'Для фото и голоса нужен ключ Gemini (секрет GEMINI_API_KEY).', errMedia:'Не удалось обработать файл. Поддерживаются фото JPG, PNG, WEBP и PDF.', errBig:'Файл слишком большой.',
+    errNoSpeech:'Речь не распознана. Попробуйте ещё раз.', errMic:'Запись голоса не поддерживается на этом устройстве.', errMicPerm:'Нет доступа к микрофону. Разрешите его в настройках Telegram.', errShort:'Запись слишком короткая.',
+    recognizing:'Распознаю голос…', photo:'Фото', clearAll:'Очистить историю', clearConfirm:'Удалить все диалоги?', cleared:'История очищена',
     yourId:'Ваш ID', ver:'Сайт', serverVer:'сервер', serverOld:'СТАРАЯ — вставьте новый api_index.ts в функцию', adminBtn:'Админ: AI-подключения', adminT:'AI-подключения', adminS:'Добавляйте сколько угодно ключей. Сначала используется меньший приоритет, внутри группы выбор случайный. Сбойный ключ отдыхает от 30 секунд до 10 минут.',
     add:'＋ Добавить', provEmpty:'Пока нет подключений. Сейчас работают ключи из секретов Supabase.', off:'выключено', test:'Тест', testOk:'Работает', testFail:'Ошибка',
     preset:'Сервис', name:'Название', url:'Адрес API', model:'Модель', keys:'API-ключи (по одному на строку)', key:'API-ключ', keyKeep:'Оставьте пустым, чтобы не менять',
@@ -220,6 +237,9 @@ const T = {
     errAi:'Could not get a response from the AI. Please try again in a few seconds.', errRate:'Too many requests. Wait a minute.',
     errNet:'No connection. Check your internet and try again.', errAuth:'Please open the app from Telegram.', errGen:'Something went wrong. Please try again.', errDb:'Database is not ready: run 2_planner.sql in Supabase (SQL Editor).',
     progress:(d,n)=>`Done ${d} of ${n}`, planDay:'Plan my day with the assistant', planPrompt:'Plan my day: prioritize my tasks and tell me where to start.',
+    errGemini:'Photos and voice need a Gemini key (GEMINI_API_KEY secret).', errMedia:'Could not process the file. Supported: JPG, PNG, WEBP photos and PDF.', errBig:'The file is too large.',
+    errNoSpeech:'No speech detected. Please try again.', errMic:'Voice recording is not supported on this device.', errMicPerm:'No microphone access. Allow it in Telegram settings.', errShort:'The recording is too short.',
+    recognizing:'Transcribing…', photo:'Photo', clearAll:'Clear history', clearConfirm:'Delete all chats?', cleared:'History cleared',
     yourId:'Your ID', ver:'Site', serverVer:'server', serverOld:'OLD — paste the new api_index.ts into the function', adminBtn:'Admin: AI connections', adminT:'AI connections', adminS:'Add as many keys as you like. Lower priority is used first, random within a group. A failing key rests 30 seconds to 10 minutes.',
     add:'＋ Add', provEmpty:'No connections yet. Keys from Supabase secrets are used for now.', off:'off', test:'Test', testOk:'Works', testFail:'Error',
     preset:'Service', name:'Name', url:'API address', model:'Model', keys:'API keys (one per line)', key:'API key', keyKeep:'Leave empty to keep the current one',
@@ -263,7 +283,7 @@ async function pickApi() {
   for (const n of API_NAMES) {
     const url = API_BASE + n;
     try {
-      const r = await fetch(url, { method: 'POST', headers: hdrs(), body: JSON.stringify({ action: 'me' }) });
+      const r = await fetch(url, { method: 'POST', headers: hdrs(), body: JSON.stringify({ action: 'me', tz: (Intl.DateTimeFormat().resolvedOptions().timeZone || '') }) });
       const d = await r.json();
       if (r.ok && d && d.user) {
         if (d.version) { API_URL = url; return d; }
@@ -287,6 +307,10 @@ async function api(action, body) {
 function errText(e) {
   const c = e && e.code;
   if (c === 'planner_not_ready') return t('errDb');
+  if (c === 'gemini_required') return t('errGemini');
+  if (c === 'bad_media') return t('errMedia');
+  if (c === 'file_too_large') return t('errBig');
+  if (c === 'no_speech') return t('errNoSpeech');
   if (c === 'forbidden') return t('errForbidden');
   if (c === 'invalid_url') return t('errUrl');
   if (c === 'invalid_provider') return t('errProv');
@@ -474,11 +498,13 @@ async function openSettings() {
     ['brief', 'balanced', 'detailed'].map((k) => '<button data-k="' + k + '" class="' + (style === k ? 'on' : '') + '">' + t(k) + '</button>').join('') + '</div>' +
     '<label class="f" for="custom">' + t('custom') + '</label><textarea id="custom" class="inp" rows="3" maxlength="500" placeholder="' + esc(t('customPh')) + '">' + esc(s.custom_instruction || '') + '</textarea>' +
     '<button class="btn pri" id="setSave">' + t('save') + '</button><button class="btn sec2" id="setPro">' + t('proT') + '</button>' +
+    '<button class="btn danger" id="setClear">' + t('clearAll') + '</button>' +
     (S.admin ? '<button class="btn sec2" id="setAdmin">' + t('adminBtn') + '</button>' : '') +
     '<div class="idline">' + t('yourId') + ': <b id="myId">' + esc(String(S.uid || '')) + '</b><br>' + t('ver') + ' ' + VERSION + ' · ' + t('serverVer') + ': ' + (S.server ? esc(S.server) : t('serverOld')) + '<br>' + esc(API_URL) + '</div>';
   $('styleSeg').querySelectorAll('button').forEach((b) => (b.onclick = () => { style = b.dataset.k; $('styleSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
   $('setSave').onclick = async () => { try { await api('ai.settings.save', { style, custom_instruction: $('custom').value }); S.settings = { style, custom_instruction: $('custom').value }; toast(t('saved')); closeLayers(); } catch (e) { toast(errText(e)); } };
   $('setPro').onclick = () => openPro();
+  $('setClear').onclick = async () => { if (!confirm(t('clearConfirm'))) return; try { await api('ai.conversations.clear'); newChat(); S.convs = []; toast(t('cleared')); } catch (e) { toast(errText(e)); } };
   if ($('setAdmin')) $('setAdmin').onclick = openAdmin;
   closeLayers(); openLayer($('shSet'));
 }
@@ -567,7 +593,79 @@ async function openConv(id) {
 function newChat() { S.cur = null; S.msgs = []; S.failed = null; S.title = ''; renderHeader(); renderMsgs(); closeLayers(); }
 $('btnNewChat').onclick = newChat; $('btnHist').onclick = () => { renderConvs(); openLayer($('drawer')); };
 
-// ---------- чат ----------
+// ---------- чат (текст, фото, документы, голос) ----------
+S.pending = [];
+const MAX_REC = 90;
+const inp = $('inp');
+function fileToB64(file) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = rej; r.readAsDataURL(file); }); }
+async function compressImage(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const k = Math.min(1, 1600 / Math.max(img.width, img.height));
+    const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(img.width * k)); c.height = Math.max(1, Math.round(img.height * k));
+    const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+    const th = document.createElement('canvas'), tk = Math.min(1, 160 / Math.max(c.width, c.height));
+    th.width = Math.max(1, Math.round(c.width * tk)); th.height = Math.max(1, Math.round(c.height * tk)); th.getContext('2d').drawImage(c, 0, 0, th.width, th.height);
+    return { kind: 'image', mime: 'image/jpeg', data: c.toDataURL('image/jpeg', 0.85).split(',')[1], thumb: th.toDataURL('image/jpeg', 0.7) };
+  } finally { URL.revokeObjectURL(url); }
+}
+$('btnAttach').onclick = () => $('file').click();
+$('file').onchange = async () => {
+  const f = $('file').files[0]; $('file').value = ''; if (!f) return;
+  try {
+    if (f.type === 'application/pdf') { if (f.size > 8e6) { toast(t('errBig')); return; } S.pending.push({ kind: 'doc', mime: f.type, data: await fileToB64(f), name: f.name }); }
+    else if (f.type.startsWith('image/')) S.pending.push(await compressImage(f));
+    else { toast(t('errMedia')); return; }
+    S.pending = S.pending.slice(-3); renderPending();
+  } catch (e) { toast(t('errMedia')); }
+};
+function renderPending() {
+  const box = $('pend'); box.innerHTML = '';
+  S.pending.forEach((a, i) => {
+    const el = document.createElement('div'); el.className = 'pchip';
+    el.innerHTML = (a.thumb ? '<img src="' + a.thumb + '" alt="">' : '<span>📄</span>') + '<span class="pn">' + esc(a.name || t('photo')) + '</span><button aria-label="remove">✕</button>';
+    el.querySelector('button').onclick = () => { S.pending.splice(i, 1); renderPending(); }; box.appendChild(el);
+  });
+  updateComposer();
+}
+function updateComposer() { const has = !!inp.value.trim() || S.pending.length > 0; $('btnSend').hidden = !has; $('btnMic').hidden = has; }
+
+// Запись голоса: MediaRecorder → WAV 16 кГц (этот формат принимает Gemini на любом устройстве).
+async function blobToWav16k(blob) {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const ac = new AC(); const audio = await ac.decodeAudioData(await blob.arrayBuffer()); try { ac.close(); } catch (e) {}
+  const off = new OfflineAudioContext(1, Math.max(1, Math.ceil(audio.duration * 16000)), 16000);
+  const src = off.createBufferSource(); src.buffer = audio; src.connect(off.destination); src.start();
+  const pcm = (await off.startRendering()).getChannelData(0);
+  const buf = new ArrayBuffer(44 + pcm.length * 2), v = new DataView(buf);
+  const w = (o, str) => { for (let i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); };
+  w(0, 'RIFF'); v.setUint32(4, 36 + pcm.length * 2, true); w(8, 'WAVE'); w(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, 16000, true); v.setUint32(28, 32000, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, pcm.length * 2, true);
+  for (let i = 0; i < pcm.length; i++) { const x = Math.max(-1, Math.min(1, pcm[i])); v.setInt16(44 + i * 2, x < 0 ? x * 0x8000 : x * 0x7fff, true); }
+  return fileToB64(new Blob([buf], { type: 'audio/wav' }));
+}
+let rec = null;
+const fmtT = (ms) => { const s2 = Math.floor(ms / 1000); return Math.floor(s2 / 60) + ':' + pad(s2 % 60); };
+async function startRec() {
+  if (rec || S.busy) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { toast(t('errMic')); return; }
+  let stream; try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e) { toast(t('errMicPerm')); return; }
+  const chunks = [], mr = new MediaRecorder(stream), r = { mr, chunks, t0: Date.now(), cancel: false, timer: 0 };
+  mr.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+  r.timer = setInterval(() => { const ms = Date.now() - r.t0; $('recT').textContent = fmtT(ms); if (ms >= MAX_REC * 1000) stopRec(false); }, 250);
+  mr.onstop = async () => {
+    clearInterval(r.timer); stream.getTracks().forEach((x) => x.stop()); rec = null; $('recbar').hidden = true; $('composer').hidden = false;
+    if (r.cancel) return;
+    if (Date.now() - r.t0 < 800) { toast(t('errShort')); return; }
+    let data; try { data = await blobToWav16k(new Blob(chunks, { type: mr.mimeType || 'audio/webm' })); } catch (e) { toast(t('errMic')); return; }
+    send('', { att: [{ kind: 'audio', mime: 'audio/wav', data }] });
+  };
+  rec = r; mr.start(); $('recT').textContent = '0:00'; $('recbar').hidden = false; $('composer').hidden = true; haptic('warning');
+}
+function stopRec(cancel) { if (!rec) return; rec.cancel = !!cancel; try { rec.mr.stop(); } catch (e) {} }
+$('btnMic').onclick = startRec; $('recCancel').onclick = () => stopRec(true); $('recSend').onclick = () => stopRec(false);
+
 function renderMsgs(loading) {
   const box = $('msgs'); box.innerHTML = '';
   if (loading) { box.innerHTML = '<div class="spin"></div>'; return; }
@@ -575,35 +673,54 @@ function renderMsgs(loading) {
     box.innerHTML = '<div class="empty" style="margin:auto"><b>' + t('chatT') + '</b>' + t('chatS') + '<div class="chips">' + [t('s1'), t('s2'), t('s3')].map((x) => '<button class="chip">' + esc(x) + '</button>').join('') + '</div></div>';
     box.querySelectorAll('.chip').forEach((b) => (b.onclick = () => send(b.textContent))); return;
   }
-  S.msgs.forEach((m) => { const el = document.createElement('div'); if (m.role === 'user') { el.className = 'm u'; el.textContent = m.content; } else { el.className = 'm a'; el.innerHTML = md(m.content); } box.appendChild(el); });
+  S.msgs.forEach((m) => {
+    const el = document.createElement('div');
+    if (m.role === 'user') {
+      el.className = 'm u';
+      if (m.thumb) { const im = document.createElement('img'); im.className = 'thumb'; im.src = m.thumb; im.alt = ''; el.appendChild(im); }
+      el.appendChild(document.createTextNode(m.content));
+    } else { el.className = 'm a'; el.innerHTML = md(m.content); }
+    box.appendChild(el);
+  });
   if (S.busy) { const el = document.createElement('div'); el.className = 'm a'; el.innerHTML = '<span class="typing" aria-label="loading"><i></i><i></i><i></i></span>'; box.appendChild(el); }
   if (S.failed) { const el = document.createElement('div'); el.className = 'm err'; el.innerHTML = esc(S.failed.text).replace(/\n/g, '<br><small style="color:var(--muted);word-break:break-all">') + (S.failed.text.includes('\n') ? '</small>' : '') + '<button>' + t('retry') + '</button>'; el.querySelector('button').onclick = retry; box.appendChild(el); }
   box.scrollTop = box.scrollHeight;
 }
 async function send(text, opts) {
   text = (text || '').trim(); const isRetry = opts && opts.retry;
-  if (S.busy || (!text && !isRetry)) return;
+  const att = isRetry ? [] : ((opts && opts.att) || S.pending.slice());
+  if (S.busy || (!text && !isRetry && !att.length)) return;
   S.busy = true; S.failed = null; $('btnSend').disabled = true;
-  if (!isRetry) S.msgs.push({ role: 'user', content: text });
+  let shown = null;
+  if (!isRetry) {
+    const hasAudio = att.some((a) => a.kind === 'audio');
+    const icon = att.some((a) => a.kind === 'image') ? '📷 ' : hasAudio ? '🎙 ' : att.length ? '📄 ' : '';
+    const th = att.find((a) => a.thumb);
+    shown = { role: 'user', content: icon + (text || (hasAudio ? t('recognizing') : '')), thumb: th && th.thumb };
+    S.msgs.push(shown);
+    if (!(opts && opts.att)) { S.pending = []; renderPending(); }
+  }
   renderMsgs();
   const now = new Date(), client = { today: ymd(now), time: pad(now.getHours()) + ':' + pad(now.getMinutes()), tz: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC' };
   try {
     if (!S.cur) { const c = (await api('ai.conversations.create', { title: text.replace(/\s+/g, ' ').slice(0, 60) })).conversation; S.cur = c.id; S.title = c.title; renderHeader(); }
-    const r = await api('ai.send', isRetry ? { conversation_id: S.cur, retry: true, client } : { conversation_id: S.cur, message: text, client });
+    const body = isRetry ? { conversation_id: S.cur, retry: true, client } : { conversation_id: S.cur, message: text, client, attachments: att.map((a) => ({ kind: a.kind, mime: a.mime, data: a.data })) };
+    const r = await api('ai.send', body);
+    if (shown && r.transcript) shown.content = '🎙 ' + r.transcript;
     S.msgs.push(r.message); loadConvs(); loadStatus();
     if (r.changes && r.changes.length) { haptic(); loadEntries(); }
   } catch (e) {
-    if (e.code === 'quota_exceeded') { S.msgs.pop(); $('inp').value = text; openPro(t('limitHit')); loadStatus(); }
-    else S.failed = { text: errText(e) + (e.detail ? '\n' + e.detail : ''), mode: e.code === 'ai_unavailable' ? 'retry' : 'resend', msg: text };
+    if (e.code === 'quota_exceeded') { S.msgs.pop(); if (!att.length) inp.value = text; updateComposer(); openPro(t('limitHit')); loadStatus(); }
+    else S.failed = { text: errText(e) + (e.detail ? '\n' + e.detail : ''), mode: (e.code === 'ai_unavailable' && !att.length) ? 'retry' : 'resend', msg: text, att };
   }
   S.busy = false; $('btnSend').disabled = false; renderMsgs();
 }
-function retry() { const f = S.failed; if (!f) return; if (f.mode === 'retry') send('', { retry: true }); else { S.msgs.pop(); send(f.msg); } }
-const inp = $('inp');
-inp.addEventListener('input', () => { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 140) + 'px'; });
+function retry() { const f = S.failed; if (!f) return; if (f.mode === 'retry') send('', { retry: true }); else { S.msgs.pop(); send(f.msg, { att: f.att }); } }
+inp.addEventListener('input', () => { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 140) + 'px'; updateComposer(); });
 inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey && matchMedia('(pointer:fine)').matches) { e.preventDefault(); doSend(); } });
-function doSend() { const v = inp.value; if (!v.trim()) return; inp.value = ''; inp.style.height = 'auto'; send(v); }
+function doSend() { const v = inp.value; if (!v.trim() && !S.pending.length) return; inp.value = ''; inp.style.height = 'auto'; updateComposer(); send(v); }
 $('btnSend').onclick = doSend;
+updateComposer();
 
 // ---------- клавиатура на телефоне ----------
 function fitHeight() { document.documentElement.style.setProperty('--h', ((window.visualViewport && window.visualViewport.height) || window.innerHeight) + 'px'); }
