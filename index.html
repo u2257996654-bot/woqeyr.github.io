@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -110,6 +111,14 @@ label.f{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
 .spin{width:24px;height:24px;border:3px solid var(--line);border-top-color:var(--acc);border-radius:50%;animation:r .8s linear infinite;margin:18px auto}
 @keyframes r{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+<style>
+.quick-ai{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.ai-action{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:14px;padding:11px;font-weight:700}
+.voice-rec{position:fixed;inset:auto 18px 92px 18px;z-index:30;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 15px 45px #0005;display:none}
+.voice-rec.on{display:block}
+.rem-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+</style>
 </style>
 </head>
 <body>
@@ -132,7 +141,13 @@ label.f{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
     <section class="view" id="v-chat">
       <div id="msgs"></div>
       <div class="usage"><span id="usageTxt"></span><button class="link" id="usageBuy"></button></div>
-      <div class="composer"><textarea id="inp" rows="1" aria-label="message"></textarea><button class="send" id="btnSend" aria-label="send">↑</button></div>
+      <div class="quick-ai">
+  <button class="ai-action" id="btnVoice">🎙 Голос</button>
+  <button class="ai-action" id="btnPhoto">📷 Фото</button>
+</div>
+<div class="composer"><textarea id="inp" rows="1" aria-label="message"></textarea><button class="send" id="btnSend" aria-label="send">↑</button></div>
+<input id="photoInput" type="file" accept="image/*" capture="environment" hidden>
+<div class="voice-rec" id="voiceRec"><b>🎙 Запись голосового</b><p id="voiceTimer">00:00</p><button class="btn pri" id="stopVoice">Остановить</button></div>
     </section>
   </main>
   <nav>
@@ -172,16 +187,16 @@ const T = {
     save:'Сохранить', del:'Удалить', confirmDel:'Удалить?', saved:'Сохранено',
     placeholder:'Напишите, что запланировать, или спросите о своих днях…', newChat:'Новый чат', chats:'Диалоги', noTitle:'Новый чат',
     s1:'Что у меня сегодня?', s2:'Запланируй на завтра в 10:00 созвон', s3:'Перенеси просроченное на сегодня',
-    chatT:'Чем помочь?', chatS:'Я вижу ваш ежедневник и могу добавлять, переносить и отмечать дела.',
+    chatT:'Чем помочь?', chatS:'Я вижу ваш ежедневник и могу добавлять, переносить и отмечать дела. В боте также можно прислать текст, голос или фото.',
     copy:'Копировать', copied:'Скопировано', retry:'Повторить', close:'Закрыть',
     errAi:'Не удалось получить ответ от AI. Попробуй ещё раз через несколько секунд.', errRate:'Слишком много запросов. Подожди минуту.',
-    errNet:'Нет соединения. Проверь интернет и попробуй снова.', errAuth:'Откройте приложение через Telegram.', errGen:'Что-то пошло не так. Попробуй ещё раз.', errDb:'База данных не готова: выполните 2_planner.sql в Supabase (SQL Editor).',
+    errNet:'Нет соединения. Проверь интернет и попробуй снова.', errAuth:'Откройте приложение через Telegram.', errGen:'Что-то пошло не так. Попробуй ещё раз.', errDb:'База данных не готова: выполните SQL-файл в Supabase.', invalidPromo:'Неверный промокод.', promoReady:'Промокод активирован! Premium включён навсегда ⭐', promoNotReady:'Промокод пока недоступен: сначала выполни SQL-файл.', promoPlaceholder:'Промокод', promoBtn:'Активировать', forever:'Premium навсегда',
     diag:'Проверьте в Supabase: у функции выключен «Verify JWT» и её название совпадает с адресом ниже.',
     openTg:'Откройте приложение через Telegram, чтобы войти.', loading:'Загрузка…',
     used:'Сегодня', of:'из', buy:'Premium', settings:'Настройки', style:'Стиль ответов', brief:'Кратко', balanced:'Сбалансированно', detailed:'Подробно',
     custom:'Своя инструкция (необязательно)', customPh:'Например: отвечай коротко и по делу',
     proT:'LifeVault Premium', proS:'Больше возможностей ассистента на 30 дней', b1:'До 300 сообщений в день вместо бесплатного лимита', b2:'Поддержка развития LifeVault',
-    buyBtn:(n)=>`Купить за ${n} ⭐`, contact:'Написать мне', active:'Premium активен до', limitHit:'Бесплатный лимит на сегодня закончился',
+    buyBtn:(n)=>`Купить за ${n} ⭐`, voice:'Голос', photo:'Фото', reminder:'Напомнить за', reminderNone:'Без напоминания', reminder5:'5 минут', reminder15:'15 минут', reminder30:'30 минут', reminder60:'1 час', reminder1440:'1 день', startBot:'Отправьте текст, запишите голосовое для напоминания или войдите в Mini App', contact:'Написать мне', active:'Premium активен до', limitHit:'Бесплатный лимит на сегодня закончился',
     thanks:'Спасибо! Активируем Premium…', paid:'Premium активен'
   },
   en: {
@@ -195,13 +210,13 @@ const T = {
     chatT:'How can I help?', chatS:'I can see your planner and add, move and complete items.',
     copy:'Copy', copied:'Copied', retry:'Retry', close:'Close',
     errAi:'Could not get a response from the AI. Please try again in a few seconds.', errRate:'Too many requests. Wait a minute.',
-    errNet:'No connection. Check your internet and try again.', errAuth:'Please open the app from Telegram.', errGen:'Something went wrong. Please try again.', errDb:'Database is not ready: run 2_planner.sql in Supabase (SQL Editor).',
+    errNet:'No connection. Check your internet and try again.', errAuth:'Please open the app from Telegram.', errGen:'Something went wrong. Please try again.', errDb:'Database is not ready: run the SQL file in Supabase.', invalidPromo:'Invalid promo code.', promoReady:'Promo activated! Premium is permanent ⭐', promoNotReady:'Promo is unavailable: run the SQL file first.', promoPlaceholder:'Promo code', promoBtn:'Activate', forever:'Premium forever',
     diag:'Check in Supabase: Verify JWT is off for the function and its name matches the address below.',
     openTg:'Open the app from Telegram to sign in.', loading:'Loading…',
     used:'Today', of:'of', buy:'Premium', settings:'Settings', style:'Answer style', brief:'Brief', balanced:'Balanced', detailed:'Detailed',
     custom:'Custom instruction (optional)', customPh:'e.g. keep answers short and practical',
     proT:'LifeVault Premium', proS:'More from your assistant for 30 days', b1:'Up to 300 messages a day instead of the free limit', b2:'Support LifeVault development',
-    buyBtn:(n)=>`Buy for ${n} ⭐`, contact:'Contact me', active:'Premium active until', limitHit:'Your free daily limit is used up',
+    buyBtn:(n)=>`Buy for ${n} ⭐`, voice:'Voice', photo:'Photo', reminder:'Remind me', reminderNone:'No reminder', reminder5:'5 minutes', reminder15:'15 minutes', reminder30:'30 minutes', reminder60:'1 hour', reminder1440:'1 day', reminder:'Remind me', startBot:'Send text, record a voice message for a reminder, or open the Mini App', contact:'Contact me', active:'Premium active until', limitHit:'Your free daily limit is used up',
     thanks:'Thank you! Activating Premium…', paid:'Premium is active'
   }
 };
@@ -236,6 +251,8 @@ async function api(action, body) {
 function errText(e) {
   const c = e && e.code;
   if (c === 'planner_not_ready') return t('errDb');
+  if (c === 'invalid_promo') return t('invalidPromo');
+  if (c === 'promo_not_ready') return t('promoNotReady');
   return c === 'network' ? t('errNet') : c === 'unauthorized' ? t('errAuth') : c === 'rate_limited' ? t('errRate') : c === 'ai_unavailable' ? t('errAi') : t('errGen') + (c && c !== 'server_error' ? ' (' + c + ')' : '');
 }
 
@@ -350,12 +367,14 @@ function openEntry(e, defDate) {
     '<label class="f" for="eTitle">' + t('title') + '</label><input id="eTitle" class="inp" maxlength="200" value="' + esc(e.title) + '">' +
     '<div class="two"><div><label class="f" for="eDate">' + t('date') + '</label><input id="eDate" class="inp" type="date" value="' + esc(e.due_date || '') + '"></div>' +
     '<div><label class="f" for="eTime">' + t('time') + '</label><input id="eTime" class="inp" type="time" value="' + esc(e.due_time ? String(e.due_time).slice(0, 5) : '') + '"></div></div>' +
+    '<label class="f" for="eReminder">🔔 ' + t('reminder') + '</label><select id="eReminder" class="inp"><option value="">' + t('reminderNone') + '</option><option value="5">' + t('reminder5') + '</option><option value="15">' + t('reminder15') + '</option><option value="30">' + t('reminder30') + '</option><option value="60">' + t('reminder60') + '</option><option value="1440">' + t('reminder1440') + '</option></select>' +
     '<label class="f" for="eDet">' + t('details') + '</label><textarea id="eDet" class="inp" rows="3" maxlength="2000">' + esc(e.details || '') + '</textarea>' +
     '<button class="btn pri" id="eSave">' + t('save') + '</button>' + (isNew ? '' : '<button class="btn danger" id="eDel">' + t('del') + '</button>');
   $('kindSeg').querySelectorAll('button').forEach((b) => (b.onclick = () => { kind = b.dataset.k; $('kindSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
+  $('eReminder').value = e.reminder_minutes == null ? '' : String(e.reminder_minutes);
   $('eSave').onclick = async () => {
     const title = $('eTitle').value.trim(); if (!title) { $('eTitle').focus(); return; }
-    try { await api('entries.save', { id: e.id, kind, title, details: $('eDet').value, due_date: $('eDate').value || null, due_time: $('eTime').value || null }); closeLayers(); haptic(); loadEntries(); }
+    try { await api('entries.save', { id: e.id, kind, title, details: $('eDet').value, due_date: $('eDate').value || null, due_time: $('eTime').value || null, reminder_minutes: $('eReminder').value === '' ? null : Number($('eReminder').value), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/Berlin' }); closeLayers(); haptic(); loadEntries(); }
     catch (x) { toast(errText(x)); }
   };
   if (!isNew) $('eDel').onclick = async () => { if (!confirm(t('confirmDel'))) return; try { await api('entries.delete', { id: e.id }); closeLayers(); loadEntries(); } catch (x) { toast(errText(x)); } };
@@ -374,13 +393,31 @@ function renderStatus() {
 function openPro(reason) {
   const st = S.status || { price_stars: 100 };
   $('shPro').innerHTML = '<h3>' + t('proT') + '</h3><p class="sub">' + esc(reason || t('proS')) + '</p><ul style="color:var(--muted);padding-left:18px"><li>' + t('b1') + '</li><li>' + t('b2') + '</li></ul>' +
-    (st.premium && st.until ? '<p class="sub">' + t('active') + ' ' + esc(new Date(st.until).toLocaleDateString(LOC)) + '</p>' : '') +
+    (st.premium && st.until ? '<p class="sub">' + (String(st.until).startsWith('9999-') ? t('forever') : t('active') + ' ' + esc(new Date(st.until).toLocaleDateString(LOC))) + '</p>' : '') +
+    '<label class="f" for="promoCode">' + t('promoPlaceholder') + '</label><div class="two"><input id="promoCode" class="inp" maxlength="120" autocomplete="off" placeholder="' + t('promoPlaceholder') + '"><button class="btn pri" id="promoBtn" style="margin-top:0;max-width:150px">' + t('promoBtn') + '</button></div>' +
     '<button class="btn pri" id="payBtn">' + t('buyBtn', st.price_stars) + '</button>' + (st.contact ? '<button class="btn sec2" id="contactBtn">' + t('contact') + '</button>' : '') + '<button class="btn danger" id="proClose">' + t('close') + '</button>';
   $('payBtn').onclick = pay; $('proClose').onclick = closeLayers;
+  $('promoBtn').onclick = redeemPromo;
   if (st.contact) $('contactBtn').onclick = () => { if (tg && tg.openTelegramLink) tg.openTelegramLink(st.contact); else window.open(st.contact, '_blank'); };
   closeLayers(); openLayer($('shPro'));
 }
 $('usageBuy').onclick = () => openPro();
+async function redeemPromo() {
+  const input = $('promoCode'), btn = $('promoBtn');
+  const code = (input.value || '').trim();
+  if (!code) return toast(t('invalidPromo'));
+  btn.disabled = true;
+  try {
+    await api('premium.redeem', { code });
+    closeLayers();
+    await loadStatus();
+    toast(t('promoReady')); haptic();
+  } catch (e) {
+    toast(e.code === 'promo_not_ready' ? t('promoNotReady') : t('invalidPromo'));
+  } finally {
+    btn.disabled = false;
+  }
+}
 async function pay() {
   const btn = $('payBtn'); btn.disabled = true;
   try {
@@ -481,6 +518,44 @@ function fitHeight() { document.documentElement.style.setProperty('--h', ((windo
 if (window.visualViewport) window.visualViewport.addEventListener('resize', () => { fitHeight(); const m = $('msgs'); m.scrollTop = m.scrollHeight; });
 fitHeight();
 
+
+// ---------- Голос / фото ----------
+let mediaRecorder = null, mediaChunks = [], voiceStarted = 0, voiceTimerInt = null;
+$('btnVoice').onclick = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaChunks = []; mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = e => { if (e.data.size) mediaChunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      stream.getTracks().forEach(t=>t.stop()); clearInterval(voiceTimerInt); $('voiceRec').classList.remove('on');
+      const blob = new Blob(mediaChunks, {type: mediaRecorder.mimeType || 'audio/webm'});
+      const data = await new Promise(res => { const fr=new FileReader(); fr.onload=()=>res(String(fr.result).split(',')[1]); fr.readAsDataURL(blob); });
+      try {
+        const r=await api('media.process',{kind:'voice',mime:blob.type||'audio/webm',data});
+        if (r.title) {
+          $('inp').value = `${r.title}${r.due_date ? ` ${r.due_date}` : ''}${r.due_time ? ` ${r.due_time}` : ''}${r.reminder_minutes !== null && r.reminder_minutes !== undefined ? ` напомни за ${r.reminder_minutes} минут` : ''}`;
+          doSend();
+        } else toast('Не удалось понять голос');
+      } catch(e){toast(errText(e));}
+    };
+    mediaRecorder.start(); voiceStarted=Date.now(); $('voiceRec').classList.add('on');
+    voiceTimerInt=setInterval(()=>{const s=Math.floor((Date.now()-voiceStarted)/1000);$('voiceTimer').textContent=`${pad(Math.floor(s/60))}:${pad(s%60)}`},500);
+  } catch(e){toast('Разреши доступ к микрофону');}
+};
+$('stopVoice').onclick = () => { if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop(); };
+$('btnPhoto').onclick = () => $('photoInput').click();
+$('photoInput').onchange = async () => {
+  const f=$('photoInput').files?.[0]; if(!f) return;
+  try {
+    const data=await new Promise(res=>{const fr=new FileReader();fr.onload=()=>res(String(fr.result).split(',')[1]);fr.readAsDataURL(f)});
+    const r=await api('media.process',{kind:'photo',mime:f.type||'image/jpeg',data});
+    if(r.title){
+      $('inp').value=`${r.title}${r.due_date?` ${r.due_date}`:''}${r.due_time?` ${r.due_time}`:''}`;
+      doSend();
+    } else toast('На фото не найдено событие');
+  } catch(e){toast(errText(e));}
+};
+
 // ---------- старт ----------
 function showGate(msg, e) {
   $('gateSpin').style.display = 'none';
@@ -490,7 +565,7 @@ function showGate(msg, e) {
 (async function init() {
   $('gateTxt').textContent = t('loading'); renderHeader();
   if (!tg || !tg.initData) { showGate(t('openTg')); return; }
-  try { await api('me'); } catch (e) { showGate(errText(e), e); return; }
+  try { await api('me', { timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/Berlin' }); } catch (e) { showGate(errText(e), e); return; }
   loadEntries(); loadStatus(); await loadConvs();
   api('ai.settings.get').then((s) => (S.settings = s)).catch(() => {});
 })();
