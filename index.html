@@ -198,7 +198,7 @@ const T = {
     errNet:'Нет соединения. Проверь интернет и попробуй снова.', errAuth:'Откройте приложение через Telegram.', errGen:'Что-то пошло не так. Попробуй ещё раз.', errDb:'База данных не готова: выполните SQL-файл в Supabase.',
     invalidPromo:'Неверный промокод.', promoReady:'Промокод активирован! Premium включён навсегда ⭐', promoNotReady:'Промокод пока недоступен: сначала выполни SQL-файл.', promoPlaceholder:'Промокод', promoBtn:'Активировать', forever:'Premium навсегда',
     errTimeout:'Сервер долго не отвечает. Попробуй ещё раз.',
-    diag:'Проверьте в Supabase: у функции выключен «Verify JWT» и её название совпадает с адресом ниже.',
+    diag:'Откройте ссылку ниже в браузере: там написано, что именно не настроено. Если «NOT_FOUND» — функция api не создана; если 401 — выключите «Verify JWT».',
     openTg:'Откройте приложение через Telegram, чтобы войти.', loading:'Загрузка…',
     used:'Сегодня', of:'из', buy:'Premium', settings:'Настройки', style:'Стиль ответов', brief:'Кратко', balanced:'Сбалансированно', detailed:'Подробно',
     custom:'Своя инструкция (необязательно)', customPh:'Например: отвечай коротко и по делу',
@@ -224,7 +224,7 @@ const T = {
     errNet:'No connection. Check your internet and try again.', errAuth:'Please open the app from Telegram.', errGen:'Something went wrong. Please try again.', errDb:'Database is not ready: run the SQL file in Supabase.',
     invalidPromo:'Invalid promo code.', promoReady:'Promo activated! Premium is permanent ⭐', promoNotReady:'Promo is unavailable: run the SQL file first.', promoPlaceholder:'Promo code', promoBtn:'Activate', forever:'Premium forever',
     errTimeout:'Server response timeout. Try again.',
-    diag:'Check in Supabase: Verify JWT is off for the function and its name matches the address below.',
+    diag:'Open the link below in a browser: it shows what is not configured. NOT_FOUND = function api is not created; 401 = turn off Verify JWT.',
     openTg:'Open the app from Telegram to sign in.', loading:'Loading…',
     used:'Today', of:'of', buy:'Premium', settings:'Settings', style:'Answer style', brief:'Brief', balanced:'Balanced', detailed:'Detailed',
     custom:'Custom instruction (optional)', customPh:'e.g. keep answers short and practical',
@@ -676,7 +676,7 @@ $('photoInput').onchange = async () => {
 // ---------- старт ----------
 function showGate(msg, e) {
   $('gateSpin').style.display = 'none';
-  $('gateTxt').innerHTML = esc(msg) + (e ? '<div style="margin-top:16px;font-size:12px;text-align:left;line-height:1.5">' + esc(t('diag')) + '<br><code style="word-break:break-all;color:var(--acc)">' + esc(API_URL) + '</code><br>' + esc('code: ' + (e.code || '?') + ', status: ' + (e.status || 0)) + '</div><button class="btn pri" onclick="location.reload()">' + t('retry') + '</button>' : '');
+  $('gateTxt').innerHTML = esc(msg) + (e ? '<div style="margin-top:16px;font-size:12px;text-align:left;line-height:1.5">' + esc(t('diag')) + '<br><a href="' + esc(API_URL) + '" target="_blank" rel="noopener" style="word-break:break-all;color:var(--acc)">' + esc(API_URL) + '</a><br>' + esc('code: ' + (e.code || '?') + ', status: ' + (e.status || 0)) + '</div><button class="btn pri" onclick="location.reload()">' + t('retry') + '</button>' : '');
   $('gate').classList.add('on');
 }
 (async function init() {
