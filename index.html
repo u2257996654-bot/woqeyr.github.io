@@ -123,61 +123,67 @@ label.f{display:block;margin:12px 0 6px;font-size:13px;color:var(--muted)}
 
 <style id="lifevault-pro-ui">
 :root{
-  --bg:#070910;--bg2:#0b0f1a;--card:rgba(17,22,35,.72);--card2:rgba(22,29,46,.86);
-  --text:#f7f9ff;--muted:#8d96ab;--line:rgba(255,255,255,.09);
-  --acc:#7c6cff;--acc2:#a58dff;--cyan:#48d8ff;--ok:#42d392;--danger:#ff647c;
-  --shadow:0 22px 70px rgba(0,0,0,.34);--safe:env(safe-area-inset-bottom,0px)
+ --bg:#f6f7fb;--card:#ffffff;--card2:#f9faff;--text:#141722;--muted:#747b8c;--line:#e7e9f0;
+ --acc:#635bff;--acc2:#8b7cff;--soft:#f0efff;--ok:#25a66f;--danger:#e45763;--shadow:0 8px 28px rgba(24,30,55,.07);
+ --safe:env(safe-area-inset-bottom,0px)
 }
-html,body{background:
- radial-gradient(900px 500px at 12% -8%,rgba(124,108,255,.22),transparent 55%),
- radial-gradient(700px 500px at 100% 18%,rgba(72,216,255,.12),transparent 55%),
- linear-gradient(180deg,var(--bg),var(--bg2)) !important;color:var(--text)!important}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
-#app{max-width:760px;position:relative}
-header{padding:16px 18px 10px;position:relative;z-index:2}
-header h1{font-size:24px;letter-spacing:-.7px;font-weight:800}
-header h1:before{content:"";display:inline-block;width:8px;height:8px;margin:0 9px 3px 0;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--acc));box-shadow:0 0 18px var(--acc)}
-.ib{width:42px;height:42px;border:1px solid var(--line);background:rgba(255,255,255,.045)!important;border-radius:14px;backdrop-filter:blur(18px);color:#d9def0}
-.ib:active{transform:scale(.94)}
-main{padding:0 8px}
-.scroll{padding:4px 10px 105px}
-.quick{margin:10px 0 16px}
-.quick input{background:rgba(255,255,255,.055);border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);padding:14px 16px;border-radius:17px}
-.quick button,.fab,.send{background:linear-gradient(135deg,var(--acc),var(--acc2))!important;box-shadow:0 10px 28px rgba(124,108,255,.28)}
-.quick button{border-radius:16px}
-.sec{font-size:11px;letter-spacing:1px;color:#9ca6bb;margin:18px 4px 8px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow);backdrop-filter:blur(22px);overflow:hidden}
-.row{padding:14px 15px;min-height:58px}
-.row+.row{border-top:1px solid rgba(255,255,255,.065)}
-.row:active{background:rgba(255,255,255,.045)}
-.chk{border-color:#667087}
-.meta{color:#b1a7ff}
-.empty{padding:55px 25px;color:var(--muted)}
-.empty b{color:var(--text)}
-nav{margin:0 10px 8px;border:1px solid var(--line);border-radius:20px;background:rgba(13,17,28,.82)!important;backdrop-filter:blur(24px);box-shadow:0 16px 45px rgba(0,0,0,.35);padding:6px 7px calc(6px + var(--safe))}
-nav button{border-radius:15px}
-nav button.on{background:rgba(124,108,255,.14);color:#c9c0ff}
+[data-theme=dark]{
+ --bg:#0b0d12;--card:#151820;--card2:#191d27;--text:#f3f5fa;--muted:#9299a9;--line:#282d38;
+ --acc:#8b82ff;--acc2:#a193ff;--soft:#222033;--ok:#3bc98d;--danger:#ff707b;--shadow:0 12px 38px rgba(0,0,0,.24)
+}
+html,body{background:var(--bg)!important;color:var(--text)!important}
+body{background:radial-gradient(700px 300px at 50% -120px,color-mix(in srgb,var(--acc) 10%,transparent),transparent 70%),var(--bg)!important}
+#app{max-width:700px}
+header{padding:13px 15px 10px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(16px);z-index:4}
+header h1{font-size:20px;font-weight:760;letter-spacing:-.35px}
+header h1:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin:0 8px 2px 0;background:var(--acc);box-shadow:0 0 12px color-mix(in srgb,var(--acc) 55%,transparent)}
+.ib{width:38px;height:38px;border:1px solid var(--line);background:var(--card)!important;border-radius:12px;color:var(--muted);font-size:17px}
+.ib:active{transform:scale(.96);background:var(--soft)!important}
+#btnTheme{display:none}
+main{padding:0 4px}
+.scroll{padding:8px 14px 96px}
+.quick{margin:5px 0 14px;gap:7px}
+.quick input{height:46px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 14px;box-shadow:none}
+.quick input:focus{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 10%,transparent)}
+.quick button{width:46px;height:46px;border-radius:14px;background:var(--acc)!important;box-shadow:none;font-size:21px}
+.sec{margin:17px 2px 7px;font-size:11px;letter-spacing:.7px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow);backdrop-filter:none}
+.row{padding:13px 14px;min-height:55px}
+.row+.row{border-top:1px solid var(--line)}
+.row:active{background:var(--soft)}
+.meta{color:var(--acc)}
+.chk[aria-pressed=true]{background:var(--ok);border-color:var(--ok)}
+.empty{padding:46px 20px}
+.fab{right:16px;bottom:16px;width:52px;height:52px;background:var(--acc)!important;box-shadow:0 8px 22px color-mix(in srgb,var(--acc) 25%,transparent);font-size:25px}
+nav{margin:0 8px 7px;border:1px solid var(--line);border-radius:17px;background:color-mix(in srgb,var(--card) 94%,transparent)!important;backdrop-filter:blur(16px);box-shadow:0 8px 26px rgba(0,0,0,.08);padding:5px 6px calc(5px + var(--safe))}
+nav button{border-radius:12px;padding:8px 4px;color:var(--muted)}
+nav button.on{background:var(--soft);color:var(--acc)}
 nav button span{font-size:18px}
-#msgs{padding:8px 12px 12px}
-.m{box-shadow:0 10px 30px rgba(0,0,0,.12)}
-.m.u{background:linear-gradient(135deg,#6d5cf0,#8d78ff);color:#fff}
-.m.a{background:var(--card);border-color:var(--line);backdrop-filter:blur(18px)}
-.chip,.ai-action{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:15px}
-.composer{padding:8px 12px 12px}
-.composer textarea{background:rgba(255,255,255,.055);border-color:var(--line);border-radius:20px}
-.quick-ai{padding:0 12px}
-.ai-action{padding:12px}
-.fab{right:18px;bottom:18px;width:56px;height:56px}
-.sheet{background:rgba(11,15,26,.96)!important;border:1px solid var(--line);backdrop-filter:blur(28px);box-shadow:0 -20px 70px rgba(0,0,0,.55)}
-.inp{background:rgba(255,255,255,.05);border-color:var(--line)}
-.btn.pri{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
-.btn.sec2{background:rgba(255,255,255,.07)}
-.drawer{background:rgba(10,14,24,.96)!important;border-color:var(--line);backdrop-filter:blur(28px)}
-.conv.on{background:rgba(124,108,255,.13)}
-#toast{background:#f4f6ff;color:#0b0d14;box-shadow:0 12px 40px #0007}
-#gate{background:
- radial-gradient(650px 400px at 50% 30%,rgba(124,108,255,.18),transparent 60%),
- linear-gradient(180deg,#070910,#0b0f1a)!important}
+#msgs{padding:8px 12px 10px;gap:8px}
+.m{max-width:88%;padding:10px 13px;border-radius:16px;box-shadow:none}
+.m.u{background:var(--acc);color:#fff;border-bottom-right-radius:5px}
+.m.a{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:5px}
+.chips{gap:7px;margin-top:13px}
+.chip{padding:10px 12px;background:var(--card);border:1px solid var(--line);border-radius:13px}
+.usage{padding:0 14px 3px}
+.quick-ai{display:flex;gap:7px;margin:5px 12px 1px}
+.ai-action{flex:0 0 auto;padding:8px 11px;border-radius:11px;background:var(--card);border:1px solid var(--line);font-size:12px;font-weight:650;color:var(--muted)}
+.composer{padding:7px 12px 10px;background:var(--bg);gap:7px}
+.composer textarea{min-height:44px;padding:10px 13px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:none}
+.send{width:44px;height:44px;background:var(--acc)!important;box-shadow:none}
+.sheet{background:var(--card)!important;border:1px solid var(--line);box-shadow:0 -14px 40px rgba(0,0,0,.18);backdrop-filter:blur(18px);border-radius:20px 20px 0 0}
+.sheet .hero{padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card2);margin:6px 0 12px}
+.sheet .hero h4{margin:0 0 3px;font-size:16px}.sheet .hero p{margin:0;color:var(--muted);font-size:12px}
+.inp{background:var(--bg);border-color:var(--line);border-radius:12px}
+.seg button,.theme-choice,.model-item,.feature,.tool,.provider{background:var(--card);border-color:var(--line);border-radius:12px}
+.seg button.on,.theme-choice.on,.model-item.active{background:var(--soft);border-color:var(--acc);color:var(--acc)}
+.btn.pri{background:var(--acc);box-shadow:none}.btn.sec2{background:var(--soft)}
+.drawer{background:var(--card)!important;border-color:var(--line);backdrop-filter:blur(18px)}
+.conv.on{background:var(--soft)}
+#toast{background:var(--text);color:var(--bg);box-shadow:var(--shadow)}
+#gate{background:var(--bg)!important}
+.voice-rec{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+@media(max-width:430px){header{padding-left:13px;padding-right:13px}.scroll{padding-left:11px;padding-right:11px}.m{max-width:92%}.ai-action{padding:8px 10px}}
 </style>
 
 <style id="lifevault-boot-ui">
@@ -197,6 +203,26 @@ nav button span{font-size:18px}
 @keyframes lvpulse{50%{opacity:.35}}
 @keyframes lvload{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
 @media(prefers-reduced-motion:reduce){#lvBoot *{animation:none!important}}
+
+/* ===== AI HUB ===== */
+.ai-hub{padding:16px 16px calc(20px + var(--safe));}
+.ai-hub .hub-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.ai-hub .hub-title{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.ai-hub .hub-sub{margin:3px 0 0;color:var(--muted);font-size:12px}
+.hub-close{width:36px;height:36px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--muted)}
+.hub-auto{display:flex;align-items:center;gap:12px;width:100%;padding:14px;border:1px solid var(--acc);border-radius:16px;background:linear-gradient(135deg,var(--soft),var(--card));text-align:left}
+.hub-auto .ha-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:var(--acc);color:#fff;font-size:20px;box-shadow:0 8px 22px color-mix(in srgb,var(--acc) 24%,transparent)}
+.hub-auto b{display:block;font-size:14px}.hub-auto span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.hub-section{margin:17px 0 8px;font-size:11px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);font-weight:750}
+.hub-providers{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.hub-provider{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:11px;text-align:left;min-width:0}
+.hub-provider .hp-top{display:flex;justify-content:space-between;align-items:center}.hub-provider .hp-icon{font-size:17px}.hub-provider .hp-dot{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.hub-provider.on{border-color:color-mix(in srgb,var(--ok) 55%,var(--line))}.hub-provider.on .hp-dot{background:var(--ok);box-shadow:0 0 9px color-mix(in srgb,var(--ok) 50%,transparent)}
+.hub-provider b{display:block;margin-top:8px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hub-provider small{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+.hub-models{display:grid;gap:7px}.hub-model{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--line);background:var(--card);border-radius:14px;text-align:left;width:100%}.hub-model.active{border-color:var(--acc);background:var(--soft)}.hub-model .hm-icon{width:32px;height:32px;border-radius:10px;background:var(--card2);display:grid;place-items:center;flex:none}.hub-model .hm-main{min-width:0;flex:1}.hub-model b{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hub-model small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.hub-model .hm-check{font-size:16px;color:var(--acc)}
+.hub-fallback{display:flex;gap:6px;overflow:auto;padding-bottom:2px}.hub-fb{white-space:nowrap;border:1px solid var(--line);border-radius:99px;padding:7px 10px;background:var(--card);font-size:10px;color:var(--muted)}
+.hub-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.hub-actions .btn{max-width:none}
+@media(max-width:430px){.hub-providers{grid-template-columns:1fr 1fr}.hub-provider:last-child{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -251,6 +277,7 @@ nav button span{font-size:18px}
 <aside class="drawer" id="drawer"><h3 id="drTitle"></h3><div id="convs" style="flex:1;overflow-y:auto"></div></aside>
 <div class="sheet" id="shEntry"></div>
 <div class="sheet" id="shSet"></div>
+<div class="sheet ai-hub" id="shHub"></div>
 <div class="sheet" id="shPro"></div>
 <div id="toast" role="status"></div>
 <div id="gate"><div><b style="font-size:24px">LifeVault</b><p id="gateTxt" style="color:var(--muted)"></p><div class="spin" id="gateSpin"></div></div></div>
@@ -273,7 +300,7 @@ const LOC = L === 'en' ? 'en-US' : 'ru-RU';
 const T = {
   ru: {
     today:'Сегодня', soon:'Скоро', chat:'Ассистент', mem:'Память', overdue:'Просрочено', nodate:'Без срока', tomorrow:'Завтра',
-    quick:'Новая задача на сегодня', emptyT:'На сегодня всё свободно', emptyS:'Добавьте задачу или напишите ассистенту, что запланировать.',
+    quick:'Что запланировать?', emptyT:'На сегодня всё свободно', emptyS:'Добавьте задачу или напишите ассистенту, что запланировать.',
     soonEmpty:'Ближайшие две недели пусты', task:'Задача', event:'Событие', note:'Заметка',
     newEntry:'Новая запись', editEntry:'Запись', title:'Название', details:'Подробности', date:'Дата', time:'Время',
     save:'Сохранить', del:'Удалить', confirmDel:'Удалить?', saved:'Сохранено',
@@ -299,7 +326,7 @@ const T = {
   },
   en: {
     today:'Today', soon:'Upcoming', chat:'Assistant', mem:'Memory', overdue:'Overdue', nodate:'No date', tomorrow:'Tomorrow',
-    quick:'New task for today', emptyT:'Nothing planned for today', emptyS:'Add a task or tell the assistant what to plan.',
+    quick:'What should I plan?', emptyT:'Nothing planned for today', emptyS:'Add a task or tell the assistant what to plan.',
     soonEmpty:'The next two weeks are empty', task:'Task', event:'Event', note:'Note',
     newEntry:'New entry', editEntry:'Entry', title:'Title', details:'Details', date:'Date', time:'Time',
     save:'Save', del:'Delete', confirmDel:'Delete?', saved:'Saved',
@@ -405,7 +432,7 @@ document.addEventListener('click', (e) => {
 
 // ---------- слои ----------
 function openLayer(el) { $('scrim').classList.add('on'); el.classList.add('on'); }
-function closeLayers() { $('scrim').classList.remove('on'); ['drawer', 'shEntry', 'shSet', 'shPro'].forEach((i) => $(i).classList.remove('on')); }
+function closeLayers() { $('scrim').classList.remove('on'); ['drawer', 'shEntry', 'shSet', 'shHub', 'shPro'].forEach((i) => $(i).classList.remove('on')); }
 $('scrim').onclick = closeLayers;
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLayers(); });
 
@@ -609,23 +636,53 @@ function modelOpts(models, cur) {
   models.forEach((m) => { (groups[m.provider_label] = groups[m.provider_label] || []).push(m); });
   return Object.keys(groups).map((g) => '<optgroup label="' + esc(g) + '">' + groups[g].map((m) => '<option value="' + esc(m.id) + '"' + (m.id === cur ? ' selected' : '') + '>' + esc(m.label) + '</option>').join('') + '</optgroup>').join('');
 }
+async function openAiHub(){
+  try {
+    const [hub, settings] = await Promise.all([api('ai.hub'), api('ai.settings.get')]);
+    S.settings = settings;
+    const escA = esc;
+    const selected = settings.model || 'auto';
+    const providers = hub.providers || [];
+    const models = hub.models || [];
+    const fallback = hub.fallback || [];
+    $('shHub').innerHTML = `
+      <div class="hub-head"><div><div class="hub-title">AI HUB</div><div class="hub-sub">Единый центр моделей и автоматического fallback</div></div><button class="hub-close" id="hubClose">✕</button></div>
+      <button class="hub-auto" id="hubAuto">
+        <div class="ha-icon">✦</div><div><b>Auto — оптимальный режим</b><span>${fallback.length ? 'Если модель не отвечает, LifeVault переключится дальше по цепочке.' : 'Добавьте API-ключ провайдера, чтобы активировать AI.'}</span></div>
+      </button>
+      <div class="hub-section">Провайдеры</div>
+      <div class="hub-providers">${providers.map(p=>`<div class="hub-provider ${p.configured?'on':''}"><div class="hp-top"><span class="hp-icon">${escA(p.icon||'•')}</span><i class="hp-dot"></i></div><b>${escA(p.label)}</b><small>${p.configured ? `${p.key_count} ключ${p.key_count===1?'':'ей'} · ${p.models.length} моделей` : 'Ключ не настроен'}</small></div>`).join('')}</div>
+      <div class="hub-section">Доступные модели</div>
+      <div class="hub-models">${models.length ? models.map(m=>`<button class="hub-model ${selected===m.id?'active':''}" data-model="${escA(m.id)}"><span class="hm-icon">${escA(m.icon||'✦')}</span><span class="hm-main"><b>${escA(m.label)}</b><small>${escA(m.provider_label)}</small></span><span class="hm-check">${selected===m.id?'✓':''}</span></button>`).join('') : '<div class="empty" style="padding:28px 12px"><b>Нет активных моделей</b>Добавь хотя бы один API-ключ в Supabase Secrets.</div>'}</div>
+      <div class="hub-section">Fallback-цепочка</div>
+      <div class="hub-fallback">${fallback.length ? fallback.map((x,i)=>`<span class="hub-fb">${i+1}. ${escA(x.label)}</span>`).join('') : '<span class="hub-fb">Нет активного fallback</span>'}</div>
+      <div class="hub-actions"><button class="btn pri" id="hubSave">Сохранить выбор</button><button class="btn sec2" id="hubSettings">Настройки AI</button></div>`;
+    $('hubClose').onclick=closeLayers;
+    $('hubAuto').onclick=()=>{ $('shHub').querySelectorAll('.hub-model').forEach(x=>{x.classList.remove('active');x.querySelector('.hm-check').textContent='';}); $('hubAuto').dataset.selected='auto'; S.hubChoice='auto'; };
+    $('shHub').querySelectorAll('.hub-model').forEach(b=>b.onclick=()=>{ $('shHub').querySelectorAll('.hub-model').forEach(x=>{x.classList.remove('active');x.querySelector('.hm-check').textContent='';}); b.classList.add('active'); b.querySelector('.hm-check').textContent='✓'; S.hubChoice=b.dataset.model; });
+    $('hubSave').onclick=async()=>{ const model=S.hubChoice || selected || 'auto'; try { await api('ai.settings.save',{style:settings.style||'balanced',custom_instruction:settings.custom_instruction||'',model}); S.settings={...settings,model}; toast('AI HUB сохранён'); closeLayers(); } catch(e){ toast(errText(e)); } };
+    $('hubSettings').onclick=()=>openSettings();
+    S.hubChoice=selected; closeLayers(); openLayer($('shHub'));
+  } catch(e){ toast(errText(e)); }
+}
+
 async function openSettings() {
   try { S.settings = await api('ai.settings.get'); } catch (e) {}
-  let models = []; try { models = (await api('ai.models')).items || []; } catch (e) {}
   const hs = await homeStatus();
   const s = S.settings; let style = s.style;
-  $('shSet').innerHTML = '<h3>' + t('settings') + '</h3><label class="f">' + t('style') + '</label><div class="seg" id="styleSeg">' +
+  $('shSet').innerHTML = '<h3>' + t('settings') + '</h3><div class="hero"><h4>AI HUB</h4><p>Модели, провайдеры, Auto и fallback — в одном месте.</p></div><button class="btn pri" id="openHub" style="max-width:none">Открыть AI HUB</button><label class="f">' + t('style') + '</label><div class="seg" id="styleSeg">' +
     ['brief', 'balanced', 'detailed'].map((k) => '<button data-k="' + k + '" class="' + (style === k ? 'on' : '') + '">' + t(k) + '</button>').join('') + '</div>' +
-    '<label class="f" for="mdl">' + t('aiModel') + '</label><select id="mdl" class="inp"><option value="auto">' + t('aiAuto') + '</option>' + modelOpts(models, s.model) + '</select>' +
     '<label class="f" for="custom">' + t('custom') + '</label><textarea id="custom" class="inp" rows="3" maxlength="500" placeholder="' + esc(t('customPh')) + '">' + esc(s.custom_instruction || '') + '</textarea>' +
     '<button class="btn pri" id="setSave">' + t('save') + '</button>' + (hs === 'missed' || hs === 'unknown' ? '<button class="btn sec2" id="setHome">' + t('homeBtn') + '</button>' : '') + '<button class="btn sec2" id="setPro">' + t('proT') + '</button>';
   $('styleSeg').querySelectorAll('button').forEach((b) => (b.onclick = () => { style = b.dataset.k; $('styleSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
-  $('setSave').onclick = async () => { try { const model = $('mdl').value; await api('ai.settings.save', { style, custom_instruction: $('custom').value, model }); S.settings = { style, custom_instruction: $('custom').value, model }; toast(t('saved')); closeLayers(); } catch (e) { toast(errText(e)); } };
+  $('openHub').onclick = openAiHub;
+  $('setSave').onclick = async () => { try { await api('ai.settings.save', { style, custom_instruction: $('custom').value, model: S.settings.model || 'auto' }); S.settings = { ...S.settings, style, custom_instruction: $('custom').value }; toast(t('saved')); closeLayers(); } catch (e) { toast(errText(e)); } };
   $('setPro').onclick = () => openPro();
   if ($('setHome')) $('setHome').onclick = () => { closeLayers(); addHome(); };
   closeLayers(); openLayer($('shSet'));
 }
 $('btnSet').onclick = openSettings;
+
 
 // ---------- диалоги ----------
 async function loadConvs() { try { S.convs = (await api('ai.conversations.list')).items; } catch (e) { S.convs = []; } }
