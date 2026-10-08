@@ -726,7 +726,7 @@ async function send(text, opts) {
   const now = new Date(), client = { today: ymd(now), time: pad(now.getHours()) + ':' + pad(now.getMinutes()), tz: TZ };
   try {
     if (!S.cur) { const c = (await api('ai.conversations.create', { title: text.replace(/\s+/g, ' ').slice(0, 60) })).conversation; S.cur = c.id; S.title = c.title; renderHeader(); }
-    const r = await api('ai.send', isRetry ? { conversation_id: S.cur, retry: true, client } : { conversation_id: S.cur, message: text, client }, 60000);
+    const r = await api('ai.send', isRetry ? { conversation_id: S.cur, retry: true, client } : { conversation_id: S.cur, message: text, client }, 30000);
     S.msgs.push(r.message); loadConvs(); loadStatus();
     if (r.changes && r.changes.length) { haptic(); loadEntries(); }
   } catch (e) {
@@ -803,7 +803,7 @@ $('btnVoice').onclick = async () => {
   };
   mr.start(); $('voiceRec').classList.add('on'); $('voiceTimer').textContent = '00:00';
   rec.timer = setInterval(() => { const s = Math.floor((Date.now() - rec.started) / 1000); $('voiceTimer').textContent = pad(Math.floor(s / 60)) + ':' + pad(s % 60); }, 500);
-  rec.limit = setTimeout(() => { if (rec && rec.mr.state !== 'inactive') rec.mr.stop(); }, 60000); // не длиннее минуты
+  rec.limit = setTimeout(() => { if (rec && rec.mr.state !== 'inactive') rec.mr.stop(); }, 30000); // не длиннее минуты
 };
 $('stopVoice').onclick = () => { if (rec && rec.mr.state !== 'inactive') rec.mr.stop(); };
 $('cancelVoice').onclick = () => { if (rec) { rec.cancelled = true; if (rec.mr.state !== 'inactive') rec.mr.stop(); } };
