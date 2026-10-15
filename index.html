@@ -272,7 +272,7 @@ label.f{display:block;margin:14px 0 7px;font-size:13px;font-weight:600;color:var
         <button class="ai-action" id="btnPlan">✨ <span id="tPlan"></span></button>
       </div>
       <div class="composer"><textarea id="inp" rows="1" aria-label="message"></textarea><button class="send" id="btnSend" aria-label="send">↑</button></div>
-      <input id="photoInput" type="file" accept="image/*" hidden>
+      <input id="photoInput" type="file" accept="image/*,video/*" hidden>
       <div class="voice-rec" id="voiceRec"><b id="tRec"></b><p id="voiceTimer">00:00</p><button class="btn pri" id="stopVoice"></button><button class="btn danger" id="cancelVoice"></button></div>
     </section>
     <section class="view" id="v-mem">
@@ -332,11 +332,11 @@ const T = {
     used:'Сегодня', of:'из', buy:'Premium', settings:'Настройки', style:'Стиль ответов', brief:'Кратко', balanced:'Сбалансированно', detailed:'Подробно',
     custom:'Своя инструкция (необязательно)', customPh:'Например: отвечай коротко и по делу',
     proT:'LifeVault Premium', proS:'Больше возможностей ассистента на 30 дней', b1:'До 300 сообщений в день вместо бесплатного лимита', b2:'Поддержка развития LifeVault',
-    buyBtn:(n)=>`Купить за ${n} ⭐`, voice:'Голос', photo:'Фото', reminder:'Напомнить за', reminderNone:'Без напоминания', reminder0:'В момент события', reminder5:'5 минут', reminder15:'15 минут', reminder30:'30 минут', reminder60:'1 час', reminder1440:'1 день',
+    buyBtn:(n)=>`Купить за ${n} ⭐`, voice:'Голос', photo:'Фото / видео', reminder:'Напомнить за', reminderNone:'Без напоминания', reminder0:'В момент события', reminder5:'5 минут', reminder15:'15 минут', reminder30:'30 минут', reminder60:'1 час', reminder1440:'1 день',
     contact:'Написать мне', active:'Premium активен до', limitHit:'Бесплатный лимит на сегодня закончился',
     thanks:'Спасибо! Активируем Premium…', paid:'Premium активен',
     memPh:'Запомнить что-то о себе', memEmpty:'Память пока пустая', memEmptyS:'Добавьте факт или просто общайтесь с ассистентом: он запоминает важное сам.', pin:'Закрепить',
-    rec:'🎙 Запись голосового', stop:'Остановить и распознать', cancel:'Отмена', micDenied:'Разреши доступ к микрофону', voiceFail:'Не удалось понять голос', photoFail:'На фото не найдено событие', recognizing:'Распознаю…', aiModel:'AI-модель', aiAuto:'Автоматически (рекомендуется)', needTitle:'Введите название',
+    rec:'🎙 Запись голосового', stop:'Остановить и распознать', cancel:'Отмена', micDenied:'Разреши доступ к микрофону', voiceFail:'Не удалось понять голос', photoFail:'Не нашёл здесь дел или событий — добавь запись вручную', recognizing:'Распознаю…', aiModel:'AI-модель', aiAuto:'Автоматически (рекомендуется)', needTitle:'Введите название',
     homeBtn:'📲 Добавить на рабочий стол', homeT:'Добавьте LifeVault на рабочий стол', homeS:'Приложение будет открываться одним нажатием, как обычное. Напоминания придут в Telegram.', homeAdd:'Добавить', later:'Позже', homeDone:'Готово! Иконка на рабочем столе ✅'
   },
   en: {
@@ -360,7 +360,7 @@ const T = {
     used:'Today', of:'of', buy:'Premium', settings:'Settings', style:'Answer style', brief:'Brief', balanced:'Balanced', detailed:'Detailed',
     custom:'Custom instruction (optional)', customPh:'e.g. keep answers short and practical',
     proT:'LifeVault Premium', proS:'More from your assistant for 30 days', b1:'Up to 300 messages a day instead of the free limit', b2:'Support LifeVault development',
-    buyBtn:(n)=>`Buy for ${n} ⭐`, voice:'Voice', photo:'Photo', reminder:'Remind me', reminderNone:'No reminder', reminder0:'At event time', reminder5:'5 minutes', reminder15:'15 minutes', reminder30:'30 minutes', reminder60:'1 hour', reminder1440:'1 day',
+    buyBtn:(n)=>`Buy for ${n} ⭐`, voice:'Voice', photo:'Photo / video', reminder:'Remind me', reminderNone:'No reminder', reminder0:'At event time', reminder5:'5 minutes', reminder15:'15 minutes', reminder30:'30 minutes', reminder60:'1 hour', reminder1440:'1 day',
     contact:'Contact me', active:'Premium active until', limitHit:'Your free daily limit is used up',
     thanks:'Thank you! Activating Premium…', paid:'Premium is active',
     memPh:'Remember something about me', memEmpty:'Memory is empty', memEmptyS:'Add a fact, or just chat: the assistant remembers important things by itself.', pin:'Pin',
@@ -804,6 +804,26 @@ async function shrinkImage(file, max) {
     return { mime: 'image/jpeg', data: c.toDataURL('image/jpeg', 0.82).split(',')[1] };
   } catch (e) { return { mime: file.type || 'image/jpeg', data: await readB64(file) }; }
 }
+// Видео: берём 4 кадра из разных мест ролика и склеиваем в одну картинку 2×2 — её обрабатывает тот же media.process, что и фото.
+async function videoSheet(file) {
+  const url = URL.createObjectURL(file);
+  const v = document.createElement('video');
+  v.muted = true; v.playsInline = true; v.preload = 'auto'; v.src = url;
+  const wait = (ev, ms) => new Promise((res, rej) => { const to = setTimeout(() => rej(new Error('video_timeout')), ms); v.addEventListener(ev, () => { clearTimeout(to); res(); }, { once: true }); v.addEventListener('error', () => { clearTimeout(to); rej(new Error('video_error')); }, { once: true }); });
+  try {
+    await wait('loadeddata', 15000);
+    const dur = isFinite(v.duration) && v.duration > 0 ? v.duration : 1;
+    const W = 640, H = Math.round(W * ((v.videoHeight || 9) / (v.videoWidth || 16)));
+    const c = document.createElement('canvas'); c.width = W * 2; c.height = H * 2;
+    const x = c.getContext('2d'); x.fillStyle = '#000'; x.fillRect(0, 0, c.width, c.height);
+    const marks = [0.05, 0.35, 0.65, 0.92];
+    for (let i = 0; i < marks.length; i++) {
+      const seeked = wait('seeked', 8000); v.currentTime = Math.min(dur - 0.05, dur * marks[i]); if (dur > 0.2) await seeked.catch(() => {});
+      x.drawImage(v, (i % 2) * W, Math.floor(i / 2) * H, W, H);
+    }
+    return { mime: 'image/jpeg', data: c.toDataURL('image/jpeg', 0.8).split(',')[1] };
+  } finally { URL.revokeObjectURL(url); v.removeAttribute('src'); v.load(); }
+}
 function applyMedia(r, failKey) {
   if (r && r.title) {
     openEntry(null, null, { kind: 'event', title: String(r.title), details: r.details || '', due_date: r.due_date || todayStr(), due_time: r.due_time || '', reminder_minutes: r.reminder_minutes == null ? null : Number(r.reminder_minutes) });
@@ -841,7 +861,7 @@ $('photoInput').onchange = async () => {
   const f = $('photoInput').files && $('photoInput').files[0]; $('photoInput').value = ''; if (!f) return;
   toast(t('recognizing'));
   try {
-    const img = await shrinkImage(f, 1280);
+    const img = (f.type || '').startsWith('video/') ? await videoSheet(f) : await shrinkImage(f, 1280);
     applyMedia(await api('media.process', { kind: 'photo', mime: img.mime, data: img.data }, 60000), 'photoFail');
   } catch (e) { toast(errText(e)); }
 };
