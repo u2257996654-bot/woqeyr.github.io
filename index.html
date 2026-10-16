@@ -10,10 +10,10 @@
 /* LifeVault UI — графит, индиго и латунь. Мотив: деления сейфовского циферблата (как на экране загрузки). */
 :root{
  --bg:#f3f4f9;--card:#ffffff;--card2:#f7f8fd;--text:#10121b;--muted:#6b7288;--line:#e2e5ef;
- --acc:#5b4ef0;--acc2:#7d6fff;--acct:#4a3fd8;--on:#fff;--soft:#eeecff;
+ --acc:#5b4ef0;--acc2:#7d6fff;--on:#fff;--acct:color-mix(in srgb,var(--acc) 82%,#000);--soft:color-mix(in srgb,var(--acc) 11%,var(--card));
  --brass:#9a6410;--ok:#1f9d68;--danger:#d93f4d;
- --grad:linear-gradient(135deg,#5b4ef0,#7d6fff);
- --glow:rgba(91,78,240,.16);
+ --grad:linear-gradient(135deg,var(--acc),var(--acc2));
+ --glow:color-mix(in srgb,var(--acc) 18%,transparent);
  --tick:rgba(107,114,136,.45);--tick2:rgba(107,114,136,.7);
  --shadow:0 10px 30px -14px rgba(30,30,80,.22);
  --safe:env(safe-area-inset-bottom,0px);
@@ -21,12 +21,23 @@
 }
 [data-theme=dark]{
  --bg:#090b11;--card:#12151e;--card2:#171b27;--text:#eef0f7;--muted:#8a92a8;--line:#222737;
- --acct:#a99fff;--soft:#1c1b37;
+ --acct:color-mix(in srgb,var(--acc2) 72%,#fff);--soft:color-mix(in srgb,var(--acc) 16%,var(--card));
  --brass:#e8b765;--ok:#3ccf91;--danger:#ff6b78;
- --glow:rgba(108,94,255,.22);
+ --glow:color-mix(in srgb,var(--acc) 26%,transparent);
  --tick:rgba(138,146,168,.38);--tick2:rgba(138,146,168,.62);
  --shadow:0 14px 34px -16px rgba(0,0,0,.7);
 }
+/* акценты и размер текста (Настройки → Оформление) */
+[data-accent=emerald]{--acc:#0e9f6e;--acc2:#34d399}
+[data-accent=sky]{--acc:#0a7fc4;--acc2:#38bdf8}
+[data-accent=rose]{--acc:#e11d63;--acc2:#fb7185}
+[data-accent=amber]{--acc:#d97706;--acc2:#fbbf24}
+[data-accent=violet]{--acc:#8b3fe0;--acc2:#c084fc}
+[data-accent=graphite]{--acc:#3b4252;--acc2:#7a8499}
+[data-size=l] body{font-size:17px}[data-size=l] .dd{font-size:14.5px}[data-size=l] .meta{font-size:13px}[data-size=l] .sec{font-size:13.5px}
+.sw{display:flex;gap:10px;flex-wrap:wrap}
+.sw button{width:38px;height:38px;border-radius:50%;border:2px solid transparent;background-clip:padding-box;box-shadow:0 0 0 2px var(--line);transition:transform .12s,box-shadow .15s}
+.sw button.on{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--text);transform:scale(1.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;color:var(--text);font:15px/1.5 var(--font);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow:hidden}
 body{background:radial-gradient(560px 280px at 50% -90px,var(--glow),transparent 72%),var(--bg)}
@@ -323,13 +334,13 @@ const T = {
     hubProv:'Провайдеры', hubModelsT:'Доступные модели', hubFbT:'Запасная цепочка', hubNoFb:'Запасных моделей нет', hubNoKey:'Ключ не настроен', hubSave:'Сохранить выбор', hubCfg:'Настройки AI', hubSaved:'Выбор сохранён', hubModels:'моделей', hubHero:'Модели, провайдеры и автоматический выбор — в одном месте.', hubOpen:'Открыть AI HUB', hubNoModels:'Нет активных моделей', hubNoModelsS:'Добавьте хотя бы один API-ключ в Supabase Secrets.', s2:'Запланируй на завтра в 10:00 созвон', s3:'Перенеси просроченное на сегодня',
     chatT:'Чем помочь?', chatS:'Я вижу ваш ежедневник и могу добавлять, переносить и отмечать дела. Можно записать голос или сфотографировать расписание.',
     copy:'Копировать', copied:'Скопировано', retry:'Повторить', close:'Закрыть',
-    errAi:'Не удалось получить ответ от AI. Попробуй ещё раз через несколько секунд.', errRate:'Слишком много запросов. Подожди минуту.',
+    errAiQuota:'Лимит ИИ на сейчас исчерпан — попробуй через минуту', errAiKey:'Ключ ИИ не принят — проверь GEMINI_API_KEY в Supabase', errAiNoKey:'ИИ не настроен — добавь GEMINI_API_KEY в секреты Supabase', errAi:'Не удалось получить ответ от AI. Попробуй ещё раз через несколько секунд.', errRate:'Слишком много запросов. Подожди минуту.',
     errNet:'Нет соединения. Проверь интернет и попробуй снова.', errAuth:'Откройте приложение через Telegram.', errGen:'Что-то пошло не так. Попробуй ещё раз.', errDb:'База данных не готова: выполните SQL-файл в Supabase.',
     invalidPromo:'Неверный промокод.', promoReady:'Промокод активирован! Premium включён навсегда ⭐', promoNotReady:'Промокод пока недоступен: сначала выполни SQL-файл.', promoPlaceholder:'Промокод', promoBtn:'Активировать', forever:'Premium навсегда',
     errTimeout:'Сервер долго не отвечает. Попробуй ещё раз.',
     diag:'Откройте ссылку ниже в браузере: там написано, что именно не настроено. Если «NOT_FOUND» — функция api не создана; если 401 — выключите «Verify JWT».',
     openTg:'Откройте приложение через Telegram, чтобы войти.', loading:'Загрузка…',
-    used:'Сегодня', of:'из', buy:'Premium', settings:'Настройки', style:'Стиль ответов', brief:'Кратко', balanced:'Сбалансированно', detailed:'Подробно',
+    used:'Сегодня', of:'из', buy:'Premium', settings:'Настройки', ui:'Оформление', themeAuto:'Авто', themeLight:'Светлая', themeDark:'Тёмная', accent:'Цвет акцента', size:'Размер текста', sizeM:'Обычный', sizeL:'Крупный', style:'Стиль ответов', brief:'Кратко', balanced:'Сбалансированно', detailed:'Подробно',
     custom:'Своя инструкция (необязательно)', customPh:'Например: отвечай коротко и по делу',
     proT:'LifeVault Premium', proS:'Больше возможностей ассистента на 30 дней', b1:'До 300 сообщений в день вместо бесплатного лимита', b2:'Поддержка развития LifeVault',
     buyBtn:(n)=>`Купить за ${n} ⭐`, voice:'Голос', photo:'Фото / видео', reminder:'Напомнить за', reminderNone:'Без напоминания', reminder0:'В момент события', reminder5:'5 минут', reminder15:'15 минут', reminder30:'30 минут', reminder60:'1 час', reminder1440:'1 день',
@@ -351,13 +362,13 @@ const T = {
     hubProv:'Providers', hubModelsT:'Available models', hubFbT:'Fallback chain', hubNoFb:'No fallback models', hubNoKey:'No key configured', hubSave:'Save choice', hubCfg:'AI settings', hubSaved:'Choice saved', hubModels:'models', hubHero:'Models, providers and automatic selection in one place.', hubOpen:'Open AI HUB', hubNoModels:'No active models', hubNoModelsS:'Add at least one API key in Supabase Secrets.', s2:'Schedule a call tomorrow at 10:00', s3:'Move overdue items to today',
     chatT:'How can I help?', chatS:'I can see your planner and add, move and complete items. You can record a voice note or photograph a schedule.',
     copy:'Copy', copied:'Copied', retry:'Retry', close:'Close',
-    errAi:'Could not get a response from the AI. Please try again in a few seconds.', errRate:'Too many requests. Wait a minute.',
+    errAiQuota:'AI limit reached — try again in a minute', errAiKey:'AI key rejected — check GEMINI_API_KEY in Supabase', errAiNoKey:'AI is not configured — add GEMINI_API_KEY to Supabase secrets', errAi:'Could not get a response from the AI. Please try again in a few seconds.', errRate:'Too many requests. Wait a minute.',
     errNet:'No connection. Check your internet and try again.', errAuth:'Please open the app from Telegram.', errGen:'Something went wrong. Please try again.', errDb:'Database is not ready: run the SQL file in Supabase.',
     invalidPromo:'Invalid promo code.', promoReady:'Promo activated! Premium is permanent ⭐', promoNotReady:'Promo is unavailable: run the SQL file first.', promoPlaceholder:'Promo code', promoBtn:'Activate', forever:'Premium forever',
     errTimeout:'Server response timeout. Try again.',
     diag:'Open the link below in a browser: it shows what is not configured. NOT_FOUND = function api is not created; 401 = turn off Verify JWT.',
     openTg:'Open the app from Telegram to sign in.', loading:'Loading…',
-    used:'Today', of:'of', buy:'Premium', settings:'Settings', style:'Answer style', brief:'Brief', balanced:'Balanced', detailed:'Detailed',
+    used:'Today', of:'of', buy:'Premium', settings:'Settings', ui:'Appearance', themeAuto:'Auto', themeLight:'Light', themeDark:'Dark', accent:'Accent color', size:'Text size', sizeM:'Normal', sizeL:'Large', style:'Answer style', brief:'Brief', balanced:'Balanced', detailed:'Detailed',
     custom:'Custom instruction (optional)', customPh:'e.g. keep answers short and practical',
     proT:'LifeVault Premium', proS:'More from your assistant for 30 days', b1:'Up to 300 messages a day instead of the free limit', b2:'Support LifeVault development',
     buyBtn:(n)=>`Buy for ${n} ⭐`, voice:'Voice', photo:'Photo / video', reminder:'Remind me', reminderNone:'No reminder', reminder0:'At event time', reminder5:'5 minutes', reminder15:'15 minutes', reminder30:'30 minutes', reminder60:'1 hour', reminder1440:'1 day',
@@ -382,7 +393,15 @@ const fmtDate = (s) => new Date(s + 'T12:00:00').toLocaleDateString(LOC, { weekd
 let toastTimer;
 function toast(m) { const el = $('toast'); el.textContent = m; el.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 2400); }
 function haptic(k) { try { tg.HapticFeedback.notificationOccurred(k || 'success'); } catch (e) {} }
-function applyTheme() { document.documentElement.dataset.theme = (tg && tg.colorScheme) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+var UI = (function () { try { return JSON.parse(localStorage.getItem('lv_ui') || '{}') || {}; } catch (e) { return {}; } })();
+function saveUI() { try { localStorage.setItem('lv_ui', JSON.stringify(UI)); } catch (e) {} }
+function applyTheme() {
+  const d = document.documentElement;
+  const auto = (tg && tg.colorScheme) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  d.dataset.theme = UI.theme === 'light' || UI.theme === 'dark' ? UI.theme : auto;
+  d.dataset.accent = UI.accent || 'indigo';
+  d.dataset.size = UI.size || 'm';
+}
 function paintChrome() { try { const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim(); if (tg && /^#/.test(bg)) { tg.setHeaderColor(bg); tg.setBackgroundColor(bg); } } catch (e) {} }
 applyTheme(); paintChrome(); if (tg && tg.onEvent) tg.onEvent('themeChanged', () => { applyTheme(); paintChrome(); });
 try { tg.disableVerticalSwipes(); } catch (e) {}
@@ -422,6 +441,9 @@ function errText(e) {
   if (c === 'unauthorized') return t('errAuth');
   if (c === 'rate_limited') return t('errRate');
   if (c === 'ai_unavailable') return t('errAi');
+  if (c === 'ai_quota') return t('errAiQuota');
+  if (c === 'ai_key') return t('errAiKey');
+  if (c === 'ai_nokey') return t('errAiNoKey');
   return t('errGen') + (c && c !== 'server_error' ? ' (' + c + ')' : '');
 }
 
@@ -702,8 +724,13 @@ async function openSettings() {
   $('shSet').innerHTML = '<h3>' + t('settings') + '</h3><div class="hero"><h4>AI HUB</h4><p>' + t('hubHero') + '</p></div><button class="btn pri" id="openHub" style="max-width:none">' + t('hubOpen') + '</button><label class="f">' + t('style') + '</label><div class="seg" id="styleSeg">' +
     ['brief', 'balanced', 'detailed'].map((k) => '<button data-k="' + k + '" class="' + (style === k ? 'on' : '') + '">' + t(k) + '</button>').join('') + '</div>' +
     '<label class="f" for="custom">' + t('custom') + '</label><textarea id="custom" class="inp" rows="3" maxlength="500" placeholder="' + esc(t('customPh')) + '">' + esc(s.custom_instruction || '') + '</textarea>' +
+    '<label class="f">' + t('ui') + '</label><div class="seg" id="thSeg">' + [['auto', 'themeAuto'], ['light', 'themeLight'], ['dark', 'themeDark']].map((x) => '<button data-k="' + x[0] + '" class="' + ((UI.theme || 'auto') === x[0] ? 'on' : '') + '">' + t(x[1]) + '</button>').join('') + '</div>' +
+    '<label class="f">' + t('accent') + '</label><div class="sw" id="swRow">' + [['indigo', '#5b4ef0,#7d6fff'], ['violet', '#8b3fe0,#c084fc'], ['sky', '#0a7fc4,#38bdf8'], ['emerald', '#0e9f6e,#34d399'], ['amber', '#d97706,#fbbf24'], ['rose', '#e11d63,#fb7185'], ['graphite', '#3b4252,#7a8499']].map((x) => '<button data-a="' + x[0] + '" aria-label="' + x[0] + '" class="' + ((UI.accent || 'indigo') === x[0] ? 'on' : '') + '" style="background:linear-gradient(135deg,' + x[1] + ')"></button>').join('') + '</div>' +
+    '<label class="f">' + t('size') + '</label><div class="seg" id="szSeg"><button data-k="m" class="' + ((UI.size || 'm') === 'm' ? 'on' : '') + '">' + t('sizeM') + '</button><button data-k="l" class="' + (UI.size === 'l' ? 'on' : '') + '">' + t('sizeL') + '</button></div>' +
     '<button class="btn pri" id="setSave">' + t('save') + '</button>' + (hs === 'missed' || hs === 'unknown' ? '<button class="btn sec2" id="setHome">' + t('homeBtn') + '</button>' : '') + '<button class="btn sec2" id="setPro">' + t('proT') + '</button>';
   $('styleSeg').querySelectorAll('button').forEach((b) => (b.onclick = () => { style = b.dataset.k; $('styleSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
+  const bindUI = (id, attr, key) => $(id).querySelectorAll('button').forEach((b) => (b.onclick = () => { UI[key] = b.dataset[attr]; saveUI(); applyTheme(); $(id).querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
+  bindUI('thSeg', 'k', 'theme'); bindUI('swRow', 'a', 'accent'); bindUI('szSeg', 'k', 'size');
   $('openHub').onclick = openAiHub;
   $('setSave').onclick = async () => { try { await api('ai.settings.save', { style, custom_instruction: $('custom').value, model: S.settings.model || 'auto' }); S.settings = { ...S.settings, style, custom_instruction: $('custom').value }; toast(t('saved')); closeLayers(); } catch (e) { toast(errText(e)); } };
   $('setPro').onclick = () => openPro();
