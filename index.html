@@ -1028,13 +1028,15 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
   css.textContent = '.ce{display:inline-block;width:1.2em;height:1.2em;vertical-align:-.22em;line-height:1}.ce video,.ce img,.ce svg{width:100%;height:100%;display:block;object-fit:contain;pointer-events:none}';
   document.head.appendChild(css);
   const norm = (e) => e.replace(/\uFE0F/g, '');
-  // значок интерфейса → какие эмодзи набора годятся (по порядку)
-  const WANT = { '🎙': ['🎙', '🎤', '🎧'], '📷': ['📷', '📸'], '✨': ['✨', '🌟', '💫'], '🔔': ['🔔', '⏰'], '⭐': ['⭐', '🌟'], '📲': ['📲', '📱'], '⚙': ['⚙', '🔧'], '☀': ['☀', '🌞', '🌸'] };
-  const SKIP = 'textarea,input,select,option,script,style,.m,.dd,.ce';
-  const MAX = 24; let live = 0, map = null, re = null, lottieP = null;
+  // символы интерфейса, у которых нет своего эмодзи → какие эмодзи набора им подходят (по порядку)
+  const ALIAS = { '✦': ['✨', '🌟', '💫'], '❖': ['🧠', '💡'], '✎': ['📝', '✏'], '◷': ['⏰', '🕐'], '☰': ['📋', '📖'], '📲': ['📲', '📱'], '🎙': ['🎙', '🎤', '🎧'], '📷': ['📷', '📸'], '✨': ['✨', '🌟', '💫'], '🔔': ['🔔', '⏰'], '⭐': ['⭐', '🌟'], '⚙': ['⚙', '🔧'], '☀': ['☀', '🌞', '🌸'] };
+  const SKIP = 'textarea,input,select,option,script,style,.ce,.pin';
+  const MAX = 40; let live = 0, map = null, re = null, lottieP = null, pool = [];
   const fileUrl = (id) => API_URL + '?emoji=' + id;
   function loadLottie() { return lottieP || (lottieP = new Promise((ok, no) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js'; s.onload = () => ok(window.lottie); s.onerror = no; document.head.appendChild(s); })); }
   async function tgsJson(url) { const r = await fetch(url); if (!r.ok) throw 0; const st = r.body.pipeThrough(new DecompressionStream('gzip')); return JSON.parse(await new Response(st).text()); }
+  // нет подходящего эмодзи в наборах — берём любой из них (один и тот же символ всегда даёт один и тот же значок)
+  function pick(ch) { if (!pool.length) return null; let h = 7; for (const c of norm(ch)) h = (h * 31 + c.codePointAt(0)) >>> 0; return pool[h % pool.length]; }
   function build(ch, it) {
     const sp = document.createElement('span'); sp.className = 'ce'; sp.setAttribute('role', 'img'); sp.setAttribute('aria-label', ch); sp.dataset.e = ch;
     const url = fileUrl(it.id), back = () => { sp.replaceWith(document.createTextNode(ch)); live--; };
@@ -1049,10 +1051,10 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
     const nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
     for (const n of nodes) {
       const parts = n.nodeValue.split(re), frag = document.createDocumentFragment();
-      for (const p of parts) {
-        const it = map[norm(p)];
+      parts.forEach((p, i) => {
+        const it = i % 2 ? (map[norm(p)] || pick(p)) : null;
         if (it && live < MAX) { live++; frag.appendChild(build(p, it)); } else if (p) frag.appendChild(document.createTextNode(p));
-      }
+      });
       n.replaceWith(frag);
     }
   }
@@ -1062,10 +1064,10 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
       if (!(window.Telegram && Telegram.WebApp && Telegram.WebApp.initData)) return;
       const d = await api('emoji.set', {}, 12000), have = d.items || [];
       if (!have.length) return;
-      map = {};
-      for (const [ch, list] of Object.entries(WANT)) for (const w of list) { const it = have.find((x) => norm(x.emoji) === norm(w)); if (it) { map[ch] = it; break; } }
-      const keys = Object.keys(map); if (!keys.length) return;
-      re = new RegExp('(' + keys.map((k) => k + '\\uFE0F?').join('|') + ')', 'u');
+      pool = have; map = Object.create(null);
+      for (const it of have) { const k = norm(it.emoji); if (k && !map[k]) map[k] = it; }   // набор раньше в списке — важнее
+      for (const [ch, list] of Object.entries(ALIAS)) { if (map[norm(ch)]) continue; for (const w of list) { const it = map[norm(w)]; if (it) { map[norm(ch)] = it; break; } } }
+      re = /(\p{Extended_Pictographic}\uFE0F?|[✦❖✎◷☰])/u;
       walk(document.body);
       new MutationObserver(later).observe(document.body, { childList: true, subtree: true, characterData: true });
     } catch (e) { /* эмодзи — украшение, без них всё работает */ }
