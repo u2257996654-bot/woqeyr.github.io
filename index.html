@@ -644,60 +644,6 @@ button:focus-visible,.btn:focus-visible,.chip:focus-visible{outline:2px solid va
 @media(prefers-reduced-motion:reduce){.view.on,.m{animation:none!important}button,.btn,.chip,.ai-action,.hub-model,.hub-provider,.nav button,.ib,.fab,.send{transition:none!important}}
 </style>
 
-
-
-
-<style id="lifevault-welcome-redesign">
-/* LifeVault welcome: quiet, warm, focused — no sci-fi dashboard */
-#lvBoot{
-  --welcome-ink:#f8f7ff; --welcome-muted:#aaa7bf; --welcome-accent:#b8a9ff;
-  background:radial-gradient(ellipse at 50% 39%,rgba(108,91,177,.19) 0%,rgba(40,36,66,.13) 30%,transparent 58%),#151520!important;
-  color:var(--welcome-ink)!important;padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));
-  display:flex!important;align-items:center;justify-content:center;
-}
-#lvBoot:after{display:none!important}
-#lvBoot .dr{display:none!important}
-#lvBoot .boot-grid,#lvBoot .boot-noise,#lvBoot .boot-orbit,#lvBoot .boot-spark{display:none!important}
-#lvBoot .boot-top,#lvBoot .boot-footer{display:none!important}
-#lvBoot .boot-center{position:relative;width:min(100%,320px);margin:0;display:flex;flex-direction:column;align-items:center;text-align:center;animation:welcomeIn .65s cubic-bezier(.2,.7,.2,1) both}
-#lvBoot .boot-core-wrap{position:relative;width:82px;height:82px;aspect-ratio:1;margin:0 0 28px;display:grid;place-items:center}
-#lvBoot .lvv{display:none!important}
-#lvBoot .boot-core-halo{inset:-13px;border-radius:50%;background:radial-gradient(circle,rgba(159,139,255,.17),rgba(159,139,255,.045) 58%,transparent 72%);filter:none;animation:welcomeBreath 4.2s ease-in-out infinite}
-#lvBoot .boot-core-ring{border:1px solid rgba(188,174,255,.2);border-radius:50%;inset:0;animation:welcomeRing 12s linear infinite!important}
-#lvBoot .ring-one{inset:0!important;border-color:rgba(188,174,255,.24)!important;border-right-color:rgba(188,174,255,.68)!important}
-#lvBoot .ring-two{inset:8px!important;border-color:rgba(188,174,255,.1)!important;animation:welcomeRing 18s linear infinite reverse!important}
-#lvBoot .ring-three{display:none!important}
-#lvBoot .boot-core{position:relative;inset:auto;width:43px;height:43px;border-radius:15px;background:linear-gradient(145deg,#c9beff,#8d7be1);box-shadow:0 8px 25px rgba(112,91,201,.22),inset 0 1px 0 rgba(255,255,255,.65);animation:welcomeFloat 4.5s ease-in-out infinite}
-#lvBoot .core-glyph{font-size:24px;font-weight:500;color:#fff;line-height:1}
-#lvBoot .core-pulse{display:none!important}
-#lvBoot .lvn{position:static;left:auto;right:auto;bottom:auto;width:100%;margin:0 0 30px;text-align:center;transition:opacity .3s,transform .35s}
-#lvBoot .lvn b{display:block;font-size:34px;line-height:1.1;font-weight:650;letter-spacing:-.065em;color:#faf9ff}
-#lvBoot .boot-period{color:#b8a9ff}
-#lvBoot .boot-subtitle{margin-top:11px;font-size:12px;line-height:1.5;letter-spacing:0;text-transform:none;font-weight:400;color:#aaa7bf}
-#lvBoot .boot-status{min-height:18px;margin-top:22px!important;font-size:12px!important;line-height:1.5;color:#d0ccdf!important;letter-spacing:0!important;font-weight:450!important;animation:welcomeText .35s ease both}
-#lvBoot .boot-progress{width:100%;max-width:228px;margin:0 0 19px}
-#lvBoot .boot-progress-meta{margin-bottom:9px;font-size:9px;letter-spacing:.04em;font-weight:500;color:#8f8ba5}
-#lvBoot .boot-progress-meta b{font-size:10px;color:#c5b9ff;font-weight:600}
-#lvBoot .boot-progress-track{height:3px;border-radius:99px;background:rgba(255,255,255,.09)}
-#lvBoot .boot-progress-track i{border-radius:99px;background:linear-gradient(90deg,#9381e8,#c6b9ff);box-shadow:0 0 9px rgba(167,151,255,.22);transition:width .22s linear}
-#lvBoot .boot-progress-track span{display:none!important}
-#lvBoot .boot-tip{display:block;width:auto;max-width:260px;min-height:0;margin:0;padding:0;border:0;background:none;box-shadow:none;text-align:center;backdrop-filter:none}
-#lvBoot .tip-icon,#lvBoot .tip-index,#lvBoot .boot-tip small{display:none!important}
-#lvBoot .boot-tip p{margin:0;font-size:11px;line-height:1.65;font-weight:400;color:#8f8ba5}
-#lvBoot .boot-skip{position:static;left:auto;bottom:auto;transform:none;margin-top:32px;padding:8px 12px;border:0;background:transparent;color:#8f8ba5;font-size:11px;font-weight:500;letter-spacing:0;opacity:.82}
-#lvBoot .boot-skip span{color:#b8a9ff;margin-left:5px}
-#lvBoot .boot-skip:hover{color:#e3defb}
-#lvBoot .boot-skip:active{transform:scale(.97);background:transparent}
-#lvBoot.lv-hidden{visibility:hidden;opacity:0;transition:opacity .42s ease,visibility 0s .42s}
-#lvBoot.lv-hidden .boot-center{opacity:0;transform:translateY(-5px);transition:opacity .28s ease,transform .28s ease}
-@keyframes welcomeIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
-@keyframes welcomeBreath{0%,100%{transform:scale(.94);opacity:.7}50%{transform:scale(1.06);opacity:1}}
-@keyframes welcomeRing{to{transform:rotate(360deg)}}
-@keyframes welcomeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-@keyframes welcomeText{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
-@media(max-height:650px){#lvBoot .boot-core-wrap{width:66px;height:66px;margin-bottom:19px}#lvBoot .boot-core{width:36px;height:36px;border-radius:13px}#lvBoot .lvn{margin-bottom:23px}#lvBoot .lvn b{font-size:29px}#lvBoot .boot-status{margin-top:15px!important}#lvBoot .boot-skip{margin-top:20px}}
-@media(prefers-reduced-motion:reduce){#lvBoot .boot-center,#lvBoot .boot-core,#lvBoot .boot-core-halo,#lvBoot .boot-core-ring{animation:none!important}#lvBoot.lv-hidden{transition:none}#lvBoot.lv-hidden .boot-center{transition:none}}
-</style>
 </head>
 <body>
 <div id="lvBoot" aria-label="Загрузка LifeVault">
@@ -711,11 +657,11 @@ button:focus-visible,.btn:focus-visible,.chip:focus-visible{outline:2px solid va
       <div class="boot-core"><span class="core-glyph">⌑</span><span class="core-pulse"></span></div>
       <span class="boot-spark spark-one"></span><span class="boot-spark spark-two"></span><span class="boot-spark spark-three"></span><span class="boot-spark spark-four"></span>
     </div>
-    <div class="lvn"><b>LifeVault<span class="boot-period">.</span></b><span class="boot-subtitle">Твои планы, мысли и напоминания — в одном месте.</span><span id="lvBootStatus" class="boot-status">Рады видеть тебя</span></div>
+    <div class="lvn"><b>LifeVault<span class="boot-period">.</span></b><span class="boot-subtitle">ТВОЯ ЖИЗНЬ. В ОДНОМ МЕСТЕ.</span><span id="lvBootStatus" class="boot-status">Открываю сейф</span></div>
     <div class="boot-progress"><div class="boot-progress-meta"><span id="lvBootTask">ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ</span><b id="lvBootPercent">00%</b></div><div class="boot-progress-track"><i id="lvBootBar"></i><span></span></div></div>
     <div class="boot-tip"><span class="tip-icon">✳</span><div><small>МАЛЕНЬКАЯ ПОДСКАЗКА</small><p id="lvBootTip">Записывай мысли сразу — AI поможет превратить их в план.</p></div><span class="tip-index" id="lvBootTipIndex">01 / 04</span></div>
   </div>
-  <button class="boot-skip" id="lvBootSkip" type="button">Перейти к приложению <span>→</span></button>
+  <button class="boot-skip" id="lvBootSkip" type="button">Пропустить анимацию <span>↗</span></button>
   <div class="boot-footer"><span>PRIVATE BY DESIGN</span><span>ENCRYPTED WORKSPACE <i></i></span></div>
 </div>
 
@@ -1388,8 +1334,8 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 (() => {
   const boot = document.getElementById('lvBoot'); if (!boot) return;
   const ru = L !== 'en', NS = 'http://www.w3.org/2000/svg', svg = boot.querySelector('svg'), ticks = [];
-  const LABELS = ru ? ['Рады видеть тебя', 'Собираю твой день', 'Готовлю AI-помощника', 'Ещё мгновение', 'Добро пожаловать'] : ['Connecting your private space', 'Syncing your day', 'Preparing your AI assistant', 'Almost ready', 'Ready'];
-  const TASKS = ru ? ['ТВОЁ ПРОСТРАНСТВО', 'ТВОИ ЗАПИСИ', 'ТВОЙ AI-ПОМОЩНИК', 'ПОЧТИ ГОТОВО', 'МОЖНО НАЧИНАТЬ'] : ['STARTING LIFEVAULT', 'CONNECTING TO DATA', 'SYNCING YOUR PLANS', 'PREPARING AI', 'ALL SYSTEMS READY'];
+  const LABELS = ru ? ['Подключаю защищённое пространство', 'Синхронизирую ваш день', 'Подготавливаю AI-помощника', 'Почти готово', 'Готово'] : ['Connecting your private space', 'Syncing your day', 'Preparing your AI assistant', 'Almost ready', 'Ready'];
+  const TASKS = ru ? ['ЗАПУСК LIFEVAULT', 'ПОДКЛЮЧЕНИЕ К ДАННЫМ', 'СИНХРОНИЗАЦИЯ ПЛАНОВ', 'ПОДГОТОВКА AI', 'ВСЁ ГОТОВО'] : ['STARTING LIFEVAULT', 'CONNECTING TO DATA', 'SYNCING YOUR PLANS', 'PREPARING AI', 'ALL SYSTEMS READY'];
   const TIPS = ru ? [
     'Записывай мысли сразу — AI поможет превратить их в план.',
     'Напиши «напомни завтра в 10:00» — LifeVault поймёт время.',
