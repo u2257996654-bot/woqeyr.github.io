@@ -447,6 +447,112 @@ nav button.on span{transform:translateY(-3px) scale(1.22)}
 .lvConf{position:fixed;z-index:99999;width:8px;height:8px;border-radius:2px;pointer-events:none}
 }
 </style>
+
+<style id="lifevault-cinematic-upgrade">
+/* LifeVault — cinematic polish: depth, ambient light, tactile controls, and restrained motion */
+:root{
+  --lv-ease:cubic-bezier(.2,.8,.2,1);
+  --lv-spring:cubic-bezier(.2,1.35,.4,1);
+}
+body{
+  background:
+    radial-gradient(ellipse at 12% 8%,color-mix(in srgb,var(--acc) 11%,transparent),transparent 38%),
+    radial-gradient(ellipse at 92% 72%,color-mix(in srgb,var(--acc2) 8%,transparent),transparent 34%),
+    var(--bg);
+}
+#app{isolation:isolate}
+header{isolation:isolate}
+header h1{
+  background:linear-gradient(115deg,var(--text) 5%,var(--acct) 72%,var(--acc2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.ib,.quick input,.composer textarea,.inp,.card,.chip,.hub-provider,.hub-model,.hub-auto{
+  transition:background .24s var(--lv-ease),border-color .24s var(--lv-ease),
+  box-shadow .28s var(--lv-ease),transform .28s var(--lv-spring);
+}
+.ib{box-shadow:0 2px 0 color-mix(in srgb,var(--text) 3%,transparent),0 7px 20px -16px var(--text)}
+.ib:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--acc) 45%,var(--line));color:var(--acct)}
+.card{position:relative;isolation:isolate}
+.card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
+  background:linear-gradient(120deg,color-mix(in srgb,var(--acc) 5%,transparent),transparent 48%);
+  transition:opacity .3s;
+}
+.card:hover::after{opacity:1}
+.row{transition:background .2s,transform .25s var(--lv-spring)}
+.row:active{transform:scale(.992)}
+.quick input,.composer textarea,.inp{
+  box-shadow:inset 0 1px 2px color-mix(in srgb,var(--text) 3%,transparent);
+}
+.quick input:focus,.composer textarea:focus,.inp:focus{
+  box-shadow:0 0 0 4px var(--glow),0 8px 24px -18px var(--acc);
+}
+.quick button,.send,.fab,.btn.pri{
+  position:relative;isolation:isolate;overflow:hidden;
+  background-image:linear-gradient(135deg,var(--acc),var(--acc2) 70%,color-mix(in srgb,var(--acc2) 72%,white));
+}
+.quick button::after,.send::after,.fab::after,.btn.pri::after{
+  content:"";position:absolute;inset:-80% -40%;
+  background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.25) 48%,transparent 58%);
+  transform:translateX(-75%) rotate(8deg);transition:transform .65s var(--lv-ease);pointer-events:none;
+}
+.quick button:hover::after,.send:hover::after,.fab:hover::after,.btn.pri:hover::after{transform:translateX(75%) rotate(8deg)}
+.quick button:hover,.send:hover,.fab:hover,.btn.pri:hover{filter:saturate(1.12) brightness(1.04)}
+.quick button:active,.send:active,.fab:active,.btn.pri:active{filter:brightness(.97)}
+nav{
+  box-shadow:0 12px 35px -24px var(--text),inset 0 1px 0 color-mix(in srgb,var(--text) 4%,transparent);
+}
+nav button{overflow:hidden}
+nav button.on{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 12%,transparent)}
+nav button.on::after{
+  content:"";position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;
+  background:var(--acc2);box-shadow:0 0 9px var(--acc2);animation:lvIndicator .35s var(--lv-spring) both;
+}
+@keyframes lvIndicator{from{transform:scale(0)}to{transform:scale(1)}}
+.m{transform-origin:var(--msg-origin,50% 100%)}
+.m.u{--msg-origin:100% 100%;box-shadow:0 8px 24px -18px var(--acc)}
+.m.a{box-shadow:0 6px 22px -20px var(--text)}
+.typing{padding:8px 2px}
+.typing i{box-shadow:0 0 10px color-mix(in srgb,var(--acc2) 30%,transparent)}
+.sheet,.drawer,.voice-rec{
+  box-shadow:0 25px 80px -35px rgba(0,0,0,.42);
+}
+.sheet.on{animation:lvSheetPolish .38s var(--lv-ease) both}
+@keyframes lvSheetPolish{from{opacity:.65;transform:translateY(24px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+.scrim.on{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.hub-auto:hover,.hub-model:hover,.hub-provider:hover,.chip:hover{
+  transform:translateY(-2px);border-color:color-mix(in srgb,var(--acc2) 58%,var(--line));
+}
+.hub-provider.on{box-shadow:0 0 0 1px color-mix(in srgb,var(--ok) 18%,transparent),0 8px 22px -20px var(--ok)}
+.lf .hero{box-shadow:0 18px 35px -25px var(--acc);background-image:linear-gradient(125deg,var(--acc),var(--acc2) 75%,color-mix(in srgb,var(--acc2) 75%,white))}
+.lf .bar i{position:relative;overflow:hidden}
+.lf .bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-100%);animation:lvBarShine 2.8s ease-in-out infinite}
+@keyframes lvBarShine{55%,100%{transform:translateX(120%)}}
+#toast{box-shadow:0 12px 36px -18px var(--text);backdrop-filter:blur(16px)}
+#lvBoot{background:var(--bgc)}
+#lvBoot::before{
+  content:"";position:absolute;width:min(88vw,520px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--ac) 12%,transparent),transparent 68%);
+  animation:lvBootAura 3.4s ease-in-out infinite;pointer-events:none;
+}
+@keyframes lvBootAura{0%,100%{transform:scale(.88);opacity:.55}50%{transform:scale(1.12);opacity:1}}
+.lvv{filter:drop-shadow(0 0 22px color-mix(in srgb,var(--ac) 10%,transparent))}
+.lvd b{text-shadow:0 8px 28px color-mix(in srgb,var(--ac) 14%,transparent)}
+.lvn b{letter-spacing:.1em;text-transform:uppercase}
+:focus-visible{outline-offset:4px;box-shadow:0 0 0 4px var(--glow)}
+@media(hover:none){.ib:hover,.hub-auto:hover,.hub-model:hover,.hub-provider:hover,.chip:hover{transform:none}}
+@media(max-width:430px){
+  header{padding-top:15px}
+  .scroll{padding-left:12px;padding-right:12px}
+  .m{max-width:94%}
+  .lf .card{padding:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  #lvBoot::before,.lf .bar i::after{animation:none!important}
+  .quick button::after,.send::after,.fab::after,.btn.pri::after{display:none}
+}
+</style>
+
 </head>
 <body>
 <div id="lvBoot" aria-hidden="true">
