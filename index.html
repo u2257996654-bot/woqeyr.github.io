@@ -645,62 +645,59 @@ button:focus-visible,.btn:focus-visible,.chip:focus-visible{outline:2px solid va
 </style>
 
 
-<style id="lifevault-welcome-refine">
-/* Calm, welcoming LifeVault start screen */
-#lvBoot{background:radial-gradient(ellipse at 50% 34%,#25243b 0%,#171827 38%,#11121d 76%,#10111a 100%)!important;color:#f7f5ff!important;--ac:#b7a9ff;--dim:#414055;--mut:#aaa8bf;padding:calc(26px + env(safe-area-inset-top,0px)) 24px calc(26px + env(safe-area-inset-bottom,0px));}
-#lvBoot:after{display:none!important}
-#lvBoot .boot-grid{opacity:.055;background-size:48px 48px;animation:none}
-#lvBoot .boot-noise{display:none!important}
-#lvBoot .boot-orbit{border-color:rgba(190,179,255,.07);width:min(94vw,510px)}
-#lvBoot .orbit-a{animation:orbitDrift 48s linear infinite}
-#lvBoot .orbit-b{display:none}
-#lvBoot .boot-top,#lvBoot .boot-footer{color:#8d8aa7;letter-spacing:.08em;font-size:9px}
-#lvBoot .boot-mark{font-size:10px;letter-spacing:.12em;color:#f5f1ff}
-#lvBoot .boot-mark small{color:#9c98b8}
-#lvBoot .boot-mark-dot{width:6px;height:6px;border-radius:50%;background:#b9adff;box-shadow:0 0 10px rgba(185,173,255,.45);transform:none}
-#lvBoot .boot-live{color:#a8d9c9;font-size:8px;letter-spacing:.04em}
-#lvBoot .boot-live i,#lvBoot .boot-footer i{box-shadow:0 0 7px rgba(108,226,183,.35);animation:bootLive 3s ease-in-out infinite}
-#lvBoot .boot-center{width:min(100%,340px);margin-top:-12px}
-#lvBoot .boot-core-wrap{width:min(57vw,205px);margin-bottom:23px}
-#lvBoot .boot-core-halo{inset:17%;background:radial-gradient(circle,rgba(167,151,255,.23),rgba(119,104,205,.06) 55%,transparent 76%);filter:blur(5px);animation:coreHalo 5s ease-in-out infinite}
-#lvBoot .boot-core-ring{border-color:rgba(190,179,255,.18)}
-#lvBoot .ring-one{border-left-color:transparent;border-right-color:rgba(190,179,255,.48);animation:orbitDrift 25s linear infinite}
-#lvBoot .ring-two{border-color:rgba(190,179,255,.13);animation:orbitDrift 36s linear infinite reverse}
-#lvBoot .ring-three{border-top-color:rgba(148,216,205,.42);border-bottom-color:rgba(148,216,205,.13);animation:orbitDrift 32s linear infinite}
-#lvBoot .lvv{width:88%;filter:drop-shadow(0 4px 18px rgba(167,151,255,.12))}
-#lvBoot .lvv line{stroke:rgba(196,191,224,.15);stroke-width:1.8}
-#lvBoot .lvv line.on{stroke:#b7a9ff;filter:none}
-#lvBoot .lvv line.lead{stroke:#a9dfd2;stroke-width:3;filter:drop-shadow(0 0 4px rgba(169,223,210,.35))}
-#lvBoot .lvd b{font-size:48px;font-weight:350;letter-spacing:-2px;text-shadow:none;color:#fbfaff}
-#lvBoot .lvd small{font-size:10px;color:#b0acc8;letter-spacing:.02em}
-#lvBoot .boot-core{width:30px;height:30px;border-radius:11px;background:linear-gradient(145deg,#d8d0ff,#9484e8 70%,#7766c8);box-shadow:0 0 0 6px rgba(185,169,255,.06),0 5px 20px rgba(130,111,224,.24),inset 0 1px rgba(255,255,255,.7);animation:coreFloat 5s ease-in-out infinite}
-#lvBoot .core-glyph{font-size:20px}
-#lvBoot .core-pulse{border-color:rgba(185,169,255,.35);animation:corePulse 3.4s ease-out infinite}
-#lvBoot .boot-spark{opacity:.5;box-shadow:0 0 7px 1px rgba(185,169,255,.25)}
-#lvBoot .lvn{margin-bottom:24px}
-#lvBoot .lvn b{font-size:30px;font-weight:650;letter-spacing:-.055em;color:#fbfaff}
-#lvBoot .boot-period{color:#b9adff}
-#lvBoot .boot-subtitle{font-size:9px;letter-spacing:.14em;color:#a6a1c3;margin-top:8px;font-weight:600}
-#lvBoot .boot-status{font-size:12px!important;color:#c6c1dd!important;margin-top:14px!important;letter-spacing:0!important;font-weight:450;animation:statusIn .5s ease both}
-#lvBoot .boot-progress{max-width:270px;margin-bottom:17px}
-#lvBoot .boot-progress-meta{font-size:8px;letter-spacing:.08em;color:#918daa;font-weight:600}
-#lvBoot .boot-progress-meta b{color:#c8bcff;font-size:10px}
-#lvBoot .boot-progress-track{height:3px;background:rgba(225,220,255,.11)}
-#lvBoot .boot-progress-track i{background:linear-gradient(90deg,#9382e8,#c3b6ff);box-shadow:0 0 8px rgba(167,151,255,.28)}
-#lvBoot .boot-progress-track span{display:none}
-#lvBoot .boot-tip{max-width:290px;min-height:54px;padding:10px 12px;gap:10px;border:1px solid rgba(213,205,255,.10);background:rgba(255,255,255,.035);border-radius:14px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-#lvBoot .tip-icon{width:29px;height:29px;border-radius:10px;background:rgba(183,169,255,.10);color:#c7bbff;font-size:14px}
-#lvBoot .boot-tip small{font-size:7px;letter-spacing:.12em;color:#9b96b8}
-#lvBoot .boot-tip p{font-size:10px;line-height:1.5;color:#d2cee3}
-#lvBoot .tip-index{color:#8883a3}
-#lvBoot .boot-skip{bottom:calc(42px + env(safe-area-inset-bottom,0px));border-color:rgba(218,211,255,.13);background:rgba(255,255,255,.045);color:#b6b1cc;font-size:11px;padding:10px 16px;transition:background .25s,border-color .25s,transform .25s}
-#lvBoot .boot-skip span{color:#c7bbff}
-#lvBoot .boot-skip:active{background:rgba(183,169,255,.12);transform:translateX(-50%) scale(.98)}
-#lvBoot .boot-footer{font-size:8px;letter-spacing:.07em;color:#77748e}
-@media(max-height:720px){#lvBoot .boot-core-wrap{width:min(43vh,170px);margin-bottom:14px}#lvBoot .lvn{margin-bottom:15px}#lvBoot .lvn b{font-size:27px}#lvBoot .boot-tip{padding:8px 10px;min-height:48px}#lvBoot .boot-skip{bottom:calc(37px + env(safe-area-inset-bottom,0px))}#lvBoot .boot-footer{display:none}}
-@media(prefers-reduced-motion:reduce){#lvBoot .boot-grid,#lvBoot .boot-orbit,#lvBoot .boot-core-halo,#lvBoot .boot-core-ring,#lvBoot .boot-core,#lvBoot .core-pulse,#lvBoot .boot-spark,#lvBoot .boot-live i{animation:none!important}}
-</style>
 
+
+<style id="lifevault-welcome-redesign">
+/* LifeVault welcome: quiet, warm, focused — no sci-fi dashboard */
+#lvBoot{
+  --welcome-ink:#f8f7ff; --welcome-muted:#aaa7bf; --welcome-accent:#b8a9ff;
+  background:radial-gradient(ellipse at 50% 39%,rgba(108,91,177,.19) 0%,rgba(40,36,66,.13) 30%,transparent 58%),#151520!important;
+  color:var(--welcome-ink)!important;padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));
+  display:flex!important;align-items:center;justify-content:center;
+}
+#lvBoot:after{display:none!important}
+#lvBoot .dr{display:none!important}
+#lvBoot .boot-grid,#lvBoot .boot-noise,#lvBoot .boot-orbit,#lvBoot .boot-spark{display:none!important}
+#lvBoot .boot-top,#lvBoot .boot-footer{display:none!important}
+#lvBoot .boot-center{position:relative;width:min(100%,320px);margin:0;display:flex;flex-direction:column;align-items:center;text-align:center;animation:welcomeIn .65s cubic-bezier(.2,.7,.2,1) both}
+#lvBoot .boot-core-wrap{position:relative;width:82px;height:82px;aspect-ratio:1;margin:0 0 28px;display:grid;place-items:center}
+#lvBoot .lvv{display:none!important}
+#lvBoot .boot-core-halo{inset:-13px;border-radius:50%;background:radial-gradient(circle,rgba(159,139,255,.17),rgba(159,139,255,.045) 58%,transparent 72%);filter:none;animation:welcomeBreath 4.2s ease-in-out infinite}
+#lvBoot .boot-core-ring{border:1px solid rgba(188,174,255,.2);border-radius:50%;inset:0;animation:welcomeRing 12s linear infinite!important}
+#lvBoot .ring-one{inset:0!important;border-color:rgba(188,174,255,.24)!important;border-right-color:rgba(188,174,255,.68)!important}
+#lvBoot .ring-two{inset:8px!important;border-color:rgba(188,174,255,.1)!important;animation:welcomeRing 18s linear infinite reverse!important}
+#lvBoot .ring-three{display:none!important}
+#lvBoot .boot-core{position:relative;inset:auto;width:43px;height:43px;border-radius:15px;background:linear-gradient(145deg,#c9beff,#8d7be1);box-shadow:0 8px 25px rgba(112,91,201,.22),inset 0 1px 0 rgba(255,255,255,.65);animation:welcomeFloat 4.5s ease-in-out infinite}
+#lvBoot .core-glyph{font-size:24px;font-weight:500;color:#fff;line-height:1}
+#lvBoot .core-pulse{display:none!important}
+#lvBoot .lvn{position:static;left:auto;right:auto;bottom:auto;width:100%;margin:0 0 30px;text-align:center;transition:opacity .3s,transform .35s}
+#lvBoot .lvn b{display:block;font-size:34px;line-height:1.1;font-weight:650;letter-spacing:-.065em;color:#faf9ff}
+#lvBoot .boot-period{color:#b8a9ff}
+#lvBoot .boot-subtitle{margin-top:11px;font-size:12px;line-height:1.5;letter-spacing:0;text-transform:none;font-weight:400;color:#aaa7bf}
+#lvBoot .boot-status{min-height:18px;margin-top:22px!important;font-size:12px!important;line-height:1.5;color:#d0ccdf!important;letter-spacing:0!important;font-weight:450!important;animation:welcomeText .35s ease both}
+#lvBoot .boot-progress{width:100%;max-width:228px;margin:0 0 19px}
+#lvBoot .boot-progress-meta{margin-bottom:9px;font-size:9px;letter-spacing:.04em;font-weight:500;color:#8f8ba5}
+#lvBoot .boot-progress-meta b{font-size:10px;color:#c5b9ff;font-weight:600}
+#lvBoot .boot-progress-track{height:3px;border-radius:99px;background:rgba(255,255,255,.09)}
+#lvBoot .boot-progress-track i{border-radius:99px;background:linear-gradient(90deg,#9381e8,#c6b9ff);box-shadow:0 0 9px rgba(167,151,255,.22);transition:width .22s linear}
+#lvBoot .boot-progress-track span{display:none!important}
+#lvBoot .boot-tip{display:block;width:auto;max-width:260px;min-height:0;margin:0;padding:0;border:0;background:none;box-shadow:none;text-align:center;backdrop-filter:none}
+#lvBoot .tip-icon,#lvBoot .tip-index,#lvBoot .boot-tip small{display:none!important}
+#lvBoot .boot-tip p{margin:0;font-size:11px;line-height:1.65;font-weight:400;color:#8f8ba5}
+#lvBoot .boot-skip{position:static;left:auto;bottom:auto;transform:none;margin-top:32px;padding:8px 12px;border:0;background:transparent;color:#8f8ba5;font-size:11px;font-weight:500;letter-spacing:0;opacity:.82}
+#lvBoot .boot-skip span{color:#b8a9ff;margin-left:5px}
+#lvBoot .boot-skip:hover{color:#e3defb}
+#lvBoot .boot-skip:active{transform:scale(.97);background:transparent}
+#lvBoot.lv-hidden{visibility:hidden;opacity:0;transition:opacity .42s ease,visibility 0s .42s}
+#lvBoot.lv-hidden .boot-center{opacity:0;transform:translateY(-5px);transition:opacity .28s ease,transform .28s ease}
+@keyframes welcomeIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes welcomeBreath{0%,100%{transform:scale(.94);opacity:.7}50%{transform:scale(1.06);opacity:1}}
+@keyframes welcomeRing{to{transform:rotate(360deg)}}
+@keyframes welcomeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes welcomeText{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@media(max-height:650px){#lvBoot .boot-core-wrap{width:66px;height:66px;margin-bottom:19px}#lvBoot .boot-core{width:36px;height:36px;border-radius:13px}#lvBoot .lvn{margin-bottom:23px}#lvBoot .lvn b{font-size:29px}#lvBoot .boot-status{margin-top:15px!important}#lvBoot .boot-skip{margin-top:20px}}
+@media(prefers-reduced-motion:reduce){#lvBoot .boot-center,#lvBoot .boot-core,#lvBoot .boot-core-halo,#lvBoot .boot-core-ring{animation:none!important}#lvBoot.lv-hidden{transition:none}#lvBoot.lv-hidden .boot-center{transition:none}}
+</style>
 </head>
 <body>
 <div id="lvBoot" aria-label="Загрузка LifeVault">
@@ -714,11 +711,11 @@ button:focus-visible,.btn:focus-visible,.chip:focus-visible{outline:2px solid va
       <div class="boot-core"><span class="core-glyph">⌑</span><span class="core-pulse"></span></div>
       <span class="boot-spark spark-one"></span><span class="boot-spark spark-two"></span><span class="boot-spark spark-three"></span><span class="boot-spark spark-four"></span>
     </div>
-    <div class="lvn"><b>LifeVault<span class="boot-period">.</span></b><span class="boot-subtitle">ТВОЯ ЖИЗНЬ. В ОДНОМ МЕСТЕ.</span><span id="lvBootStatus" class="boot-status">Открываю сейф</span></div>
+    <div class="lvn"><b>LifeVault<span class="boot-period">.</span></b><span class="boot-subtitle">Твои планы, мысли и напоминания — в одном месте.</span><span id="lvBootStatus" class="boot-status">Рады видеть тебя</span></div>
     <div class="boot-progress"><div class="boot-progress-meta"><span id="lvBootTask">ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ</span><b id="lvBootPercent">00%</b></div><div class="boot-progress-track"><i id="lvBootBar"></i><span></span></div></div>
     <div class="boot-tip"><span class="tip-icon">✳</span><div><small>МАЛЕНЬКАЯ ПОДСКАЗКА</small><p id="lvBootTip">Записывай мысли сразу — AI поможет превратить их в план.</p></div><span class="tip-index" id="lvBootTipIndex">01 / 04</span></div>
   </div>
-  <button class="boot-skip" id="lvBootSkip" type="button">Пропустить анимацию <span>↗</span></button>
+  <button class="boot-skip" id="lvBootSkip" type="button">Перейти к приложению <span>→</span></button>
   <div class="boot-footer"><span>PRIVATE BY DESIGN</span><span>ENCRYPTED WORKSPACE <i></i></span></div>
 </div>
 
