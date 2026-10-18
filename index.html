@@ -553,12 +553,173 @@ nav button.on::after{
 }
 </style>
 
+
+<style id="lifevault-boot-cinematic">
+#lvBoot{isolation:isolate;background:#080a12!important;color:#f6f5ff!important;--ac:#9b8cff;--dim:#303248;--mut:#a0a5bc;display:flex;align-items:center;justify-content:center;padding:calc(24px + env(safe-area-inset-top,0px)) 22px calc(24px + env(safe-area-inset-bottom,0px));}
+#lvBoot:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.28;background:linear-gradient(transparent 49.5%,rgba(151,139,255,.07) 50%,transparent 50.5%);background-size:100% 5px;pointer-events:none}
+#lvBoot .dr{background:transparent!important;z-index:20;pointer-events:none}
+#lvBoot .boot-grid{position:absolute;inset:0;opacity:.2;background-image:linear-gradient(rgba(142,132,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(142,132,255,.12) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(ellipse at center,#000 0%,transparent 78%);animation:bootGrid 22s linear infinite}
+#lvBoot .boot-noise{position:absolute;inset:-50%;opacity:.09;pointer-events:none;background-image:radial-gradient(#fff .55px,transparent .7px);background-size:5px 5px;animation:bootNoise 0.22s steps(2) infinite}
+#lvBoot .boot-orbit{position:absolute;width:min(100vw,650px);aspect-ratio:1;border:1px solid rgba(148,133,255,.1);border-radius:50%;pointer-events:none}
+#lvBoot .orbit-a{animation:orbitDrift 16s linear infinite}
+#lvBoot .orbit-b{width:min(78vw,510px);border-style:dashed;border-color:rgba(148,133,255,.13);animation:orbitDrift 27s linear infinite reverse}
+#lvBoot .boot-top,#lvBoot .boot-footer{position:absolute;left:22px;right:22px;display:flex;align-items:center;justify-content:space-between;gap:12px;font:700 9px/1.3 var(--font);letter-spacing:.14em;color:#777d9b}
+#lvBoot .boot-top{top:calc(19px + env(safe-area-inset-top,0px))}
+#lvBoot .boot-footer{bottom:calc(17px + env(safe-area-inset-bottom,0px));font-size:8px;letter-spacing:.12em}
+#lvBoot .boot-mark{display:flex;align-items:center;gap:8px;color:#f2f0ff;font-size:11px;letter-spacing:.17em}
+#lvBoot .boot-mark small{font-size:8px;color:#7e82a3;border-left:1px solid #35354f;padding-left:8px;letter-spacing:.1em}
+#lvBoot .boot-mark-dot{width:7px;height:7px;border-radius:2px;background:#a194ff;box-shadow:0 0 14px #8e7cff;transform:rotate(45deg)}
+#lvBoot .boot-live{display:flex;align-items:center;gap:7px;color:#7fcbb7;font-size:8px;white-space:nowrap}
+#lvBoot .boot-live i,#lvBoot .boot-footer i{width:5px;height:5px;border-radius:50%;background:#6ce2b7;box-shadow:0 0 9px #6ce2b7;display:inline-block;animation:bootLive 1.8s ease-in-out infinite}
+#lvBoot .boot-center{width:min(100%,370px);display:flex;align-items:center;flex-direction:column;position:relative;margin-top:-4px}
+#lvBoot .boot-core-wrap{position:relative;width:min(68vw,252px);aspect-ratio:1;display:grid;place-items:center;margin-bottom:20px}
+#lvBoot .boot-core-halo{position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle,rgba(115,96,255,.28),rgba(83,69,180,.08) 45%,transparent 72%);filter:blur(8px);animation:coreHalo 3.2s ease-in-out infinite}
+#lvBoot .boot-core-ring{position:absolute;border-radius:50%;border:1px solid rgba(155,140,255,.28);pointer-events:none}
+#lvBoot .ring-one{inset:1%;border-left-color:transparent;border-right-color:rgba(175,161,255,.8);animation:orbitDrift 9s linear infinite}
+#lvBoot .ring-two{inset:8%;border-style:dashed;border-color:rgba(155,140,255,.32);animation:orbitDrift 17s linear infinite reverse}
+#lvBoot .ring-three{inset:-7%;border-color:transparent;border-top-color:rgba(118,223,208,.75);border-bottom-color:rgba(118,223,208,.28);animation:orbitDrift 6s linear infinite}
+#lvBoot .lvv{width:88%;z-index:2;filter:drop-shadow(0 0 22px rgba(137,119,255,.18))}
+#lvBoot .lvv svg{overflow:visible}
+#lvBoot .lvv line{stroke:rgba(155,153,196,.2);stroke-width:1.8}
+#lvBoot .lvv line.on{stroke:#9d90ff;filter:drop-shadow(0 0 4px rgba(157,144,255,.8))}
+#lvBoot .lvv line.lead{stroke:#8ce7d4;stroke-width:4;filter:drop-shadow(0 0 7px #8ce7d4)}
+#lvBoot .lvd b{font-size:56px;font-weight:300;letter-spacing:-3px;color:#fff;text-shadow:0 0 35px rgba(155,140,255,.35)}
+#lvBoot .lvd small{font-size:10px;color:#a4a4c1;letter-spacing:.09em;margin-top:5px}
+#lvBoot .boot-core{position:absolute;z-index:3;width:37px;height:37px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#c4baff,#7465dd 65%,#5143a9);box-shadow:0 0 0 7px rgba(139,119,255,.08),0 0 36px rgba(126,106,255,.65),inset 0 1px rgba(255,255,255,.7);animation:coreFloat 3s ease-in-out infinite;opacity:.95}
+#lvBoot .core-glyph{font-size:25px;line-height:1;color:#fff;transform:translateY(-1px)}
+#lvBoot .core-pulse{position:absolute;inset:-9px;border:1px solid rgba(155,140,255,.55);border-radius:17px;animation:corePulse 2s ease-out infinite}
+#lvBoot .boot-spark{position:absolute;z-index:4;width:4px;height:4px;border-radius:50%;background:#c8c0ff;box-shadow:0 0 12px 3px rgba(168,151,255,.6)}
+#lvBoot .spark-one{top:15%;left:17%;animation:sparkFloat 3.6s ease-in-out infinite}
+#lvBoot .spark-two{right:11%;top:33%;width:3px;height:3px;animation:sparkFloat 4.2s ease-in-out infinite reverse}
+#lvBoot .spark-three{bottom:17%;left:24%;width:3px;height:3px;animation:sparkFloat 3.2s ease-in-out infinite .3s}
+#lvBoot .spark-four{bottom:20%;right:19%;background:#8ce7d4;animation:sparkFloat 4.5s ease-in-out infinite .5s}
+#lvBoot .lvn{position:static;text-align:center;transition:opacity .3s,transform .6s;margin-bottom:22px}
+#lvBoot .lvn b{font-size:31px;font-weight:700;letter-spacing:-.06em;text-transform:none;color:#f7f5ff;line-height:1.1}
+#lvBoot .boot-period{color:#a194ff}
+#lvBoot .boot-subtitle{display:block;font-size:8px;font-weight:700;letter-spacing:.24em;color:#777d9d;margin-top:9px}
+#lvBoot .boot-status{display:block!important;font-size:12px!important;letter-spacing:.015em!important;text-transform:none!important;color:#b7b4d5!important;margin-top:16px!important;min-height:16px;animation:statusIn .35s ease both}
+#lvBoot .boot-progress{width:100%;max-width:300px;margin-bottom:17px}
+#lvBoot .boot-progress-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;font:700 8px/1 var(--font);letter-spacing:.13em;color:#7e83a4}
+#lvBoot .boot-progress-meta b{color:#c7c0ff;font-size:10px;font-variant-numeric:tabular-nums}
+#lvBoot .boot-progress-track{height:3px;background:#25273a;border-radius:9px;position:relative;overflow:hidden}
+#lvBoot .boot-progress-track i{display:block;width:0;height:100%;border-radius:9px;background:linear-gradient(90deg,#6e60d8,#b4a7ff 70%,#8ce7d4);box-shadow:0 0 13px rgba(157,144,255,.7);transition:width .18s linear;position:relative;z-index:1}
+#lvBoot .boot-progress-track span{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);animation:bootSweep 1.6s ease-in-out infinite}
+#lvBoot .boot-tip{width:100%;max-width:320px;display:flex;align-items:center;gap:10px;border:1px solid rgba(145,136,205,.17);background:rgba(27,28,47,.56);border-radius:13px;padding:11px 12px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-align:left;min-height:57px}
+#lvBoot .tip-icon{width:27px;height:27px;flex:none;display:grid;place-items:center;border-radius:9px;color:#b7adff;background:rgba(143,125,255,.13);font-size:15px}
+#lvBoot .boot-tip div{flex:1;min-width:0}
+#lvBoot .boot-tip small{display:block;font:700 7px/1.2 var(--font);letter-spacing:.15em;color:#7d83a3;margin-bottom:5px}
+#lvBoot .boot-tip p{margin:0;color:#c3c4d8;font:400 10px/1.45 var(--font)}
+#lvBoot .tip-index{align-self:flex-end;white-space:nowrap;font:700 7px/1 var(--font);color:#707594;letter-spacing:.08em}
+#lvBoot .boot-skip{position:absolute;bottom:calc(45px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);border:1px solid rgba(151,142,211,.2);border-radius:99px;padding:9px 14px;background:rgba(20,21,38,.65);color:#9699b6;font:600 10px var(--font);letter-spacing:.01em;cursor:pointer;transition:all .2s;white-space:nowrap}
+#lvBoot .boot-skip span{color:#bdb4ff;margin-left:7px}
+#lvBoot .boot-skip:active{transform:translateX(-50%) scale(.96);background:rgba(102,88,202,.2)}
+#lvBoot.lv-hidden .boot-skip{opacity:0}
+@keyframes bootGrid{to{background-position:34px 34px}}
+@keyframes bootNoise{0%{transform:translate(0,0)}25%{transform:translate(2%,-1%)}50%{transform:translate(-1%,2%)}75%{transform:translate(1%,1%)}100%{transform:translate(-2%,-1%)}}
+@keyframes orbitDrift{to{transform:rotate(360deg)}}
+@keyframes bootLive{0%,100%{opacity:.55}50%{opacity:1;box-shadow:0 0 13px #6ce2b7}}
+@keyframes coreHalo{0%,100%{transform:scale(.8);opacity:.65}50%{transform:scale(1.15);opacity:1}}
+@keyframes coreFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
+@keyframes corePulse{0%{transform:scale(.85);opacity:.8}100%{transform:scale(1.55);opacity:0}}
+@keyframes sparkFloat{0%,100%{transform:translate3d(0,0,0);opacity:.35}50%{transform:translate3d(5px,-8px,0);opacity:1}}
+@keyframes bootSweep{0%{transform:translateX(-110%)}100%{transform:translateX(110%)}}
+@keyframes statusIn{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@media(max-height:720px){#lvBoot .boot-core-wrap{width:min(48vh,210px);margin-bottom:12px}#lvBoot .lvn{margin-bottom:14px}#lvBoot .lvn b{font-size:27px}#lvBoot .boot-tip{padding:8px 10px;min-height:48px}#lvBoot .boot-skip{bottom:calc(39px + env(safe-area-inset-bottom,0px))}#lvBoot .boot-footer{display:none}}
+@media(max-width:360px){#lvBoot .boot-top,#lvBoot .boot-footer{left:14px;right:14px}#lvBoot .boot-mark small{display:none}#lvBoot .boot-live{font-size:7px}#lvBoot .boot-tip{gap:7px;padding:9px}#lvBoot .boot-tip p{font-size:9px}}
+@media(prefers-reduced-motion:reduce){#lvBoot .boot-grid,#lvBoot .boot-noise,#lvBoot .boot-orbit,#lvBoot .boot-core-halo,#lvBoot .boot-core-ring,#lvBoot .boot-core,#lvBoot .core-pulse,#lvBoot .boot-spark,#lvBoot .boot-progress-track span,#lvBoot .boot-live i{animation:none!important}}
+</style>
+
+
+<style id="lifevault-interaction-polish">
+button,.btn,.chip,.ai-action,.hub-model,.hub-provider,.nav button,.ib,.fab,.send{ -webkit-tap-highlight-color:transparent;transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s,box-shadow .2s,border-color .2s,background-color .2s }
+button:active,.btn:active,.chip:active,.ai-action:active,.hub-model:active,.hub-provider:active,.nav button:active,.ib:active,.fab:active,.send:active{transform:scale(.965)}
+button:focus-visible,.btn:focus-visible,.chip:focus-visible{outline:2px solid var(--acc2);outline-offset:3px}
+.view.on{animation:lvViewEnter .32s cubic-bezier(.2,.75,.25,1) both}
+@keyframes lvViewEnter{from{opacity:.55;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.m{animation:lvMessageEnter .24s cubic-bezier(.2,.75,.25,1) both}
+@keyframes lvMessageEnter{from{opacity:0;transform:translateY(6px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+.fab,.send,.btn.pri{position:relative;overflow:hidden}
+.fab:after,.send:after,.btn.pri:after{content:"";position:absolute;inset:-60% auto -60% -70%;width:45%;transform:rotate(20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);pointer-events:none;transition:transform .55s}
+.fab:active:after,.send:active:after,.btn.pri:active:after{transform:translateX(360%) rotate(20deg)}
+@media(prefers-reduced-motion:reduce){.view.on,.m{animation:none!important}button,.btn,.chip,.ai-action,.hub-model,.hub-provider,.nav button,.ib,.fab,.send{transition:none!important}}
+</style>
+
+
+<style id="lifevault-welcome-refine">
+/* Calm, welcoming LifeVault start screen */
+#lvBoot{background:radial-gradient(ellipse at 50% 34%,#25243b 0%,#171827 38%,#11121d 76%,#10111a 100%)!important;color:#f7f5ff!important;--ac:#b7a9ff;--dim:#414055;--mut:#aaa8bf;padding:calc(26px + env(safe-area-inset-top,0px)) 24px calc(26px + env(safe-area-inset-bottom,0px));}
+#lvBoot:after{display:none!important}
+#lvBoot .boot-grid{opacity:.055;background-size:48px 48px;animation:none}
+#lvBoot .boot-noise{display:none!important}
+#lvBoot .boot-orbit{border-color:rgba(190,179,255,.07);width:min(94vw,510px)}
+#lvBoot .orbit-a{animation:orbitDrift 48s linear infinite}
+#lvBoot .orbit-b{display:none}
+#lvBoot .boot-top,#lvBoot .boot-footer{color:#8d8aa7;letter-spacing:.08em;font-size:9px}
+#lvBoot .boot-mark{font-size:10px;letter-spacing:.12em;color:#f5f1ff}
+#lvBoot .boot-mark small{color:#9c98b8}
+#lvBoot .boot-mark-dot{width:6px;height:6px;border-radius:50%;background:#b9adff;box-shadow:0 0 10px rgba(185,173,255,.45);transform:none}
+#lvBoot .boot-live{color:#a8d9c9;font-size:8px;letter-spacing:.04em}
+#lvBoot .boot-live i,#lvBoot .boot-footer i{box-shadow:0 0 7px rgba(108,226,183,.35);animation:bootLive 3s ease-in-out infinite}
+#lvBoot .boot-center{width:min(100%,340px);margin-top:-12px}
+#lvBoot .boot-core-wrap{width:min(57vw,205px);margin-bottom:23px}
+#lvBoot .boot-core-halo{inset:17%;background:radial-gradient(circle,rgba(167,151,255,.23),rgba(119,104,205,.06) 55%,transparent 76%);filter:blur(5px);animation:coreHalo 5s ease-in-out infinite}
+#lvBoot .boot-core-ring{border-color:rgba(190,179,255,.18)}
+#lvBoot .ring-one{border-left-color:transparent;border-right-color:rgba(190,179,255,.48);animation:orbitDrift 25s linear infinite}
+#lvBoot .ring-two{border-color:rgba(190,179,255,.13);animation:orbitDrift 36s linear infinite reverse}
+#lvBoot .ring-three{border-top-color:rgba(148,216,205,.42);border-bottom-color:rgba(148,216,205,.13);animation:orbitDrift 32s linear infinite}
+#lvBoot .lvv{width:88%;filter:drop-shadow(0 4px 18px rgba(167,151,255,.12))}
+#lvBoot .lvv line{stroke:rgba(196,191,224,.15);stroke-width:1.8}
+#lvBoot .lvv line.on{stroke:#b7a9ff;filter:none}
+#lvBoot .lvv line.lead{stroke:#a9dfd2;stroke-width:3;filter:drop-shadow(0 0 4px rgba(169,223,210,.35))}
+#lvBoot .lvd b{font-size:48px;font-weight:350;letter-spacing:-2px;text-shadow:none;color:#fbfaff}
+#lvBoot .lvd small{font-size:10px;color:#b0acc8;letter-spacing:.02em}
+#lvBoot .boot-core{width:30px;height:30px;border-radius:11px;background:linear-gradient(145deg,#d8d0ff,#9484e8 70%,#7766c8);box-shadow:0 0 0 6px rgba(185,169,255,.06),0 5px 20px rgba(130,111,224,.24),inset 0 1px rgba(255,255,255,.7);animation:coreFloat 5s ease-in-out infinite}
+#lvBoot .core-glyph{font-size:20px}
+#lvBoot .core-pulse{border-color:rgba(185,169,255,.35);animation:corePulse 3.4s ease-out infinite}
+#lvBoot .boot-spark{opacity:.5;box-shadow:0 0 7px 1px rgba(185,169,255,.25)}
+#lvBoot .lvn{margin-bottom:24px}
+#lvBoot .lvn b{font-size:30px;font-weight:650;letter-spacing:-.055em;color:#fbfaff}
+#lvBoot .boot-period{color:#b9adff}
+#lvBoot .boot-subtitle{font-size:9px;letter-spacing:.14em;color:#a6a1c3;margin-top:8px;font-weight:600}
+#lvBoot .boot-status{font-size:12px!important;color:#c6c1dd!important;margin-top:14px!important;letter-spacing:0!important;font-weight:450;animation:statusIn .5s ease both}
+#lvBoot .boot-progress{max-width:270px;margin-bottom:17px}
+#lvBoot .boot-progress-meta{font-size:8px;letter-spacing:.08em;color:#918daa;font-weight:600}
+#lvBoot .boot-progress-meta b{color:#c8bcff;font-size:10px}
+#lvBoot .boot-progress-track{height:3px;background:rgba(225,220,255,.11)}
+#lvBoot .boot-progress-track i{background:linear-gradient(90deg,#9382e8,#c3b6ff);box-shadow:0 0 8px rgba(167,151,255,.28)}
+#lvBoot .boot-progress-track span{display:none}
+#lvBoot .boot-tip{max-width:290px;min-height:54px;padding:10px 12px;gap:10px;border:1px solid rgba(213,205,255,.10);background:rgba(255,255,255,.035);border-radius:14px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+#lvBoot .tip-icon{width:29px;height:29px;border-radius:10px;background:rgba(183,169,255,.10);color:#c7bbff;font-size:14px}
+#lvBoot .boot-tip small{font-size:7px;letter-spacing:.12em;color:#9b96b8}
+#lvBoot .boot-tip p{font-size:10px;line-height:1.5;color:#d2cee3}
+#lvBoot .tip-index{color:#8883a3}
+#lvBoot .boot-skip{bottom:calc(42px + env(safe-area-inset-bottom,0px));border-color:rgba(218,211,255,.13);background:rgba(255,255,255,.045);color:#b6b1cc;font-size:11px;padding:10px 16px;transition:background .25s,border-color .25s,transform .25s}
+#lvBoot .boot-skip span{color:#c7bbff}
+#lvBoot .boot-skip:active{background:rgba(183,169,255,.12);transform:translateX(-50%) scale(.98)}
+#lvBoot .boot-footer{font-size:8px;letter-spacing:.07em;color:#77748e}
+@media(max-height:720px){#lvBoot .boot-core-wrap{width:min(43vh,170px);margin-bottom:14px}#lvBoot .lvn{margin-bottom:15px}#lvBoot .lvn b{font-size:27px}#lvBoot .boot-tip{padding:8px 10px;min-height:48px}#lvBoot .boot-skip{bottom:calc(37px + env(safe-area-inset-bottom,0px))}#lvBoot .boot-footer{display:none}}
+@media(prefers-reduced-motion:reduce){#lvBoot .boot-grid,#lvBoot .boot-orbit,#lvBoot .boot-core-halo,#lvBoot .boot-core-ring,#lvBoot .boot-core,#lvBoot .core-pulse,#lvBoot .boot-spark,#lvBoot .boot-live i{animation:none!important}}
+</style>
+
 </head>
 <body>
-<div id="lvBoot" aria-hidden="true">
+<div id="lvBoot" aria-label="Загрузка LifeVault">
+  <div class="boot-grid"></div><div class="boot-noise"></div>
+  <div class="boot-orbit orbit-a"></div><div class="boot-orbit orbit-b"></div>
   <i class="dr l"></i><i class="dr r"></i>
-  <div class="lvv"><svg viewBox="0 0 200 200"></svg><div class="lvd"><b id="lvDay"></b><small id="lvMon"></small></div></div>
-  <div class="lvn"><b>LifeVault</b><span id="lvBootStatus"></span></div>
+  <div class="boot-top"><span class="boot-mark"><span class="boot-mark-dot"></span> LIFEVAULT <small>PERSONAL OS</small></span><span class="boot-live"><i></i> SYSTEM ONLINE</span></div>
+  <div class="boot-center">
+    <div class="boot-core-wrap"><div class="boot-core-halo"></div><div class="boot-core-ring ring-one"></div><div class="boot-core-ring ring-two"></div><div class="boot-core-ring ring-three"></div>
+      <div class="lvv"><svg viewBox="0 0 200 200"></svg><div class="lvd"><b id="lvDay"></b><small id="lvMon"></small></div></div>
+      <div class="boot-core"><span class="core-glyph">⌑</span><span class="core-pulse"></span></div>
+      <span class="boot-spark spark-one"></span><span class="boot-spark spark-two"></span><span class="boot-spark spark-three"></span><span class="boot-spark spark-four"></span>
+    </div>
+    <div class="lvn"><b>LifeVault<span class="boot-period">.</span></b><span class="boot-subtitle">ТВОЯ ЖИЗНЬ. В ОДНОМ МЕСТЕ.</span><span id="lvBootStatus" class="boot-status">Открываю сейф</span></div>
+    <div class="boot-progress"><div class="boot-progress-meta"><span id="lvBootTask">ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ</span><b id="lvBootPercent">00%</b></div><div class="boot-progress-track"><i id="lvBootBar"></i><span></span></div></div>
+    <div class="boot-tip"><span class="tip-icon">✳</span><div><small>МАЛЕНЬКАЯ ПОДСКАЗКА</small><p id="lvBootTip">Записывай мысли сразу — AI поможет превратить их в план.</p></div><span class="tip-index" id="lvBootTipIndex">01 / 04</span></div>
+  </div>
+  <button class="boot-skip" id="lvBootSkip" type="button">Пропустить анимацию <span>↗</span></button>
+  <div class="boot-footer"><span>PRIVATE BY DESIGN</span><span>ENCRYPTED WORKSPACE <i></i></span></div>
 </div>
 
 <div id="app">
@@ -1226,11 +1387,23 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 </script>
 
 <script>
-// Экран загрузки: циферблат-сейф. Деления загораются по реальному прогрессу, в центре сегодняшняя дата.
+// LifeVault cinematic boot: progress reflects app startup; skip accelerates animation only.
 (() => {
   const boot = document.getElementById('lvBoot'); if (!boot) return;
   const ru = L !== 'en', NS = 'http://www.w3.org/2000/svg', svg = boot.querySelector('svg'), ticks = [];
-  const LABELS = ru ? ['Открываю сейф', 'Загружаю ваш день', 'Готово'] : ['Opening the vault', 'Loading your day', 'Ready'];
+  const LABELS = ru ? ['Рады видеть тебя', 'Собираю твой день', 'Готовлю AI-помощника', 'Ещё мгновение', 'Добро пожаловать'] : ['Connecting your private space', 'Syncing your day', 'Preparing your AI assistant', 'Almost ready', 'Ready'];
+  const TASKS = ru ? ['ТВОЁ ПРОСТРАНСТВО', 'ТВОИ ЗАПИСИ', 'ТВОЙ AI-ПОМОЩНИК', 'ПОЧТИ ГОТОВО', 'МОЖНО НАЧИНАТЬ'] : ['STARTING LIFEVAULT', 'CONNECTING TO DATA', 'SYNCING YOUR PLANS', 'PREPARING AI', 'ALL SYSTEMS READY'];
+  const TIPS = ru ? [
+    'Записывай мысли сразу — AI поможет превратить их в план.',
+    'Напиши «напомни завтра в 10:00» — LifeVault поймёт время.',
+    'Можно отправить голосовое или фото расписания в чат с AI.',
+    'Настрой время напоминания заранее, чтобы ничего не забыть.'
+  ] : [
+    'Capture thoughts as they come — AI can turn them into a plan.',
+    'Write “remind me tomorrow at 10” and LifeVault understands.',
+    'Send a voice note or a photo of your schedule to the AI chat.',
+    'Choose reminder lead time so important things do not slip away.'
+  ];
   for (let i = 0; i < 60; i++) {
     const a = i * Math.PI / 30, r1 = i % 5 === 0 ? 82 : 88, l = document.createElementNS(NS, 'line');
     l.setAttribute('x1', 100 + r1 * Math.cos(a)); l.setAttribute('y1', 100 + r1 * Math.sin(a));
@@ -1240,35 +1413,50 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
   const d = new Date();
   document.getElementById('lvDay').textContent = d.getDate();
   document.getElementById('lvMon').textContent = d.toLocaleDateString(LOC, { weekday: 'long', month: 'long' });
-  const st = document.getElementById('lvBootStatus'), t0 = Date.now();
-  let cur = 0, target = 0, label = 0, finished = false, closing = false;
-  const setLabel = (i) => { if (i !== label || !st.textContent) { label = i; st.textContent = LABELS[i]; } };
-  setLabel(0);
+  const st = document.getElementById('lvBootStatus'), task = document.getElementById('lvBootTask');
+  const percent = document.getElementById('lvBootPercent'), bar = document.getElementById('lvBootBar');
+  const tip = document.getElementById('lvBootTip'), tipIndex = document.getElementById('lvBootTipIndex');
+  const skip = document.getElementById('lvBootSkip'), t0 = Date.now();
+  let cur = 0, target = 0, label = 0, finished = false, closing = false, fast = false, tipN = 0;
+  const setLabel = (i) => {
+    i = Math.max(0, Math.min(LABELS.length - 1, i));
+    if (i !== label || !st.textContent) {
+      label = i; st.textContent = LABELS[i]; task.textContent = TASKS[i];
+      st.style.animation = 'none'; void st.offsetWidth; st.style.animation = '';
+    }
+  };
+  function setTip(i) { tipN = i % TIPS.length; tip.textContent = TIPS[tipN]; tipIndex.textContent = String(tipN + 1).padStart(2,'0') + ' / ' + String(TIPS.length).padStart(2,'0'); }
+  setLabel(0); setTip(0);
+  const tipTimer = setInterval(() => { if (closing) return; setTip((tipN + 1) % TIPS.length); }, 3100);
+  skip.addEventListener('click', () => { fast = true; target = 1; try { tg.HapticFeedback.impactOccurred('light'); } catch(e) {} skip.textContent = ru ? 'Завершаю запуск…' : 'Finishing startup…'; skip.disabled = true; });
   function frame() {
     const el = (Date.now() - t0) / 1000;
-    const creep = Math.min(0.88, el / 9);                 // медленно ползём вперёд, пока ждём сервер
-    cur += (Math.max(target, finished ? 1 : creep) - cur) * 0.09;
+    const creep = Math.min(.76, el / (fast ? 1.2 : 8));
+    const desired = finished ? 1 : Math.max(target, creep);
+    cur += (desired - cur) * (fast ? .22 : .075);
+    if (finished && cur > .985) cur = 1;
     const lit = Math.round(cur * 60);
-    ticks.forEach((l, i) => { l.setAttribute('class', i < lit - 1 ? 'on' : i === lit - 1 ? 'lead' : ''); });
-    if (finished && cur > 0.985 && el > 1.1 && !closing) return open();
+    ticks.forEach((l, i) => l.setAttribute('class', i < lit - 1 ? 'on' : i === lit - 1 ? 'lead' : ''));
+    const pct = Math.min(100, Math.round(cur * 100)); percent.textContent = String(pct).padStart(2,'0') + '%'; bar.style.width = pct + '%';
+    if (finished) setLabel(4); else if (cur > .68) setLabel(3); else if (cur > .42) setLabel(2); else if (cur > .18) setLabel(1);
+    if (finished && cur > .985 && el > .75 && !closing) return open();
     if (!closing) requestAnimationFrame(frame);
   }
   function open() {
-    closing = true; setLabel(2);
+    closing = true; clearInterval(tipTimer); setLabel(4); percent.textContent = '100%'; bar.style.width = '100%';
     ticks.forEach((l) => l.setAttribute('class', 'on'));
     try { tg.HapticFeedback.impactOccurred('medium'); } catch (e) {}
-    setTimeout(() => { boot.classList.add('lv-hidden'); setTimeout(() => boot.remove(), 900); }, 260);
+    setTimeout(() => { boot.classList.add('lv-hidden'); setTimeout(() => boot.remove(), 900); }, 240);
   }
   window.lvBoot = {
-    stage(p, i) { target = Math.max(target, p); setLabel(i); },
-    done() { finished = true; }
+    stage(p, i) { target = Math.max(target, Math.min(.94, p)); if (i != null) setLabel(Math.min(i, 3)); },
+    done() { finished = true; target = 1; }
   };
   const gate = document.getElementById('gate');
-  if (gate && gate.classList.contains('on') && document.getElementById('gateSpin').style.display === 'none') finished = true; // ошибка уже показана
-  setTimeout(() => { finished = true; }, 9000);           // страховка: экран не должен висеть вечно
+  if (gate && gate.classList.contains('on') && document.getElementById('gateSpin').style.display === 'none') finished = true;
+  setTimeout(() => { finished = true; }, 12000);
   requestAnimationFrame(frame);
-})();
-</script>
+})();</script>
 <script id="life-js">
 (function(){
 
