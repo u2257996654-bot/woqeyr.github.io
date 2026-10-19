@@ -231,60 +231,6 @@ label.f{display:block;margin:14px 0 7px;font-size:13px;font-weight:600;color:var
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style id="lifevault-fx">
-/* Слой оформления v2. Идея: день как линейка делений сейфа — прошедшая часть подсвечена, метка «сейчас» ползёт вправо. */
-:root{--font:"Onest",-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable","Segoe UI",Roboto,sans-serif;--bg:#eceef5;--line:#dcdfeb;--shadow:none}
-[data-theme=dark]{--bg:#07090f;--card:#0f121a;--card2:#151925;--line:#1f2431;--shadow:none}
-body{font-family:var(--font);letter-spacing:-.005em;background:radial-gradient(520px 220px at 50% -80px,var(--glow),transparent 74%),var(--bg)}
-
-/* шапка: крупная дата + линейка дня */
-header{padding:18px 18px 24px}
-header h1{font-size:30px;font-weight:800;letter-spacing:-.04em;line-height:1.05}
-header::after{left:18px;right:18px;bottom:4px;height:10px;
- background:
-  repeating-linear-gradient(90deg,var(--acc2) 0 2px,transparent 2px 35px) left bottom/calc(100% * var(--day,.5)) 13px no-repeat,
-  repeating-linear-gradient(90deg,var(--acc) 0 1.5px,transparent 1.5px 7px) left bottom/calc(100% * var(--day,.5)) 7px no-repeat,
-  repeating-linear-gradient(90deg,var(--tick2) 0 1.5px,transparent 1.5px 35px) left bottom/100% 10px no-repeat,
-  repeating-linear-gradient(90deg,var(--tick) 0 1px,transparent 1px 7px) left bottom/100% 5px no-repeat}
-header::before{content:"";position:absolute;bottom:2px;left:calc(18px + (100% - 36px) * var(--day,.5));width:3px;height:17px;margin-left:-1.5px;border-radius:3px;
- background:var(--grad);box-shadow:0 0 12px var(--acc2),0 0 3px var(--acc2);transition:left 1.2s cubic-bezier(.3,.8,.3,1);z-index:1;pointer-events:none}
-.ib{border-radius:14px;width:42px;height:42px}
-
-/* поверхности: тонкая граница вместо одинаковых теней */
-.card{border-radius:20px;box-shadow:none;border-color:var(--line)}
-.row{padding:15px 16px}
-.row:active{background:color-mix(in srgb,var(--acc) 9%,var(--card))}
-.tt{font-weight:600;letter-spacing:-.01em}
-.sec{margin:24px 4px 10px;font-size:13px;font-weight:700;letter-spacing:0;color:var(--muted)}
-.sec:not(.warn)::before{content:"";display:inline-block;width:3px;height:11px;border-radius:2px;background:var(--grad);margin:0 8px 0 0;vertical-align:-1px}
-.meta{font-weight:700;letter-spacing:.01em}
-.chk{width:26px;height:26px}
-.quick input{height:52px;border-radius:17px;padding:0 18px}
-.quick button{width:52px;height:52px;border-radius:17px}
-
-/* навигация */
-nav{border-radius:25px;padding:6px;margin:0 12px calc(10px + var(--safe))}
-nav button span{transition:transform .22s cubic-bezier(.3,1.4,.5,1)}
-nav button.on span{transform:translateY(-1px) scale(1.14)}
-nav button.on{background:color-mix(in srgb,var(--acc) 13%,transparent)}
-
-/* кнопки, чат, шторки */
-.btn{border-radius:16px;font-weight:700;letter-spacing:-.005em}
-.btn.pri,.quick button,.send,.fab{box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 24px -10px var(--acc)}
-.fab{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 14px 30px -10px var(--acc),0 0 0 6px var(--glow)}
-.m{border-radius:20px}.m.u{border-bottom-right-radius:7px}.m.a{border-bottom-left-radius:7px;border-color:var(--line)}
-.composer textarea{border-radius:24px}
-.sheet{box-shadow:none;border-radius:30px 30px 0 0;background:color-mix(in srgb,var(--card) 90%,transparent);-webkit-backdrop-filter:blur(26px) saturate(1.4);backdrop-filter:blur(26px) saturate(1.4)}
-.sheet::before{width:44px;background:color-mix(in srgb,var(--muted) 45%,transparent)}
-.inp{border-radius:15px}.seg{border-radius:16px}.seg button{border-radius:12px}
-.empty b{font-size:19px;letter-spacing:-.02em}
-.empty::before{width:72px;height:72px}
-
-.sheet.on{box-shadow:0 -18px 50px rgba(0,0,0,.28)}
-/* смена вкладки — одно спокойное появление */
-.view.on{animation:viewIn .32s cubic-bezier(.2,.8,.2,1)}
-@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-</style>
 <style id="life-ui">
 .lf{--bad:var(--danger);--sh:var(--shadow);--water:#1d8fe0}
 [data-theme=dark] .lf{--water:#4cb3ff}
@@ -388,134 +334,6 @@ background:repeating-conic-gradient(rgba(255,255,255,.35) 0 1.2deg,transparent 1
 .lf .btn{margin-top:0}
 @media(prefers-reduced-motion:reduce){.lf *,#lifeSh *{animation:none!important;transition:none!important}}
 </style>
-<style id="lvMotion">
-/* Слой анимаций: только для пользователей без «уменьшить движение» */
-/* Графика: свет, глубина, стекло (меню не трогаем) */
-body{background:radial-gradient(900px 520px at 88% -8%,color-mix(in srgb,var(--acc) 17%,transparent),transparent 62%),radial-gradient(760px 520px at -12% 34%,color-mix(in srgb,var(--acc2) 13%,transparent),transparent 62%),var(--bg);background-attachment:fixed}
-h1{background:linear-gradient(100deg,var(--text) 25%,var(--acct) 55%,var(--text) 85%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
-.card{background:linear-gradient(180deg,color-mix(in srgb,var(--card) 92%,#fff),var(--card) 55%);border-color:color-mix(in srgb,var(--line) 72%,var(--acc));box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.07),0 0 0 1px color-mix(in srgb,var(--acc) 4%,transparent)}
-.row:active{background:linear-gradient(90deg,var(--soft),transparent)}
-.chk[aria-pressed=true],.chk.on{background:linear-gradient(135deg,var(--ok),color-mix(in srgb,var(--ok) 60%,#fff))}
-.m.u{background:linear-gradient(135deg,var(--acc),var(--acc2) 70%,color-mix(in srgb,var(--acc2) 70%,#fff));box-shadow:0 10px 24px -10px var(--acc),inset 0 1px 0 rgba(255,255,255,.28)}
-.m.a{background:linear-gradient(180deg,color-mix(in srgb,var(--card) 90%,#fff),var(--card));box-shadow:0 8px 22px -16px rgba(20,20,60,.4)}
-.fab,.send{background:linear-gradient(135deg,var(--acc),var(--acc2) 60%,color-mix(in srgb,var(--acc2) 65%,#fff));box-shadow:0 14px 30px -8px var(--acc),0 0 0 6px var(--glow),inset 0 1px 0 rgba(255,255,255,.35)}
-.ai-action,.chip{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid color-mix(in srgb,var(--line) 70%,var(--acc));box-shadow:0 6px 16px -12px var(--acc)}
-.sheet,.drawer{background:linear-gradient(180deg,color-mix(in srgb,var(--card) 94%,#fff),var(--card));box-shadow:0 -20px 60px -20px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08)}
-.scrim{-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-header.lvScr{box-shadow:0 14px 26px -22px rgba(0,0,0,.55)}
-header{transition:box-shadow .3s}
-.lvAur{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.lvAur i{position:absolute;width:62vmax;height:62vmax;border-radius:50%;filter:blur(80px);opacity:.28}
-.lvAur i:nth-child(1){background:var(--acc);left:-22vmax;top:-18vmax}
-.lvAur i:nth-child(2){background:var(--acc2);right:-24vmax;bottom:-26vmax;opacity:.2}
-#app{position:relative;z-index:1}
-@media(prefers-reduced-motion:no-preference){
-:root{--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1)}
-@keyframes lvRise{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
-@keyframes lvView{from{opacity:0;transform:translateY(16px) scale(.985);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
-@keyframes lvPop{0%{transform:scale(.6)}55%{transform:scale(1.28)}100%{transform:scale(1)}}
-@keyframes lvMsgL{from{opacity:0;transform:translate(-14px,8px) scale(.94)}to{opacity:1;transform:none}}
-@keyframes lvMsgR{from{opacity:0;transform:translate(14px,8px) scale(.94)}to{opacity:1;transform:none}}
-@keyframes lvSheet{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
-@keyframes lvFab{from{transform:scale(0) rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
-@keyframes lvGlow{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--acc) 45%,transparent)}50%{box-shadow:0 0 0 12px transparent}}
-@keyframes lvRip{to{transform:scale(3.2);opacity:0}}
-.view.on{animation:lvView .5s var(--ease) both}
-.row,.card,.conv,.sec2{animation:lvRise .55s var(--ease) both;animation-delay:calc(var(--i,0)*48ms)}
-.chk{transition:transform .25s var(--spring),background .2s,border-color .2s,box-shadow .2s,color .2s}
-.chk:active{transform:scale(.8)}
-.chk[aria-pressed=true],.chk.on{animation:lvPop .5s var(--spring)}
-.row .tt{transition:color .3s,opacity .3s}
-.row.done{transition:opacity .4s}
-.m{animation-duration:.4s;animation-timing-function:var(--ease)}
-#msgs>.m:nth-child(odd){animation-name:lvMsgL}#msgs>.m:nth-child(even){animation-name:lvMsgR}
-.fab{animation:lvFab .7s var(--spring) .25s both,lvGlow 3.2s ease-in-out 1.2s infinite;transition:transform .25s var(--spring)}
-.fab:active{transform:scale(.88) rotate(90deg)}
-.sheet{animation:lvSheet .5s var(--ease)}
-.scrim{transition:opacity .35s var(--ease)}
-.drawer{transition:transform .45s var(--ease)}
-button,.ib,.ai-action,.send{transition:transform .2s var(--spring),background .2s,opacity .2s}
-button:active,.ib:active,.ai-action:active,.send:active{transform:scale(.93)}
-nav{position:relative}
-nav button span{display:inline-block;transition:transform .35s var(--spring)}
-nav button.on span{transform:translateY(-3px) scale(1.22)}
-#lvInd{position:absolute;top:0;height:3px;border-radius:0 0 4px 4px;background:var(--acc);transition:left .45s var(--ease),width .45s var(--ease);pointer-events:none;box-shadow:0 2px 12px var(--acc)}
-.lvRip{position:absolute;border-radius:50%;background:currentColor;opacity:.18;pointer-events:none;transform:scale(0);animation:lvRip .6s var(--ease) forwards}
-.lvConf{position:fixed;z-index:99999;width:8px;height:8px;border-radius:2px;pointer-events:none}
-@keyframes lvDrift1{50%{transform:translate(9vmax,7vmax) scale(1.15)}}
-@keyframes lvDrift2{50%{transform:translate(-8vmax,-9vmax) scale(1.1)}}
-@keyframes lvShine{to{background-position:-240% 0}}
-@keyframes lvSpin{to{transform:rotate(360deg)}}
-@keyframes lvSweep{from{transform:translateX(-120%)}to{transform:translateX(120%)}}
-.lvAur i:nth-child(1){animation:lvDrift1 24s ease-in-out infinite}
-.lvAur i:nth-child(2){animation:lvDrift2 30s ease-in-out infinite}
-h1{animation:lvShine 9s linear infinite}
-.fab::after,.send::after{content:"";position:absolute;inset:-5px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 70%,color-mix(in srgb,var(--acc2) 80%,#fff) 90%,transparent);-webkit-mask:radial-gradient(circle,transparent 62%,#000 64%);mask:radial-gradient(circle,transparent 62%,#000 64%);animation:lvSpin 3.6s linear infinite;pointer-events:none;opacity:.75}
-.send{position:relative}.send:disabled::after{opacity:0}
-.card{position:relative}
-.card::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.07) 50%,transparent 60%);transform:translateX(-120%);pointer-events:none;animation:lvSweep 1.1s var(--ease) .35s 1 both}
-}
-</style>
-<style id="lvGfx">
-/* Графика v3: пустые экраны, AI HUB, поля ввода, кнопки */
-::selection{background:var(--glow)}
-input,textarea{caret-color:var(--acc)}
-.scroll{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--acc) 35%,transparent) transparent}
-.empty::before{content:"";display:block;width:104px;height:104px;margin:0 auto 14px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237d6fff'/%3E%3Cstop offset='1' stop-color='%235b4ef0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='34' fill='url(%23g)' opacity='.14'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='url(%23g)' stroke-width='2.5' stroke-dasharray='3 6' stroke-linecap='round'/%3E%3Cpath d='M50 30l5.5 14.5L70 50l-14.5 5.5L50 70l-5.5-14.5L30 50l14.5-5.5z' fill='url(%23g)'/%3E%3Ccircle cx='78' cy='26' r='3.5' fill='%237d6fff'/%3E%3Ccircle cx='24' cy='76' r='2.5' fill='%235b4ef0'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 12px 18px color-mix(in srgb,var(--acc) 30%,transparent))}
-.sec,.hub-section{display:flex;align-items:center;gap:8px;letter-spacing:.02em}
-.sec::before,.hub-section::before{content:"";width:4px;height:14px;border-radius:3px;background:var(--grad);flex:none;box-shadow:0 0 10px var(--glow)}
-.hub-title{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hub-auto{background:linear-gradient(135deg,var(--soft),var(--card));border:1px solid color-mix(in srgb,var(--acc) 30%,var(--line));box-shadow:0 10px 26px -16px var(--acc),inset 0 1px 0 rgba(255,255,255,.08)}
-.hub-model{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);box-shadow:0 8px 20px -16px var(--acc);transition:transform .25s cubic-bezier(.34,1.56,.64,1),border-color .2s,box-shadow .25s}
-.hub-model:active{transform:scale(.97)}
-.hub-model.active{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc),0 14px 30px -14px var(--acc),inset 0 0 24px -14px var(--acc)}
-.hm-icon{display:grid;place-items:center;background:var(--grad);color:#fff;border-radius:12px;box-shadow:0 8px 18px -8px var(--acc)}
-.hub-fb{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:999px;padding:6px 12px}
-.hero{background:linear-gradient(135deg,var(--soft),var(--card2) 70%);border-color:color-mix(in srgb,var(--acc) 22%,var(--line));box-shadow:0 14px 30px -20px var(--acc)}
-.usage{background:linear-gradient(90deg,var(--soft),transparent);border-radius:999px}
-.inp:focus,.composer textarea:focus,.quick input:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow),0 8px 24px -14px var(--acc)}
-.composer{box-shadow:0 -18px 30px -26px var(--acc)}
-.btn.pri{background:linear-gradient(135deg,var(--acc),var(--acc2) 65%,color-mix(in srgb,var(--acc2) 65%,#fff));box-shadow:0 12px 26px -10px var(--acc),inset 0 1px 0 rgba(255,255,255,.3);position:relative;overflow:hidden}
-.btn.pri::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.28) 50%,transparent 60%);transform:translateX(-130%)}
-.typing span,.typing i{background:var(--grad)}
-@media(prefers-reduced-motion:no-preference){
-@keyframes lvFloat{50%{transform:translateY(-8px) rotate(3deg)}}
-@keyframes lvBtn{from{transform:translateX(-130%)}to{transform:translateX(130%)}}
-@keyframes lvPulseB{50%{box-shadow:0 0 0 1px var(--acc),0 18px 36px -12px var(--acc),inset 0 0 30px -10px var(--acc)}}
-.empty::before{animation:lvFloat 5s ease-in-out infinite}
-.btn.pri::after{animation:lvBtn 3.4s ease-in-out 1s infinite}
-.hub-model.active{animation:lvPulseB 2.8s ease-in-out infinite}
-.hub-model,.hub-fb,.hub-auto{animation:lvRise .5s var(--ease) both;animation-delay:calc(var(--i,0)*45ms)}
-}
-</style>
-<style id="lvMenus">
-/* Меню: плавающая «таблетка» вкладки, пружинные иконки, каскад в шторках и панели, анимация заголовка */
-nav button.on{background:transparent!important;box-shadow:none!important}
-nav button{z-index:1}
-#lvPill{position:absolute;z-index:0;border-radius:17px;pointer-events:none;background:linear-gradient(180deg,var(--soft),color-mix(in srgb,var(--soft) 55%,transparent));box-shadow:0 10px 24px -14px var(--acc),inset 0 0 0 1px color-mix(in srgb,var(--acc) 20%,transparent)}
-@media(prefers-reduced-motion:no-preference){
-@keyframes lvTab{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-9px) scale(1.4) rotate(-8deg)}65%{transform:translateY(-1px) scale(1.12) rotate(5deg)}100%{transform:translateY(-3px) scale(1.22)}}
-@keyframes lvLbl{from{opacity:.3;transform:translateY(6px)}to{opacity:1;transform:none}}
-@keyframes lvTitle{from{opacity:0;transform:translateY(-10px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
-@keyframes lvSlideL{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:none}}
-@keyframes lvPopIn{from{opacity:0;transform:scale(.4) rotate(-40deg)}to{opacity:1;transform:none}}
-#lvPill{transition:left .55s cubic-bezier(.34,1.3,.5,1),top .4s,width .5s cubic-bezier(.34,1.3,.5,1),height .4s}
-nav button.on span{animation:lvTab .7s cubic-bezier(.34,1.56,.64,1) both}
-nav button.on i{animation:lvLbl .45s cubic-bezier(.22,1,.36,1) both}
-h1.lvT{animation:lvTitle .5s cubic-bezier(.22,1,.36,1)}
-.ib:not([hidden]){animation:lvPopIn .5s cubic-bezier(.34,1.56,.64,1) both}
-.sheet.on>*{animation:lvRise .55s cubic-bezier(.22,1,.36,1) both}
-.sheet.on>*:nth-child(1){animation-delay:45ms}.sheet.on>*:nth-child(2){animation-delay:90ms}.sheet.on>*:nth-child(3){animation-delay:135ms}.sheet.on>*:nth-child(4){animation-delay:180ms}.sheet.on>*:nth-child(5){animation-delay:225ms}.sheet.on>*:nth-child(6){animation-delay:270ms}.sheet.on>*:nth-child(7){animation-delay:315ms}.sheet.on>*:nth-child(8){animation-delay:360ms}.sheet.on>*:nth-child(9){animation-delay:405ms}.sheet.on>*:nth-child(10){animation-delay:450ms}.sheet.on>*:nth-child(11){animation-delay:495ms}.sheet.on>*:nth-child(12){animation-delay:540ms}
-.drawer.on h3{animation:lvSlideL .45s cubic-bezier(.22,1,.36,1) both}
-.drawer.on .conv{animation:lvSlideL .5s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i,0)*45ms + 80ms)}
-.seg button.on{animation:lvPop .4s cubic-bezier(.34,1.56,.64,1)}
-.quick{transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
-.quick:focus-within{transform:translateY(-2px);box-shadow:0 14px 30px -16px var(--acc)}
-.quick-ai .ai-action{animation:lvRise .5s cubic-bezier(.22,1,.36,1) both}
-.quick-ai .ai-action:nth-child(2){animation-delay:70ms}.quick-ai .ai-action:nth-child(3){animation-delay:140ms}
-.row:hover{transform:translateX(2px)}.row{transition:background .12s,transform .25s cubic-bezier(.34,1.56,.64,1)}
-}
-</style>
 <style id="lvBoot4">
 /* Экран загрузки v6: спокойный, один акцент; движение — вход, живое «дыхание», плавный прогресс, волна на финише */
 #lvBoot,[data-theme=light] #lvBoot,[data-theme=dark] #lvBoot{--ac:#8e96ff;--bgc:#05060a;--dim:#1a1c27;--mut:#80859a}
@@ -526,42 +344,111 @@ h1.lvT{animation:lvTitle .5s cubic-bezier(.22,1,.36,1)}
 #lvBoot.lv-hidden .dr.l{transform:translateX(-101%)}#lvBoot.lv-hidden .dr.r{transform:translateX(101%)}
 .lvc{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(22px,5vh,44px);width:100%;padding:0 24px;transition:opacity .4s,transform .7s cubic-bezier(.5,0,.2,1)}
 #lvBoot.lv-hidden .lvc{opacity:0;transform:scale(1.18)}
-.lvv{position:relative;width:min(64vw,36vh,270px);aspect-ratio:1;animation:lvDial 5s ease-in-out 1.4s infinite}
-.lvv::before{content:"";position:absolute;inset:-12%;border-radius:50%;background:radial-gradient(circle,rgba(142,150,255,.17),transparent 66%);animation:lvGlow 4s ease-in-out infinite}
+.lvv{position:relative;width:min(64vw,36vh,270px);aspect-ratio:1;animation:lvBootDial 5s ease-in-out 1.4s infinite}
+.lvv::before{content:"";position:absolute;inset:-12%;border-radius:50%;background:radial-gradient(circle,rgba(142,150,255,.17),transparent 66%);animation:lvBootGlow 4s ease-in-out infinite}
 .lvv svg{position:relative;width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
-.lvv .ring{fill:none;stroke:var(--dim);stroke-width:1.2;stroke-dasharray:666;animation:lvDraw 1.5s cubic-bezier(.65,0,.2,1) backwards}
-.lvv line{stroke:var(--dim);stroke-width:2.2;stroke-linecap:round;transition:stroke .25s,stroke-width .25s;animation:lvTick .6s cubic-bezier(.22,1,.36,1) calc(.2s + var(--i)*13ms) backwards}
+.lvv .ring{fill:none;stroke:var(--dim);stroke-width:1.2;stroke-dasharray:666;animation:lvBootDraw 1.5s cubic-bezier(.65,0,.2,1) backwards}
+.lvv line{stroke:var(--dim);stroke-width:2.2;stroke-linecap:round;transition:stroke .25s,stroke-width .25s;animation:lvBootTick .6s cubic-bezier(.22,1,.36,1) calc(.2s + var(--i)*13ms) backwards}
 .lvv line.on{stroke:var(--ac)}
-.lvv line.lead{stroke:#fff;stroke-width:4.6;filter:drop-shadow(0 0 6px var(--ac));animation:lvTick .6s backwards,lvLead 1s ease-in-out infinite}
+.lvv line.lead{stroke:#fff;stroke-width:4.6;filter:drop-shadow(0 0 6px var(--ac));animation:lvBootTick .6s backwards,lvBootLead 1s ease-in-out infinite}
 .lvd{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.lvd b{font-size:clamp(56px,17vw,78px);font-weight:200;line-height:1;letter-spacing:-3px;font-variant-numeric:tabular-nums;animation:lvUp .9s cubic-bezier(.22,1,.36,1) .55s backwards}
-.lvd small{margin-top:8px;font-size:13px;color:var(--mut);text-transform:capitalize;animation:lvUp .8s cubic-bezier(.22,1,.36,1) .8s backwards}
+.lvd b{font-size:clamp(56px,17vw,78px);font-weight:200;line-height:1;letter-spacing:-3px;font-variant-numeric:tabular-nums;animation:lvBootUp .9s cubic-bezier(.22,1,.36,1) .55s backwards}
+.lvd small{margin-top:8px;font-size:13px;color:var(--mut);text-transform:capitalize;animation:lvBootUp .8s cubic-bezier(.22,1,.36,1) .8s backwards}
 .lvn{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
 .lvn b{font-size:21px;font-weight:600;letter-spacing:.14em;line-height:1.1}
-.lvn b span{display:inline-block;animation:lvUp .7s cubic-bezier(.22,1,.36,1) backwards;animation-delay:calc(.9s + var(--k)*55ms)}
-#lvBootStatus{font-size:13px;color:var(--mut);min-height:1.3em;animation:lvFade .5s both}
-.lvbar{position:relative;width:min(52vw,200px);height:2px;border-radius:2px;background:var(--dim);overflow:hidden;animation:lvFade .8s 1.2s backwards}
+.lvn b span{display:inline-block;animation:lvBootUp .7s cubic-bezier(.22,1,.36,1) backwards;animation-delay:calc(.9s + var(--k)*55ms)}
+#lvBootStatus{font-size:13px;color:var(--mut);min-height:1.3em;animation:lvBootFade .5s both}
+.lvbar{position:relative;width:min(52vw,200px);height:2px;border-radius:2px;background:var(--dim);overflow:hidden;animation:lvBootFade .8s 1.2s backwards}
 .lvbar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:var(--ac)}
-.lvbar i::after{content:"";position:absolute;top:0;bottom:0;width:60px;right:0;background:linear-gradient(90deg,transparent,#fff);animation:lvSheen 1.6s ease-in-out infinite}
-#lvBoot.lv-flash .lvv line{animation:lvWaveT .55s ease-out calc(var(--i)*7ms) both}
-#lvBoot.lv-flash .lvd b{animation:lvPop .6s cubic-bezier(.34,1.56,.64,1) both}
-@keyframes lvDraw{from{stroke-dashoffset:666}}
-@keyframes lvTick{from{opacity:0;stroke-width:0}}
-@keyframes lvUp{from{opacity:0;transform:translateY(14px);filter:blur(6px)}}
-@keyframes lvFade{from{opacity:0;transform:translateY(5px)}}
-@keyframes lvGlow{50%{transform:scale(1.12);opacity:.65}}
-@keyframes lvDial{50%{transform:scale(1.025)}}
-@keyframes lvLead{50%{filter:drop-shadow(0 0 12px var(--ac))}}
-@keyframes lvSheen{from{opacity:0}30%{opacity:1}to{opacity:0;transform:translateX(30px)}}
-@keyframes lvWaveT{40%{stroke:#fff;stroke-width:6}}
-@keyframes lvPop{50%{transform:scale(1.08)}}
+.lvbar i::after{content:"";position:absolute;top:0;bottom:0;width:60px;right:0;background:linear-gradient(90deg,transparent,#fff);animation:lvBootSheen 1.6s ease-in-out infinite}
+#lvBoot.lv-flash .lvv line{animation:lvBootWaveT .55s ease-out calc(var(--i)*7ms) both}
+#lvBoot.lv-flash .lvd b{animation:lvBootPop .6s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes lvBootDraw{from{stroke-dashoffset:666}}
+@keyframes lvBootTick{from{opacity:0;stroke-width:0}}
+@keyframes lvBootUp{from{opacity:0;transform:translateY(14px);filter:blur(6px)}}
+@keyframes lvBootFade{from{opacity:0;transform:translateY(5px)}}
+@keyframes lvBootGlow{50%{transform:scale(1.12);opacity:.65}}
+@keyframes lvBootDial{50%{transform:scale(1.025)}}
+@keyframes lvBootLead{50%{filter:drop-shadow(0 0 12px var(--ac))}}
+@keyframes lvBootSheen{from{opacity:0}30%{opacity:1}to{opacity:0;transform:translateX(30px)}}
+@keyframes lvBootWaveT{40%{stroke:#fff;stroke-width:6}}
+@keyframes lvBootPop{50%{transform:scale(1.08)}}
 </style>
+
+<style id="lifevault-polish">
+/* Focused interaction polish: restrained motion, consistent focus and responsive spacing. */
+:root{--motion-fast:140ms;--motion-base:220ms;--motion-ease:cubic-bezier(.2,.7,.2,1)}
+button,.ib,.btn,.chip,.ai-action,.hub-provider,.hub-model,.hub-auto,.row,.card,.sheet,.drawer{transition-duration:var(--motion-base);transition-timing-function:var(--motion-ease)}
+button:focus-visible,.ib:focus-visible,.btn:focus-visible,.inp:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--acc2);outline-offset:3px}
+button:active:not(:disabled),.ib:active:not(:disabled),.btn:active:not(:disabled){transform:scale(.98)}
+.view.on{animation:lvViewEnter 180ms var(--motion-ease) both}
+@keyframes lvViewEnter{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+#msgs>.m{animation:lvMessageEnter 180ms var(--motion-ease) both}
+@keyframes lvMessageEnter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.card,.hub-provider,.hub-model{transition:border-color var(--motion-base),background-color var(--motion-base),transform var(--motion-base)}
+@media(hover:hover) and (pointer:fine){.row:hover{background:var(--soft)}.hub-model:hover,.hub-provider:hover{border-color:color-mix(in srgb,var(--acc) 45%,var(--line))}}
+@media(max-width:420px){header{padding-left:12px;padding-right:12px}header h1{font-size:21px}.scroll{padding-left:11px;padding-right:11px}.hub-providers{gap:7px}}
+@media(max-height:620px){.lvv{width:min(48vw,25vh,220px)}.lvc{gap:16px}.lvd b{font-size:54px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+
+<style id="lvBoot-cinematic">
+/* Opening sequence: precision instrument, restrained cinematic motion. */
+#lvBoot{isolation:isolate;background:#05060a;--ac:#a6a1ff;--dim:#25263a}
+#lvBoot::before{content:"";position:absolute;inset:-30%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 43%,rgba(91,78,240,.17),transparent 35%),radial-gradient(ellipse at 50% 70%,rgba(220,170,92,.055),transparent 42%);animation:lvAtmosphere 5.5s ease-in-out infinite alternate}
+#lvBoot::after{content:"";position:absolute;z-index:1;left:50%;top:43%;width:min(76vw,520px);aspect-ratio:1;transform:translate(-50%,-50%) scale(.7);border-radius:50%;border:1px solid rgba(166,161,255,.0);box-shadow:0 0 0 1px rgba(166,161,255,.025),0 0 90px rgba(91,78,240,.08);opacity:0;pointer-events:none;animation:lvCoreReveal 1.6s .12s cubic-bezier(.16,1,.3,1) forwards}
+.lvc{gap:clamp(22px,5vh,42px)}
+.lvv{z-index:2;filter:drop-shadow(0 18px 38px rgba(0,0,0,.22));animation:lvDialArrive 1.15s cubic-bezier(.16,1,.3,1) both,lvBootDial 5s ease-in-out 1.4s infinite}
+.lvv::before{inset:-20%;background:radial-gradient(circle,rgba(142,150,255,.19),rgba(91,78,240,.06) 38%,transparent 68%);animation:lvBootGlow 3.8s ease-in-out infinite}
+.lvv::after{content:"";position:absolute;inset:7%;border-radius:50%;border:1px solid rgba(166,161,255,.16);box-shadow:inset 0 0 22px rgba(91,78,240,.055),0 0 24px rgba(91,78,240,.04);pointer-events:none}
+.lv-orbit{position:absolute;inset:-5%;border-radius:50%;pointer-events:none;z-index:0}
+.lv-orbit-a{border:1px solid transparent;border-top-color:rgba(190,185,255,.76);border-right-color:rgba(190,185,255,.18);animation:lvOrbit 7s linear infinite}
+.lv-orbit-b{inset:-10%;border:1px dashed rgba(142,150,255,.2);animation:lvOrbitReverse 22s linear infinite}
+.lv-orbit-a::before,.lv-orbit-b::before{content:"";position:absolute;top:13%;left:50%;width:4px;height:4px;border-radius:50%;background:#d9d6ff;box-shadow:0 0 12px 3px rgba(166,161,255,.65)}
+.lv-orbit-b::before{top:auto;bottom:12%;left:18%;width:3px;height:3px;opacity:.7}
+.lv-scan{position:absolute;inset:14%;border-radius:50%;z-index:1;pointer-events:none;background:conic-gradient(from 0deg,transparent 0 74%,rgba(166,161,255,.13) 82%,rgba(210,207,255,.62) 85%,transparent 88% 100%);mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));animation:lvOrbit 3.8s linear infinite;opacity:.75}
+.lvv svg{z-index:2}
+.lvd{z-index:3}
+.lvd b{text-shadow:0 0 26px rgba(166,161,255,.12);animation:lvNumberReveal .9s .28s cubic-bezier(.16,1,.3,1) both}
+.lvd small{letter-spacing:.08em;animation:lvBootUp .7s .45s cubic-bezier(.16,1,.3,1) backwards}
+.lvn{z-index:2;gap:13px;animation:lvBrandReveal .9s .28s cubic-bezier(.16,1,.3,1) both}
+.lvn b{font-size:clamp(18px,4vw,22px);letter-spacing:.22em;text-shadow:0 0 28px rgba(166,161,255,.12)}
+#lvBootStatus{letter-spacing:.025em;transition:opacity .2s}
+.lvbar{height:2px;width:min(56vw,220px);background:rgba(255,255,255,.09);box-shadow:0 0 16px rgba(142,150,255,.07)}
+.lvbar i{background:linear-gradient(90deg,#6960e8,#c1bdff);box-shadow:0 0 12px rgba(142,150,255,.55);transition:transform .12s linear}
+#lvBoot.lv-flash .lvv{animation:lvVaultUnlock .72s cubic-bezier(.16,1,.3,1) both}
+#lvBoot.lv-flash .lvv::after{animation:lvLockFlash .6s ease-out both}
+#lvBoot.lv-flash::after{animation:lvCoreOpen .8s cubic-bezier(.16,1,.3,1) both}
+#lvBoot.lv-hidden .lvc{opacity:0;transform:scale(1.06) translateY(-8px);filter:blur(5px)}
+#lvBoot.lv-hidden .dr{filter:brightness(1.8);transition:transform .85s cubic-bezier(.76,0,.18,1),filter .65s ease}
+#lvBoot.lv-hidden .dr.l{transform:translateX(-105%) rotate(-1.5deg)}
+#lvBoot.lv-hidden .dr.r{transform:translateX(105%) rotate(1.5deg)}
+@keyframes lvOrbit{to{transform:rotate(360deg)}}
+@keyframes lvOrbitReverse{to{transform:rotate(-360deg)}}
+@keyframes lvAtmosphere{from{opacity:.55;transform:scale(.96)}to{opacity:1;transform:scale(1.04)}}
+@keyframes lvCoreReveal{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}55%{opacity:.75}100%{opacity:.22;transform:translate(-50%,-50%) scale(1)}}
+@keyframes lvCoreOpen{0%{opacity:.22;transform:translate(-50%,-50%) scale(1)}40%{opacity:.9;border-color:rgba(190,185,255,.5);box-shadow:0 0 0 1px rgba(166,161,255,.12),0 0 100px rgba(91,78,240,.25)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.28)}}
+@keyframes lvDialArrive{0%{opacity:0;transform:scale(.72) rotate(-18deg);filter:blur(8px)}65%{opacity:1;filter:blur(0)}100%{transform:scale(1) rotate(0)}}
+@keyframes lvNumberReveal{from{opacity:0;transform:translateY(10px) scale(.92);filter:blur(8px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes lvBrandReveal{from{opacity:0;transform:translateY(12px);filter:blur(5px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes lvVaultUnlock{0%{transform:scale(1)}35%{transform:scale(1.045) rotate(1deg)}65%{transform:scale(.99) rotate(-.6deg)}100%{transform:scale(1.02)}}
+@keyframes lvLockFlash{0%{opacity:1;box-shadow:inset 0 0 0 rgba(190,185,255,0)}45%{opacity:1;box-shadow:inset 0 0 36px rgba(190,185,255,.5),0 0 45px rgba(190,185,255,.4)}100%{opacity:0}}
+@media(max-height:620px){#lvBoot::after{top:38%;width:min(64vw,420px)}.lv-orbit-b{inset:-7%}}
+@media(prefers-reduced-motion:reduce){#lvBoot::before,#lvBoot::after,.lvv,.lv-orbit,.lv-scan,.lvn,.lvd b{animation:none!important}#lvBoot .dr,#lvBoot .lvc{transition-duration:.01ms!important}}
+</style>
+
 </head>
 <body>
 <div id="lvBoot" aria-hidden="true">
   <i class="dr l"></i><i class="dr r"></i>
   <div class="lvc">
-    <div class="lvv"><svg viewBox="0 0 200 200"></svg><div class="lvd"><b id="lvDay"></b><small id="lvMon"></small></div></div>
+    <div class="lvv">
+      <span class="lv-orbit lv-orbit-a" aria-hidden="true"></span>
+      <span class="lv-orbit lv-orbit-b" aria-hidden="true"></span>
+      <span class="lv-scan" aria-hidden="true"></span>
+      <svg viewBox="0 0 200 200" aria-hidden="true"></svg>
+      <div class="lvd"><b id="lvDay"></b><small id="lvMon"></small></div>
+    </div>
     <div class="lvn">
       <b id="lvWord">LifeVault</b>
       <span id="lvBootStatus"></span>
@@ -1612,52 +1499,6 @@ document.addEventListener('submit', (e) => {
 save(true);
 window.LifeTrack = { open() { render(true); } };
 
-})();
-</script>
-<script>
-// Анимации интерфейса: каскад списков, индикатор вкладок, рябь, конфетти и вибро-отклик
-(() => {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const tg = window.Telegram && Telegram.WebApp, hap = (t) => { try { tg.HapticFeedback[t === 's' ? 'selectionChanged' : 'impactOccurred']('light'); } catch (e) {} };
-  // 1) Каскад: каждому новому элементу списка — своя задержка
-  const SEL = '.row,.card,.conv,.sec2';
-  const stagger = (root) => { let i = 0; (root.matches && root.matches(SEL) ? [root] : []).concat([...root.querySelectorAll ? root.querySelectorAll(SEL) : []]).forEach((el) => { if (!el.dataset.lvi) { el.dataset.lvi = 1; el.style.setProperty('--i', Math.min(i++, 12)); } }); };
-  new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => n.nodeType === 1 && stagger(n)))).observe(document.body, { childList: true, subtree: true });
-  // 2) Бегущий индикатор активной вкладки
-  const nav = document.querySelector('nav'); if (nav) {
-    const ind = document.createElement('i'); ind.id = 'lvInd'; nav.appendChild(ind);
-    const pill = document.createElement('i'); pill.id = 'lvPill'; nav.insertBefore(pill, nav.firstChild);
-    const move = () => { const b = nav.querySelector('button.on'); if (b) { pill.style.cssText = `left:${b.offsetLeft}px;top:${b.offsetTop}px;width:${b.offsetWidth}px;height:${b.offsetHeight}px`; ind.style.left = b.offsetLeft + b.offsetWidth * .25 + 'px'; ind.style.width = b.offsetWidth * .5 + 'px'; } };
-    new MutationObserver(move).observe(nav, { attributes: true, subtree: true, attributeFilter: ['class'] }); addEventListener('resize', move); setTimeout(move, 600); setTimeout(move, 1800);
-    nav.addEventListener('click', () => hap('s'));
-  }
-  // 3) Рябь на кнопках
-  document.addEventListener('pointerdown', (e) => {
-    const b = e.target.closest && e.target.closest('button:not(.chk):not(.fab):not(.send),.ib'); if (!b) return;
-    const r = b.getBoundingClientRect(), d = Math.max(r.width, r.height), p = document.createElement('i');
-    if (getComputedStyle(b).position === 'static') b.style.position = 'relative'; b.style.overflow = b.style.overflow || 'hidden';
-    p.className = 'lvRip'; p.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d / 2}px;top:${e.clientY - r.top - d / 2}px`; b.appendChild(p); setTimeout(() => p.remove(), 650); hap('i');
-  }, { passive: true });
-  // 4) Конфетти при выполнении дела
-  const burst = (x, y) => {
-    const cols = ['#6ee7a8', '#6aa7ff', '#ffd166', '#ff7aa2', '#b794ff'];
-    for (let k = 0; k < 16; k++) {
-      const c = document.createElement('i'); c.className = 'lvConf'; c.style.cssText = `left:${x}px;top:${y}px;background:${cols[k % 5]}`; document.body.appendChild(c);
-      const a = Math.PI * 2 * k / 16 + Math.random() * .4, v = 50 + Math.random() * 70;
-      c.animate([{ transform: 'translate(0,0) rotate(0) scale(1)', opacity: 1 }, { transform: `translate(${Math.cos(a) * v}px,${Math.sin(a) * v + 40}px) rotate(${Math.random() * 540}deg) scale(.3)`, opacity: 0 }], { duration: 750 + Math.random() * 300, easing: 'cubic-bezier(.2,.8,.3,1)' }).onfinish = () => c.remove();
-    }
-  };
-  document.addEventListener('click', (e) => {
-    const c = e.target.closest && e.target.closest('.chk'); if (!c) return;
-    const row = c.closest('.row'), was = c.getAttribute('aria-pressed') === 'true' || c.classList.contains('on') || (row && row.classList.contains('done'));
-    if (!was) { const r = c.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2); try { tg.HapticFeedback.notificationOccurred('success'); } catch (x) {} }
-  }, true);
-  // 5) Фон-аврора и тень шапки при прокрутке
-  const aur = document.createElement('div'); aur.className = 'lvAur'; aur.innerHTML = '<i></i><i></i>'; document.body.prepend(aur);
-  const hd = document.querySelector('header');
-  document.addEventListener('scroll', (e) => { const t = e.target; if (hd && t.classList && t.classList.contains('scroll')) hd.classList.toggle('lvScr', t.scrollTop > 6); }, true);
-  const ht = document.getElementById('hTitle'); if (ht) new MutationObserver(() => { ht.classList.remove('lvT'); void ht.offsetWidth; ht.classList.add('lvT'); }).observe(ht, { childList: true, characterData: true, subtree: true });
-  stagger(document.body);
 })();
 </script>
 </body>
