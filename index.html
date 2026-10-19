@@ -617,6 +617,7 @@ h1.lvT{animation:lvTitle .5s cubic-bezier(.22,1,.36,1)}
 <div class="sheet" id="shSet"></div>
 <div class="sheet ai-hub" id="shHub"></div>
 <div class="sheet" id="shPro"></div>
+<div class="sheet" id="shQuick"></div>
 <div id="lifeSh" class="lf"></div>
 <div id="toast" role="status"></div>
 <div id="gate"><div><b style="font-size:24px">LifeVault</b><p id="gateTxt" style="color:var(--muted)"></p><div class="spin" id="gateSpin"></div></div></div>
@@ -638,6 +639,10 @@ const LOC = L === 'en' ? 'en-US' : 'ru-RU';
 
 const T = {
   ru: {
+    qkBtn:'⚡ Быстрая запись с кнопки iPhone', qkT:'Запись голосом без разблокировки', qkS:'Кнопка действия iPhone 15 Pro и новее запускает «Команду»: ты диктуешь фразу, ИИ исправляет текст и сам создаёт запись в LifeVault.',
+    qkOn:'Включить', qkRegen:'Создать новый ключ', qkRevoke:'Выключить', qkRevokeQ:'Выключить быструю запись? Команда на iPhone перестанет работать.', qkUrl:'Адрес (URL)', qkKey:'Твой личный ключ', qkWarn:'Ключ даёт доступ к записи в твой дневник — никому его не показывай. Если он утёк, создай новый.',
+    qkStepsT:'Как настроить (1 минута)', qk1:'Открой «Команды» → «+» и назови команду LifeVault.', qk2:'Добавь действие «Диктовка текста»: язык — русский, остановка — «После паузы».', qk3:'Добавь «Получить содержимое URL»: вставь адрес выше, метод POST, тело запроса — JSON. Три поля (тип «Текст»): action = quick.add, token = твой ключ, text = переменная «Продиктованный текст».', qk4:'Добавь «Получить значение для» ключа reply, затем «Показать уведомление» (или «Произнести текст»).', qk5:'Настройки iPhone → Кнопка действия → Команда → выбери LifeVault. Зажми кнопку и говори.',
+    qkNote:'Работает на iPhone 15 Pro / Pro Max и всех iPhone 16+. Если iOS попросит разблокировку для диктовки, это ограничение системы — проверь команду при заблокированном экране. Если ИИ недоступен, фраза всё равно сохранится заметкой.', qkOnDone:'Быстрая запись включена', qkOffDone:'Быстрая запись выключена',
     today:'Сегодня', soon:'Скоро', chat:'Ассистент', mem:'Память', overdue:'Просрочено', nodate:'Без срока', tomorrow:'Завтра',
     quick:'Что запланировать?', emptyT:'На сегодня всё свободно', emptyS:'Добавьте задачу или напишите ассистенту, что запланировать.',
     soonEmpty:'Ближайшие две недели пусты', task:'Задача', event:'Событие', note:'Заметка',
@@ -666,6 +671,10 @@ const T = {
     homeBtn:'📲 Добавить на рабочий стол', homeT:'Добавьте LifeVault на рабочий стол', homeS:'Приложение будет открываться одним нажатием, как обычное. Напоминания придут в Telegram.', homeAdd:'Добавить', later:'Позже', homeDone:'Готово! Иконка на рабочем столе ✅'
   },
   en: {
+    qkBtn:'⚡ Quick capture from iPhone button', qkT:'Voice capture without unlocking', qkS:'The iPhone 15 Pro+ Action Button runs a Shortcut: you dictate a phrase, AI fixes the text and creates the entry in LifeVault by itself.',
+    qkOn:'Turn on', qkRegen:'Create a new key', qkRevoke:'Turn off', qkRevokeQ:'Turn off quick capture? The iPhone shortcut will stop working.', qkUrl:'Address (URL)', qkKey:'Your private key', qkWarn:'The key lets anyone add entries to your planner — keep it private. If it leaks, create a new one.',
+    qkStepsT:'Setup (1 minute)', qk1:'Open Shortcuts → “+” and name it LifeVault.', qk2:'Add “Dictate Text”: language English, stop listening “After Pause”.', qk3:'Add “Get Contents of URL”: paste the address above, method POST, request body JSON. Three Text fields: action = quick.add, token = your key, text = the “Dictated Text” variable.', qk4:'Add “Get Dictionary Value” for key reply, then “Show Notification” (or “Speak Text”).', qk5:'iPhone Settings → Action Button → Shortcut → pick LifeVault. Hold the button and speak.',
+    qkNote:'Works on iPhone 15 Pro / Pro Max and all iPhone 16+. If iOS asks to unlock for dictation, that is a system limit — test the shortcut with the screen locked. If AI is unavailable, your phrase is still saved as a note.', qkOnDone:'Quick capture is on', qkOffDone:'Quick capture is off',
     today:'Today', soon:'Upcoming', chat:'Assistant', mem:'Memory', overdue:'Overdue', nodate:'No date', tomorrow:'Tomorrow',
     quick:'What should I plan?', emptyT:'Nothing planned for today', emptyS:'Add a task or tell the assistant what to plan.',
     soonEmpty:'The next two weeks are empty', task:'Task', event:'Event', note:'Note',
@@ -718,8 +727,6 @@ function applyTheme() {
   d.dataset.size = UI.size || 'm';
 }
 function paintChrome() { try { const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim(); if (tg && /^#/.test(bg)) { tg.setHeaderColor(bg); tg.setBackgroundColor(bg); } } catch (e) {} }
-function tickDay() { const n = new Date(); document.documentElement.style.setProperty('--day', ((n.getHours() * 60 + n.getMinutes()) / 1440).toFixed(4)); }
-tickDay(); setInterval(tickDay, 60000);
 function tickDay() { const n = new Date(); document.documentElement.style.setProperty('--day', ((n.getHours() * 60 + n.getMinutes()) / 1440).toFixed(4)); }
 tickDay(); setInterval(tickDay, 60000);
 applyTheme(); paintChrome(); if (tg && tg.onEvent) tg.onEvent('themeChanged', () => { applyTheme(); paintChrome(); });
@@ -799,7 +806,7 @@ document.addEventListener('click', (e) => {
 
 // ---------- слои ----------
 function openLayer(el) { $('scrim').classList.add('on'); el.classList.add('on'); backBtn(true); }
-function closeLayers() { $('scrim').classList.remove('on'); ['drawer', 'shEntry', 'shSet', 'shHub', 'shPro'].forEach((i) => $(i).classList.remove('on')); backBtn(false); }
+function closeLayers() { $('scrim').classList.remove('on'); ['drawer', 'shEntry', 'shSet', 'shHub', 'shPro', 'shQuick'].forEach((i) => $(i).classList.remove('on')); backBtn(false); }
 $('scrim').onclick = closeLayers;
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLayers(); });
 
@@ -1043,17 +1050,38 @@ async function openSettings() {
     '<label class="f">' + t('ui') + '</label><div class="seg" id="thSeg">' + [['auto', 'themeAuto'], ['light', 'themeLight'], ['dark', 'themeDark']].map((x) => '<button data-k="' + x[0] + '" class="' + ((UI.theme || 'auto') === x[0] ? 'on' : '') + '">' + t(x[1]) + '</button>').join('') + '</div>' +
     '<label class="f">' + t('accent') + '</label><div class="sw" id="swRow">' + [['indigo', '#5b4ef0,#7d6fff'], ['violet', '#8b3fe0,#c084fc'], ['sky', '#0a7fc4,#38bdf8'], ['emerald', '#0e9f6e,#34d399'], ['amber', '#d97706,#fbbf24'], ['rose', '#e11d63,#fb7185'], ['graphite', '#3b4252,#7a8499']].map((x) => '<button data-a="' + x[0] + '" aria-label="' + x[0] + '" class="' + ((UI.accent || 'indigo') === x[0] ? 'on' : '') + '" style="background:linear-gradient(135deg,' + x[1] + ')"></button>').join('') + '</div>' +
     '<label class="f">' + t('size') + '</label><div class="seg" id="szSeg"><button data-k="m" class="' + ((UI.size || 'm') === 'm' ? 'on' : '') + '">' + t('sizeM') + '</button><button data-k="l" class="' + (UI.size === 'l' ? 'on' : '') + '">' + t('sizeL') + '</button></div>' +
-    '<button class="btn pri" id="setSave">' + t('save') + '</button>' + (hs === 'missed' || hs === 'unknown' ? '<button class="btn sec2" id="setHome">' + t('homeBtn') + '</button>' : '') + '<button class="btn sec2" id="setPro">' + t('proT') + '</button>';
+    '<button class="btn pri" id="setSave">' + t('save') + '</button>' + (hs === 'missed' || hs === 'unknown' ? '<button class="btn sec2" id="setHome">' + t('homeBtn') + '</button>' : '') + '<button class="btn sec2" id="setQuick">' + t('qkBtn') + '</button>' + '<button class="btn sec2" id="setPro">' + t('proT') + '</button>';
   $('styleSeg').querySelectorAll('button').forEach((b) => (b.onclick = () => { style = b.dataset.k; $('styleSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
   const bindUI = (id, attr, key) => $(id).querySelectorAll('button').forEach((b) => (b.onclick = () => { UI[key] = b.dataset[attr]; saveUI(); applyTheme(); $(id).querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }));
   bindUI('thSeg', 'k', 'theme'); bindUI('swRow', 'a', 'accent'); bindUI('szSeg', 'k', 'size');
   $('openHub').onclick = openAiHub;
   $('setSave').onclick = async () => { try { await api('ai.settings.save', { style, custom_instruction: $('custom').value, model: S.settings.model || 'auto' }); S.settings = { ...S.settings, style, custom_instruction: $('custom').value }; toast(t('saved')); closeLayers(); } catch (e) { toast(errText(e)); } };
   $('setPro').onclick = () => openPro();
+  $('setQuick').onclick = () => openQuick();
   if ($('setHome')) $('setHome').onclick = () => { closeLayers(); addHome(); };
   closeLayers(); openLayer($('shSet'));
 }
 $('btnSet').onclick = openSettings;
+
+// ---------- быстрая запись с кнопки действия iPhone ----------
+async function openQuick() {
+  let st; try { st = await api('quick.status'); } catch (e) { toast(errText(e)); return; }
+  const row = (label, val) => '<label class="f">' + label + '</label><div style="display:flex;gap:8px"><input class="inp" readonly value="' + esc(val) + '" style="min-width:0"><button class="btn sec2" data-copy="' + esc(val) + '" style="max-width:none;width:auto;padding:0 16px">' + t('copy') + '</button></div>';
+  const steps = ['qk1', 'qk2', 'qk3', 'qk4', 'qk5'].map((k, i) => '<p style="margin:8px 0;font-size:13.5px"><b>' + (i + 1) + '.</b> ' + esc(t(k)) + '</p>').join('');
+  $('shQuick').innerHTML = '<h3>' + t('qkT') + '</h3><div class="hero"><h4>⚡ iPhone</h4><p>' + t('qkS') + '</p></div>' +
+    (st.enabled
+      ? row(t('qkUrl'), API_URL) + row(t('qkKey'), st.token) + '<p style="color:var(--muted);font-size:12.5px;margin:8px 0">' + t('qkWarn') + '</p>' +
+        '<label class="f">' + t('qkStepsT') + '</label>' + steps + '<p style="color:var(--muted);font-size:12.5px">' + t('qkNote') + '</p>' +
+        '<button class="btn sec2" id="qkRegen">' + t('qkRegen') + '</button><button class="btn sec2" id="qkOff">' + t('qkRevoke') + '</button>'
+      : '<button class="btn pri" id="qkOn" style="max-width:none">' + t('qkOn') + '</button><p style="color:var(--muted);font-size:12.5px;margin-top:10px">' + t('qkNote') + '</p>');
+  $('shQuick').querySelectorAll('[data-copy]').forEach((b) => (b.onclick = () => copyText(b.dataset.copy)));
+  const on = async (msg) => { try { await api('quick.create'); toast(msg); openQuick(); } catch (e) { toast(errText(e)); } };
+  if ($('qkOn')) $('qkOn').onclick = () => on(t('qkOnDone'));
+  if ($('qkRegen')) $('qkRegen').onclick = () => on(t('qkOnDone'));
+  if ($('qkOff')) $('qkOff').onclick = async () => { if (!confirm(t('qkRevokeQ'))) return; try { await api('quick.revoke'); toast(t('qkOffDone')); openQuick(); } catch (e) { toast(errText(e)); } };
+  closeLayers(); openLayer($('shQuick'));
+}
+
 
 
 // ---------- диалоги ----------
