@@ -556,6 +556,34 @@ h1.lvT{animation:lvTitle .5s cubic-bezier(.22,1,.36,1)}
 @keyframes lvWaveT{40%{stroke:#fff;stroke-width:6}}
 @keyframes lvPop{50%{transform:scale(1.08)}}
 </style>
+<style id="lv-glass">
+:root,[data-theme],[data-theme=dark],[data-theme=light]{color-scheme:dark;--bg:#09090b!important;--card:#131316!important;--card2:#19191d!important;--text:#f4f4f7!important;--muted:#8e8e99!important;--line:rgba(255,255,255,.09)!important;--soft:rgba(255,255,255,.07)!important}
+body{background:radial-gradient(120% 60% at 50% -10%,rgba(255,255,255,.07),transparent 60%),#09090b!important;color:var(--text)}
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:2px 0 12px}
+.bt{position:relative;text-align:left;color:var(--text);padding:16px 16px 14px;min-height:132px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(150deg,rgba(255,255,255,.075),rgba(255,255,255,.02));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 34px -22px #000;transition:transform .18s cubic-bezier(.3,1.4,.5,1),border-color .2s;animation:btIn .55s cubic-bezier(.22,1,.36,1) both;display:flex;flex-direction:column}
+.bt:nth-child(2){animation-delay:.06s}.bt:nth-child(3){animation-delay:.12s}.bt:nth-child(4){animation-delay:.18s}.bt:nth-child(5){animation-delay:.24s}
+.bt:active{transform:scale(.96)}.bt:hover{border-color:rgba(255,255,255,.2)}
+.bt small{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.bt b{display:block;font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-top:10px}
+.bt p{margin:auto 0 0;font-size:14px;line-height:1.3;color:var(--muted)}
+.bt .pl{position:relative;display:block;width:34px;height:34px;margin:14px 0 8px;color:var(--text)}
+.bt .pl:not(.sp)::before,.bt .pl:not(.sp)::after{content:"";position:absolute;left:50%;top:50%;background:currentColor;border-radius:2px}
+.bt .pl:not(.sp)::before{width:30px;height:2px;margin:-1px 0 0 -15px}.bt .pl:not(.sp)::after{width:2px;height:30px;margin:-15px 0 0 -1px}
+.bt .pl.sp svg{width:32px;height:32px;animation:btSpin 6s linear infinite}
+.bt.hero{grid-column:1/-1;min-height:150px;cursor:default;background:linear-gradient(150deg,rgba(255,255,255,.1),rgba(255,255,255,.02))}
+.bt.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.4px);background-size:6px 6px;-webkit-mask-image:linear-gradient(115deg,transparent 30%,#000 130%);mask-image:linear-gradient(115deg,transparent 30%,#000 130%);opacity:.55;animation:btDots 9s ease-in-out infinite alternate}
+.bt.hero>*{position:relative}.bt.hero b{font-size:38px;margin:8px 0 6px}
+@keyframes btIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes btSpin{to{transform:rotate(360deg)}}@keyframes btDots{from{opacity:.35}to{opacity:.7}}
+nav{gap:6px!important;padding:6px!important;border-radius:28px!important;background:rgba(18,18,22,.78)!important;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.1)!important;box-shadow:0 20px 40px -18px #000}
+nav button{align-items:flex-start!important;text-align:left;padding:9px 10px 8px!important;border-radius:20px!important;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);color:var(--muted)!important;gap:7px!important;transition:background .25s,color .25s,transform .2s}
+nav button::after{content:attr(data-n);position:absolute;top:8px;right:9px;font-size:9.5px;font-weight:700;letter-spacing:.08em;opacity:.55}
+nav button::before{display:none!important}
+nav button.on{background:#fff!important;color:#0b0b0e!important;border-color:#fff;transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(255,255,255,.55)!important}
+nav button span svg{width:19px;height:19px;display:block}
+.ib{display:grid;place-items:center}.ib svg,.send svg{width:20px;height:20px}.ai-action svg{width:16px;height:16px;vertical-align:-3px;margin-right:2px}
+.sheet{background:rgba(19,19,22,.92)!important;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.09)}
+</style>
 </head>
 <body>
 <div id="lvBoot" aria-hidden="true">
@@ -573,13 +601,14 @@ h1.lvT{animation:lvTitle .5s cubic-bezier(.22,1,.36,1)}
 <div id="app">
   <header>
     <h1 id="hTitle"></h1>
-    <button class="ib" id="btnHist" aria-label="chats" hidden>☰</button>
-    <button class="ib" id="btnNewChat" aria-label="new chat" hidden>＋</button>
-    <button class="ib" id="btnSet" aria-label="settings">⚙</button>
+    <button class="ib" id="btnHist" aria-label="chats" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
+    <button class="ib" id="btnNewChat" aria-label="new chat" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="ib" id="btnSet" aria-label="settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></button>
   </header>
   <main>
     <section class="view on" id="v-today">
-      <div class="scroll"><div class="quick"><input id="quick" maxlength="200" enterkeyhint="done"><button id="quickAdd" aria-label="add">＋</button></div><div id="todayList"></div></div>
+      <div class="scroll"><div class="bento" id="bento"><div class="bt hero"><small id="bDow"></small><b id="bDate"></b><p id="bHi"></p></div><button class="bt" id="bTasks"><small id="bTL"></small><b id="bCnt">0</b><p id="bCT"></p></button><button class="bt" id="bNotes"><small id="bNL"></small><i class="pl"></i><p id="bNT"></p></button><button class="bt" id="bMeet"><small id="bML"></small><i class="pl"></i><p id="bMT"></p></button><button class="bt" id="bAI"><small id="bAL"></small><i class="pl sp"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></i><p id="bAT"></p></button></div>
+      <div class="quick"><input id="quick" maxlength="200" enterkeyhint="done"><button id="quickAdd" aria-label="add">＋</button></div><div id="todayList"></div></div>
       <button class="fab" id="fabToday" aria-label="add">＋</button>
     </section>
     <section class="view" id="v-soon">
@@ -590,11 +619,11 @@ h1.lvT{animation:lvTitle .5s cubic-bezier(.22,1,.36,1)}
       <div id="msgs"></div>
       <div class="usage"><span id="usageTxt"></span><button class="link" id="usageBuy"></button></div>
       <div class="quick-ai">
-        <button class="ai-action" id="btnVoice">🎙 <span id="tVoice"></span></button>
-        <button class="ai-action" id="btnPhoto">📷 <span id="tPhoto"></span></button>
-        <button class="ai-action" id="btnPlan">✨ <span id="tPlan"></span></button>
+        <button class="ai-action" id="btnVoice"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg> <span id="tVoice"></span></button>
+        <button class="ai-action" id="btnPhoto"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg> <span id="tPhoto"></span></button>
+        <button class="ai-action" id="btnPlan"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg> <span id="tPlan"></span></button>
       </div>
-      <div class="composer"><textarea id="inp" rows="1" aria-label="message"></textarea><button class="send" id="btnSend" aria-label="send">↑</button></div>
+      <div class="composer"><textarea id="inp" rows="1" aria-label="message"></textarea><button class="send" id="btnSend" aria-label="send"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>
       <input id="photoInput" type="file" accept="image/*,video/*" hidden>
       <div class="voice-rec" id="voiceRec"><b id="tRec"></b><p id="voiceTimer">00:00</p><button class="btn pri" id="stopVoice"></button><button class="btn danger" id="cancelVoice"></button></div>
     </section>
@@ -604,11 +633,11 @@ h1.lvT{animation:lvTitle .5s cubic-bezier(.22,1,.36,1)}
     <section class="view lf" id="v-life"><div class="scroll" id="lifeBody"></div></section>
   </main>
   <nav>
-    <button id="nToday" class="on"><span>☀</span><i id="lToday"></i></button>
-    <button id="nSoon"><span>▦</span><i id="lSoon"></i></button>
-    <button id="nChat"><span>✦</span><i id="lChat"></i></button>
-    <button id="nMem"><span>❖</span><i id="lMem"></i></button>
-    <button id="nLife"><span>◈</span><i id="lLife"></i></button>
+    <button id="nToday" class="on"><span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></span><i id="lToday"></i></button>
+    <button id="nSoon"><span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/></svg></span><i id="lSoon"></i></button>
+    <button id="nChat"><span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></span><i id="lChat"></i></button>
+    <button id="nMem"><span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span><i id="lMem"></i></button>
+    <button id="nLife"><span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2"/></svg></span><i id="lLife"></i></button>
   </nav>
 </div>
 <div class="scrim" id="scrim"></div>
@@ -639,7 +668,7 @@ const LOC = L === 'en' ? 'en-US' : 'ru-RU';
 
 const T = {
   ru: {
-    qkBtn:'⚡ Быстрая запись с кнопки iPhone', qkT:'Запись голосом без разблокировки', qkS:'Кнопка действия iPhone 15 Pro и новее запускает «Команду»: ты диктуешь фразу, ИИ исправляет текст и сам создаёт запись в LifeVault.',
+    qkBtn:'Быстрая запись с кнопки iPhone', qkT:'Запись голосом без разблокировки', qkS:'Кнопка действия iPhone 15 Pro и новее запускает «Команду»: ты диктуешь фразу, ИИ исправляет текст и сам создаёт запись в LifeVault.',
     qkOn:'Включить', qkRegen:'Создать новый ключ', qkRevoke:'Выключить', qkRevokeQ:'Выключить быструю запись? Команда на iPhone перестанет работать.', qkUrl:'Адрес (URL)', qkKey:'Твой личный ключ', qkWarn:'Ключ даёт доступ к записи в твой дневник — никому его не показывай. Если он утёк, создай новый.',
     qkStepsT:'Как настроить (1 минута)', qk1:'Открой «Команды» → «+» и назови команду LifeVault.', qk2:'Добавь действие «Диктовка текста»: язык — русский, остановка — «После паузы».', qk3:'Добавь «Получить содержимое URL»: вставь адрес выше, метод POST, тело запроса — JSON. Три поля (тип «Текст»): action = quick.add, token = твой ключ, text = переменная «Продиктованный текст».', qk4:'Добавь «Получить значение для» ключа reply, затем «Показать уведомление» (или «Произнести текст»).', qk5:'Настройки iPhone → Кнопка действия → Команда → выбери LifeVault. Зажми кнопку и говори.',
     qkNote:'Работает на iPhone 15 Pro / Pro Max и всех iPhone 16+. Если iOS попросит разблокировку для диктовки, это ограничение системы — проверь команду при заблокированном экране. Если ИИ недоступен, фраза всё равно сохранится заметкой.', qkOnDone:'Быстрая запись включена', qkOffDone:'Быстрая запись выключена',
@@ -671,7 +700,7 @@ const T = {
     homeBtn:'📲 Добавить на рабочий стол', homeT:'Добавьте LifeVault на рабочий стол', homeS:'Приложение будет открываться одним нажатием, как обычное. Напоминания придут в Telegram.', homeAdd:'Добавить', later:'Позже', homeDone:'Готово! Иконка на рабочем столе ✅'
   },
   en: {
-    qkBtn:'⚡ Quick capture from iPhone button', qkT:'Voice capture without unlocking', qkS:'The iPhone 15 Pro+ Action Button runs a Shortcut: you dictate a phrase, AI fixes the text and creates the entry in LifeVault by itself.',
+    qkBtn:'Quick capture from iPhone button', qkT:'Voice capture without unlocking', qkS:'The iPhone 15 Pro+ Action Button runs a Shortcut: you dictate a phrase, AI fixes the text and creates the entry in LifeVault by itself.',
     qkOn:'Turn on', qkRegen:'Create a new key', qkRevoke:'Turn off', qkRevokeQ:'Turn off quick capture? The iPhone shortcut will stop working.', qkUrl:'Address (URL)', qkKey:'Your private key', qkWarn:'The key lets anyone add entries to your planner — keep it private. If it leaks, create a new one.',
     qkStepsT:'Setup (1 minute)', qk1:'Open Shortcuts → “+” and name it LifeVault.', qk2:'Add “Dictate Text”: language English, stop listening “After Pause”.', qk3:'Add “Get Contents of URL”: paste the address above, method POST, request body JSON. Three Text fields: action = quick.add, token = your key, text = the “Dictated Text” variable.', qk4:'Add “Get Dictionary Value” for key reply, then “Show Notification” (or “Speak Text”).', qk5:'iPhone Settings → Action Button → Shortcut → pick LifeVault. Hold the button and speak.',
     qkNote:'Works on iPhone 15 Pro / Pro Max and all iPhone 16+. If iOS asks to unlock for dictation, that is a system limit — test the shortcut with the screen locked. If AI is unavailable, your phrase is still saved as a note.', qkOnDone:'Quick capture is on', qkOffDone:'Quick capture is off',
@@ -1658,6 +1687,25 @@ window.LifeTrack = { open() { render(true); } };
   document.addEventListener('scroll', (e) => { const t = e.target; if (hd && t.classList && t.classList.contains('scroll')) hd.classList.toggle('lvScr', t.scrollTop > 6); }, true);
   const ht = document.getElementById('hTitle'); if (ht) new MutationObserver(() => { ht.classList.remove('lvT'); void ht.offsetWidth; ht.classList.add('lvT'); }).observe(ht, { childList: true, characterData: true, subtree: true });
   stagger(document.body);
+})();
+</script>
+<script>
+(function(){
+var ru=L==='ru',u=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user,nm=u&&u.first_name?u.first_name:'';
+var X=ru?{t:'ЗАДАЧИ',a:'активных',n:'ЗАМЕТКИ',nt:'мысль или запись',m:'ВСТРЕЧИ',mt:'запланировать встречу',ai:'АССИСТЕНТ',at:'спросить или надиктовать',g:['Доброй ночи','Доброе утро','Добрый день','Добрый вечер']}:{t:'TASKS',a:'active',n:'NOTES',nt:'a thought or note',m:'MEETINGS',mt:'plan a meeting',ai:'ASSISTANT',at:'ask or dictate',g:['Good night','Good morning','Good afternoon','Good evening']};
+function set(i,v){var e=document.getElementById(i);if(e)e.textContent=v}
+set('bTL',X.t);set('bCT',X.a);set('bNL',X.n);set('bNT',X.nt);set('bML',X.m);set('bMT',X.mt);set('bAL',X.ai);set('bAT',X.at);
+function hero(){var d=new Date(),h=d.getHours();set('bDow',d.toLocaleDateString(LOC,{weekday:'long'}));set('bDate',d.toLocaleDateString(LOC,{day:'numeric',month:'long'}));set('bHi',X.g[h<5?0:h<12?1:h<18?2:3]+(nm?', '+nm:''))}
+hero();
+document.querySelectorAll('nav button').forEach(function(b,i){b.setAttribute('data-n','0'+(i+1))});
+var go=function(id){var e=document.getElementById(id);if(e)e.click()};
+document.getElementById('bTasks').onclick=function(){go('fabToday')};
+document.getElementById('bNotes').onclick=function(){go('nMem');setTimeout(function(){var m=document.getElementById('memIn');m&&m.focus()},250)};
+document.getElementById('bMeet').onclick=function(){go('fabToday')};
+document.getElementById('bAI').onclick=function(){go('nChat')};
+var r0=renderToday;
+renderToday=function(){r0.apply(this,arguments);try{var td=todayStr();set('bCnt',S.entries.filter(function(e){return e.due_date===td&&!e.done&&e.kind!=='note'}).length);hero();if(tg&&tg.HapticFeedback&&0)tg.HapticFeedback.selectionChanged()}catch(e){}};
+document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.bt,nav button')&&tg&&tg.HapticFeedback)tg.HapticFeedback.impactOccurred('light')},true);
 })();
 </script>
 </body>
