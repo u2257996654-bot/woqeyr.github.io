@@ -569,12 +569,12 @@ body{background:radial-gradient(120% 60% at 50% -10%,rgba(255,255,255,.07),trans
 .bt .pl{position:relative;display:block;width:34px;height:34px;margin:14px 0 8px;color:var(--text)}
 .bt .pl:not(.sp)::before,.bt .pl:not(.sp)::after{content:"";position:absolute;left:50%;top:50%;background:currentColor;border-radius:2px}
 .bt .pl:not(.sp)::before{width:30px;height:2px;margin:-1px 0 0 -15px}.bt .pl:not(.sp)::after{width:2px;height:30px;margin:-15px 0 0 -1px}
-.bt .pl.sp svg{width:32px;height:32px;animation:btSpin 6s linear infinite}
+.bt .pl.sp svg{width:32px;height:32px}
 .bt.hero{grid-column:1/-1;min-height:150px;cursor:default;background:linear-gradient(150deg,rgba(255,255,255,.1),rgba(255,255,255,.02))}
-.bt.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.4px);background-size:6px 6px;-webkit-mask-image:linear-gradient(115deg,transparent 30%,#000 130%);mask-image:linear-gradient(115deg,transparent 30%,#000 130%);opacity:.55;animation:btDots 9s ease-in-out infinite alternate}
+.bt.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.4px);background-size:6px 6px;-webkit-mask-image:linear-gradient(115deg,transparent 30%,#000 130%);mask-image:linear-gradient(115deg,transparent 30%,#000 130%);opacity:.55}
 .bt.hero>*{position:relative}.bt.hero b{font-size:38px;margin:8px 0 6px}
 @keyframes btIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
-@keyframes btSpin{to{transform:rotate(360deg)}}@keyframes btDots{from{opacity:.35}to{opacity:.7}}
+
 nav{gap:6px!important;padding:6px!important;border-radius:28px!important;background:rgba(18,18,22,.78)!important;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.1)!important;box-shadow:0 20px 40px -18px #000}
 nav button{align-items:flex-start!important;text-align:left;padding:9px 10px 8px!important;border-radius:20px!important;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);color:var(--muted)!important;gap:7px!important;transition:background .25s,color .25s,transform .2s}
 nav button::after{content:attr(data-n);position:absolute;top:8px;right:9px;font-size:9.5px;font-weight:700;letter-spacing:.08em;opacity:.55}
@@ -583,47 +583,21 @@ nav button.on{background:#fff!important;color:#0b0b0e!important;border-color:#ff
 nav button span svg{width:19px;height:19px;display:block}
 .ib{display:grid;place-items:center}.ib svg,.send svg{width:20px;height:20px}.ai-action svg{width:16px;height:16px;vertical-align:-3px;margin-right:2px}
 .sheet{background:rgba(19,19,22,.92)!important;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.09)}
-</style>
-<style id="lv-skin">
-/* ===== LifeVault skin v2: точечная матрица + стекло + движение ===== */
-:root{--dot:rgba(255,255,255,.16);--rise:cubic-bezier(.2,.8,.2,1)}
-[data-theme=light]{--dot:rgba(30,30,80,.10)}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.7;
- background:radial-gradient(var(--dot) 1px,transparent 1.2px) 0 0/14px 14px;
- -webkit-mask:linear-gradient(#000,transparent 38%);mask:linear-gradient(#000,transparent 38%)}
-#app{position:relative;z-index:1}
-.bt.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 30%,var(--card)),var(--card) 70%)!important}
-.bt.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(var(--dot) 1px,transparent 1.3px) 0 0/9px 9px;-webkit-mask:linear-gradient(110deg,transparent 30%,#000);mask:linear-gradient(110deg,transparent 30%,#000)}
-.bt.hero::after{content:"";position:absolute;width:160px;height:160px;right:-50px;top:-60px;border-radius:50%;background:var(--grad);filter:blur(46px);opacity:.35;animation:lvFloat 7s ease-in-out infinite}
-.bt,.card,.sheet,nav{-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}
-.bt{transition:transform .18s var(--rise),box-shadow .2s,border-color .2s}
-.bt:active{transform:scale(.965)}
-.bt b{letter-spacing:-.03em}
-.card{background:color-mix(in srgb,var(--card) 88%,transparent)}
-.row{transition:background .15s,transform .18s var(--rise)}
-.row:active{transform:scale(.99)}
-.view.on .bt,.view.on .row,.view.on .sec,.view.on .quick{animation:lvRise .55s var(--rise) both;animation-delay:calc(var(--n,0)*45ms)}
-.view.on .bt:nth-child(2){--n:1}.view.on .bt:nth-child(3){--n:2}.view.on .bt:nth-child(4){--n:3}.view.on .bt:nth-child(5){--n:4}.view.on .bt:nth-child(6){--n:5}
-.view.on .row:nth-child(2){--n:1}.view.on .row:nth-child(3){--n:2}.view.on .row:nth-child(4){--n:3}.view.on .row:nth-child(n+5){--n:4}
-nav{border-radius:26px;box-shadow:0 18px 40px -16px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06)}
-nav button{transition:background .25s var(--rise),color .2s,transform .2s var(--rise)}
-nav button:active{transform:scale(.92)}
-nav button.on span{animation:lvPop .45s var(--rise)}
-.fab,.quick button,.btn.pri,.send{position:relative;overflow:hidden}
-.fab::after,.btn.pri::after,.quick button::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);transform:translateX(-120%);animation:lvShine 4.5s ease-in-out infinite}
-.chk[aria-pressed=true]{animation:lvPop .4s var(--rise)}
-.sheet{border-top:1px solid var(--line);box-shadow:0 -24px 60px -20px rgba(0,0,0,.6)}
-#toast{border-radius:16px;box-shadow:0 14px 40px -12px rgba(0,0,0,.6)}
-.ripple{position:absolute;border-radius:50%;pointer-events:none;background:currentColor;opacity:.18;transform:scale(0);animation:lvRipple .6s ease-out forwards}
-.lvc-p{position:fixed;z-index:99999;width:8px;height:8px;border-radius:2px;pointer-events:none;will-change:transform,opacity}
-.lvem{display:inline-block;width:1.25em;height:1.25em;vertical-align:-.25em}
-.lvem svg,.lvem img,.lvem video{width:100%;height:100%;display:block}
-@keyframes lvRise{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
-@keyframes lvPop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
-@keyframes lvShine{0%,70%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-@keyframes lvFloat{50%{transform:translate(-18px,14px)}}
-@keyframes lvRipple{to{transform:scale(1);opacity:0}}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+@keyframes r{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes lvSpin{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes lvTab{0%{transform:translateY(0) scale(1)}40%{transform:translateY(-5px) scale(1.18)}100%{transform:translateY(-3px) scale(1.1)}}
+@keyframes lvFloat{50%{transform:translateY(-5px)}}
+@keyframes lvFab{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
+@keyframes lvPopIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@keyframes lffl{50%{transform:scale(1.12)}}
+.fab:active{transform:scale(.88)!important}
+.spin{border-radius:50%}
+.bt.wide{grid-column:1/-1;min-height:96px;flex-direction:row;align-items:center;gap:14px}
+.bt.wide .tx{flex:1;min-width:0}.bt.wide p{margin:6px 0 0}.bt.wide .pl{margin:0;flex:none}
+.bt .nx{display:block;margin-top:auto;font-size:14px;line-height:1.3;color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bt .nx em{display:block;font-style:normal;font-weight:500;color:var(--muted);font-size:12.5px}
+.bt b.sm{font-size:30px}
 </style>
 </head>
 <body>
@@ -648,7 +622,7 @@ nav button.on span{animation:lvPop .45s var(--rise)}
   </header>
   <main>
     <section class="view on" id="v-today">
-      <div class="scroll"><div class="bento" id="bento"><div class="bt hero"><small id="bDow"></small><b id="bDate"></b><p id="bHi"></p></div><button class="bt" id="bTasks"><small id="bTL"></small><b id="bCnt">0</b><p id="bCT"></p></button><button class="bt" id="bNotes"><small id="bNL"></small><i class="pl"></i><p id="bNT"></p></button><button class="bt" id="bMeet"><small id="bML"></small><i class="pl"></i><p id="bMT"></p></button><button class="bt" id="bAI"><small id="bAL"></small><i class="pl sp"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></i><p id="bAT"></p></button></div>
+      <div class="scroll"><div class="bento" id="bento"><div class="bt hero"><small id="bDow"></small><b id="bDate"></b><p id="bHi"></p></div><button class="bt" id="bTasks"><small id="bTL"></small><b id="bCnt">0</b><p id="bCT"></p></button><button class="bt" id="bNotes"><small id="bNL"></small><b class="sm" id="bNC">0</b><p id="bNT"></p></button><button class="bt" id="bMeet"><small id="bML"></small><i class="pl" id="bMP"></i><p id="bMT"></p><span class="nx" id="bMN" hidden></span></button><button class="bt" id="bAI"><small id="bAL"></small><i class="pl sp"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></i><p id="bAT"></p></button><button class="bt wide" id="bLife"><div class="tx"><small id="bLL"></small><p id="bLT"></p></div><i class="pl" style="width:34px;height:34px"></i></button></div>
       <div class="quick"><input id="quick" maxlength="200" enterkeyhint="done"><button id="quickAdd" aria-label="add">＋</button></div><div id="todayList"></div></div>
       <button class="fab" id="fabToday" aria-label="add">＋</button>
     </section>
@@ -1748,47 +1722,16 @@ var r0=renderToday;
 renderToday=function(){r0.apply(this,arguments);try{var td=todayStr();set('bCnt',S.entries.filter(function(e){return e.due_date===td&&!e.done&&e.kind!=='note'}).length);hero();if(tg&&tg.HapticFeedback&&0)tg.HapticFeedback.selectionChanged()}catch(e){}};
 document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.bt,nav button')&&tg&&tg.HapticFeedback)tg.HapticFeedback.impactOccurred('light')},true);
 })();
-</script>
-<script id="lv-skin-js">
-/* LifeVault skin v2: ripple, конфетти, анимированные эмодзи из наборов бота */
-(()=>{
-const tg=window.Telegram&&Telegram.WebApp,hap=(k)=>{try{k?tg.HapticFeedback.notificationOccurred(k):tg.HapticFeedback.selectionChanged()}catch(e){}};
-// ripple + тактильный отклик на кнопки
-document.addEventListener('pointerdown',(e)=>{const b=e.target.closest('button,.bt,.row');if(!b)return;hap();
- if(!b.matches('button'))return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)*2,p=document.createElement('i');
- p.className='ripple';p.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;
- if(getComputedStyle(b).position==='static')b.style.position='relative';b.style.overflow='hidden';b.appendChild(p);setTimeout(()=>p.remove(),650)},{passive:true});
-// конфетти при выполнении дела
-function confetti(x,y){const c=['#7d6fff','#e8b765','#3ccf91','#ff6b78','#38bdf8'];
- for(let i=0;i<22;i++){const p=document.createElement('i');p.className='lvc-p';p.style.background=c[i%5];p.style.left=x+'px';p.style.top=y+'px';document.body.appendChild(p);
-  const a=Math.random()*Math.PI*2,v=70+Math.random()*110;
-  p.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:`translate(${Math.cos(a)*v}px,${Math.sin(a)*v+60}px) rotate(${Math.random()*540}deg)`,opacity:0}],{duration:800+Math.random()*400,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>p.remove()}}
-document.addEventListener('click',(e)=>{const k=e.target.closest('.chk');if(!k)return;
- setTimeout(()=>{if(k.getAttribute('aria-pressed')==='true'){const r=k.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/2);hap('success')}},60)},true);
-// анимированные эмодзи: берём из набора бота через прокси api (?emoji=id). Нет сети/набора — остаётся обычный эмодзи.
-const API=(typeof API_URL!=='undefined'&&API_URL)||'';let map=null,lot=null;
-const EM=/\p{Extended_Pictographic}\uFE0F?/gu,norm=(s)=>s.replace(/\uFE0F/g,'');
-async function load(){if(map||!API||!(tg&&tg.initData))return;map={};
- try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','x-telegram-init-data':tg.initData},body:JSON.stringify({action:'emoji.set'})});
-  const j=await r.json();(j.items||[]).forEach((x)=>{const k=norm(x.emoji);if(k&&!map[k])map[k]=x});}catch(e){}}
-function lottie(){return lot||(lot=new Promise((ok)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie_light.min.js';s.onload=()=>ok(window.lottie);s.onerror=()=>ok(null);document.head.appendChild(s)}))}
-async function mount(span,it){const url=API+(API.includes('?')?'&':'?')+'emoji='+it.id;
- try{if(it.kind==='webm'){const v=document.createElement('video');v.src=url;v.muted=v.loop=v.autoplay=v.playsInline=true;v.setAttribute('playsinline','');span.textContent='';span.appendChild(v);v.play().catch(()=>{});}
-  else if(it.kind==='webp'){const i=document.createElement('img');i.src=url;span.textContent='';span.appendChild(i)}
-  else{const L=await lottie();if(!L||!('DecompressionStream'in window))return;
-   const buf=await (await fetch(url)).arrayBuffer(),txt=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
-   span.textContent='';L.loadAnimation({container:span,renderer:'svg',loop:true,autoplay:true,animationData:JSON.parse(txt)})}}catch(e){}}
-let busy=false;
-async function scan(){if(busy)return;busy=true;await load();
- if(map&&Object.keys(map).length){let n=0;
-  const w=document.createTreeWalker(document.getElementById('app')||document.body,NodeFilter.SHOW_TEXT,{acceptNode:(t)=>t.parentElement&&!t.parentElement.closest('textarea,input,script,style,.lvem,.chat-in')&&EM.test(t.nodeValue)&&(EM.lastIndex=0,true)?1:3});
-  const list=[];while(w.nextNode())list.push(w.currentNode);
-  for(const t of list){if(n>60)break;const parts=t.nodeValue.split(/(\p{Extended_Pictographic}\uFE0F?)/gu);if(parts.length<2||!parts.some((p)=>map[norm(p)]))continue;
-   const f=document.createDocumentFragment();parts.forEach((p)=>{const it=map[norm(p)];if(it&&p){const s=document.createElement('span');s.className='lvem';s.textContent=p;f.appendChild(s);mount(s,it);n++}else if(p)f.appendChild(document.createTextNode(p))});
-   t.replaceWith(f)}}
- busy=false}
-let tm;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(scan,500)}).observe(document.documentElement,{childList:true,subtree:true});
-setTimeout(scan,1500);
+(function(){var ru=L==='ru';function set(i,v){var e=document.getElementById(i);if(e)e.textContent=v}
+set('bLL',ru?'ЖИЗНЬ':'LIFE');set('bLT',ru?'питание, деньги и привычки':'food, money and habits');
+var lf=document.getElementById('bLife');if(lf)lf.onclick=function(){var e=document.getElementById('nLife');e&&e.click()};
+var r1=renderToday;renderToday=function(){r1.apply(this,arguments);try{
+set('bNC',(S.mems||[]).length);
+var td=todayStr(),n=new Date(),hm=('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2);
+var ev=S.entries.filter(function(e){return e.due_date===td&&!e.done&&e.due_time&&e.due_time.slice(0,5)>=hm&&e.kind!=='note'}).sort(function(a,b){return a.due_time<b.due_time?-1:1})[0];
+var nx=document.getElementById('bMN'),p=document.getElementById('bMT'),pl=document.getElementById('bMP');
+if(ev){nx.hidden=false;nx.innerHTML=ev.due_time.slice(0,5)+'<em></em>';nx.querySelector('em').textContent=ev.title;p.hidden=true;pl.style.display='none'}else{nx.hidden=true;p.hidden=false;pl.style.display=''}
+}catch(e){}};
 })();
 </script>
 </body>
