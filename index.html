@@ -70,7 +70,7 @@ main{flex:1;min-height:0;position:relative}
 /* нижняя навигация: плавающая капсула, активная вкладка помечена делением */
 nav{display:flex;gap:4px;margin:0 12px calc(8px + var(--safe));padding:5px;border:1px solid var(--line);border-radius:22px;
  background:color-mix(in srgb,var(--card) 80%,transparent);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);box-shadow:var(--shadow)}
-nav button{position:relative;flex:1;padding:12px 4px 7px;border-radius:17px;color:var(--muted);font-size:11.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;transition:background .2s,color .2s}
+nav button{transition:background .45s ease,color .45s ease,transform .45s cubic-bezier(.22,1,.36,1),border-color .45s ease;position:relative;flex:1;padding:12px 4px 7px;border-radius:17px;color:var(--muted);font-size:11.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;transition:background .2s,color .2s}
 nav button span{font-size:18px;line-height:1}
 nav button i{font-style:normal}
 nav button.on{background:var(--soft);color:var(--acct)}
@@ -560,8 +560,8 @@ h1.lvT{animation:lvTitle .5s cubic-bezier(.22,1,.36,1)}
 :root,[data-theme],[data-theme=dark],[data-theme=light]{color-scheme:dark;--bg:#09090b!important;--card:#131316!important;--card2:#19191d!important;--text:#f4f4f7!important;--muted:#8e8e99!important;--line:rgba(255,255,255,.09)!important;--soft:rgba(255,255,255,.07)!important}
 body{background:radial-gradient(120% 60% at 50% -10%,rgba(255,255,255,.07),transparent 60%),#09090b!important;color:var(--text)}
 .bento{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:2px 0 12px}
-.bt{position:relative;text-align:left;color:var(--text);padding:16px 16px 14px;min-height:132px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(150deg,rgba(255,255,255,.075),rgba(255,255,255,.02));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 34px -22px #000;transition:transform .18s cubic-bezier(.3,1.4,.5,1),border-color .2s;animation:btIn .55s cubic-bezier(.22,1,.36,1) both;display:flex;flex-direction:column}
-.bt:nth-child(2){animation-delay:.06s}.bt:nth-child(3){animation-delay:.12s}.bt:nth-child(4){animation-delay:.18s}.bt:nth-child(5){animation-delay:.24s}
+.bt{position:relative;text-align:left;color:var(--text);padding:16px 16px 14px;min-height:132px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(150deg,rgba(255,255,255,.075),rgba(255,255,255,.02));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 34px -22px #000;transition:transform .18s cubic-bezier(.3,1.4,.5,1),border-color .2s;animation:btIn .8s cubic-bezier(.22,1,.36,1) both;display:flex;flex-direction:column}
+.bt:nth-child(2){animation-delay:.1s}.bt:nth-child(3){animation-delay:.18s}.bt:nth-child(4){animation-delay:.26s}.bt:nth-child(5){animation-delay:.34s}.bt:nth-child(6){animation-delay:.42s}
 .bt:active{transform:scale(.96)}.bt:hover{border-color:rgba(255,255,255,.2)}
 .bt small{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .bt b{display:block;font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-top:10px}
@@ -579,7 +579,7 @@ nav{gap:6px!important;padding:6px!important;border-radius:28px!important;backgro
 nav button{align-items:flex-start!important;text-align:left;padding:9px 10px 8px!important;border-radius:20px!important;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);color:var(--muted)!important;gap:7px!important;transition:background .25s,color .25s,transform .2s}
 nav button::after{content:attr(data-n);position:absolute;top:8px;right:9px;font-size:9.5px;font-weight:700;letter-spacing:.08em;opacity:.55}
 nav button::before{display:none!important}
-nav button.on{background:#fff!important;color:#0b0b0e!important;border-color:#fff;transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(255,255,255,.55)!important}
+nav button.on{transition:all .45s cubic-bezier(.22,1,.36,1);background:#fff!important;color:#0b0b0e!important;border-color:#fff;transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(255,255,255,.55)!important}
 nav button span svg{width:19px;height:19px;display:block}
 .ib{display:grid;place-items:center}.ib svg,.send svg{width:20px;height:20px}.ai-action svg{width:16px;height:16px;vertical-align:-3px;margin-right:2px}
 .sheet{background:rgba(19,19,22,.92)!important;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.09)}
@@ -602,22 +602,28 @@ nav button span svg{width:19px;height:19px;display:block}
 <style id="lv-custom">
 body{background:radial-gradient(120% 60% at 50% -10%,rgba(255,255,255,.07),transparent 60%),var(--bg)!important}
 .bt{border-radius:var(--lvr,24px)}
-.calm *,.calm *::before,.calm *::after{animation-iteration-count:1!important;animation-duration:.2s!important;animation-delay:0s!important}
+.calm *,.calm *::before,.calm *::after{animation-iteration-count:1!important}
 .nodots .bt.hero::before{display:none}
 #bCust{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);z-index:2}
 #bCust svg{width:18px;height:18px}
-#csO{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);display:none;align-items:flex-end}
-#csO.on{display:flex}
+#csO{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility 0s .4s}
+#csO.on{opacity:1;visibility:visible;transition:opacity .4s ease}
+#csS{transform:translateY(48px);transition:transform .55s cubic-bezier(.22,1,.36,1)}#csO.on #csS{transform:none}
 #csS{width:100%;max-height:86vh;overflow:auto;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));border-radius:28px 28px 0 0;background:rgba(20,20,24,.96);border:1px solid rgba(255,255,255,.1);color:var(--text)}
 #csS .h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}#csS .h b{font-size:18px}
 #csS .h button{width:34px;height:34px;border-radius:12px;background:rgba(255,255,255,.08);color:var(--text);font-size:18px}
 #csS h4{margin:16px 0 8px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 #csS .row{display:flex;flex-wrap:wrap;gap:8px}
-#csS .c{padding:9px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--text);font-size:13.5px;font-weight:600}
+#csS .c{transition:background .3s ease,color .3s ease,border-color .3s ease;padding:9px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--text);font-size:13.5px;font-weight:600}
 #csS .c.on{background:#fff;color:#0b0b0e;border-color:#fff}
 #csS .sw{width:34px;height:34px;border-radius:50%;border:2px solid transparent}
 #csS .sw.on{border-color:#fff;box-shadow:0 0 0 2px #000 inset}
 #csS .rs{margin-top:18px;width:100%;padding:12px;border-radius:14px;background:rgba(255,255,255,.06);color:var(--muted);font-weight:600}
+body:has(#v-today.on) #hTitle{visibility:hidden}
+#fabToday{display:none!important}
+#lvBoot .lvv line{transition:stroke .6s ease,opacity .6s ease}
+.view.on{animation-duration:.6s!important}
+.bt.wide .pl.sp{margin:0}
 </style>
 </head>
 <body>
@@ -642,7 +648,7 @@ body{background:radial-gradient(120% 60% at 50% -10%,rgba(255,255,255,.07),trans
   </header>
   <main>
     <section class="view on" id="v-today">
-      <div class="scroll"><div class="bento" id="bento"><div class="bt hero"><small id="bDow"></small><b id="bDate"></b><p id="bHi"></p></div><button class="bt" id="bTasks"><small id="bTL"></small><b id="bCnt">0</b><p id="bCT"></p></button><button class="bt" id="bNotes"><small id="bNL"></small><b class="sm" id="bNC">0</b><p id="bNT"></p></button><button class="bt" id="bMeet"><small id="bML"></small><i class="pl" id="bMP"></i><p id="bMT"></p><span class="nx" id="bMN" hidden></span></button><button class="bt" id="bAI"><small id="bAL"></small><i class="pl sp"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></i><p id="bAT"></p></button><button class="bt wide" id="bLife"><div class="tx"><small id="bLL"></small><p id="bLT"></p></div><i class="pl" style="width:34px;height:34px"></i></button></div>
+      <div class="scroll"><div class="bento" id="bento"><div class="bt hero"><small id="bDow"></small><b id="bDate"></b><p id="bHi"></p></div><button class="bt" id="bTasks"><small id="bTL"></small><b id="bCnt">0</b><p id="bCT"></p></button><button class="bt" id="bNotes"><small id="bNL"></small><b id="bNC">0</b><p id="bNT"></p></button><button class="bt" id="bMeet"><small id="bML"></small><i class="pl" id="bMP"></i><p id="bMT"></p><span class="nx" id="bMN" hidden></span></button><button class="bt" id="bAI"><small id="bAL"></small><i class="pl sp"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></i><p id="bAT"></p></button><button class="bt wide" id="bLife"><div class="tx"><small id="bLL"></small><p id="bLT"></p></div><i class="pl sp" style="width:34px;height:34px"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2"/></svg></i></button></div>
       <div class="quick"><input id="quick" maxlength="200" enterkeyhint="done"><button id="quickAdd" aria-label="add">＋</button></div><div id="todayList"></div></div>
       <button class="fab" id="fabToday" aria-label="add">＋</button>
     </section>
@@ -1344,20 +1350,20 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
     const sec = (Date.now() - t0) / 1000, creep = Math.min(0.88, Math.max(0, sec - 1.2) / 8);   // первые 1.2 с — вступительная анимация
     cur += (Math.max(target, finished ? 1 : creep) - cur) * 0.07;
     const lit = Math.round(cur * 60); bar.style.transform = 'scaleX(' + cur + ')';
-    ticks.forEach((l, i) => { const c = i < lit - 1 ? 'on' : i === lit - 1 ? 'lead' : ''; if (l.getAttribute('class') !== c) l.setAttribute('class', c); });
-    if (finished && cur > 0.985 && sec > 1.8 && !closing) return open();
+    ticks.forEach((l, i) => { const c = i < lit ? 'on' : ''; if (l.getAttribute('class') !== c) l.setAttribute('class', c); });
+    if (finished && cur > 0.985 && sec > 1.6 && !closing) return open();
     if (!closing) requestAnimationFrame(frame);
   }
   function open() {
     closing = true; setLabel(2); bar.style.transform = 'scaleX(1)';
     ticks.forEach((l) => l.setAttribute('class', 'on')); boot.classList.add('lv-flash');
     try { tg.HapticFeedback.impactOccurred('medium'); } catch (e) {}
-    setTimeout(() => { boot.classList.add('lv-hidden'); setTimeout(() => boot.remove(), 900); }, 850);
+    setTimeout(() => { boot.classList.add('lv-hidden'); setTimeout(() => boot.remove(), 900); }, 650);
   }
   window.lvBoot = { stage(p, i) { target = Math.max(target, p); setLabel(i); }, done() { finished = true; } };
   const gate = $('gate');
   if (gate && gate.classList.contains('on') && $('gateSpin').style.display === 'none') finished = true; // ошибка уже показана
-  setTimeout(() => { finished = true; }, 9000);           // страховка: экран не должен висеть вечно
+  setTimeout(() => { finished = true; }, 7000);           // страховка: экран не должен висеть вечно
   requestAnimationFrame(frame);
 })();
 </script>
@@ -1776,7 +1782,7 @@ function draw(){var h='<div class="h"><b>'+(ru?'Внешний вид':'Appearan
  h+='<h4>'+(ru?'Акцент':'Accent')+'</h4><div class="row">'+chip(P.acc==='','data-ac=""',ru?'Авто':'Auto')+AC.map(function(a,i){return '<button class="sw'+(P.acc===i?' on':'')+'" data-ac="'+i+'" style="background:'+a[0]+'"></button>'}).join('')+'</div>';
  h+='<h4>'+(ru?'Фон':'Background')+'</h4><div class="row">'+BG.map(function(b){return chip(P.bg===b[1],'data-bg="'+b[1]+'"',b[0])}).join('')+'</div>';
  h+='<h4>'+(ru?'Скругление':'Corners')+'</h4><div class="row">'+RD.map(function(r){return chip(P.r===r[1],'data-r="'+r[1]+'"',r[0])}).join('')+'</div>';
- h+='<h4>'+(ru?'Эффекты':'Effects')+'</h4><div class="row">'+chip(!!P.calm,'data-t="calm"',ru?'Без анимаций':'No animations')+chip(!!P.dots,'data-t="dots"',ru?'Точки на карточке':'Dots on card')+'</div>';
+ h+='<h4>'+(ru?'Эффекты':'Effects')+'</h4><div class="row">'+chip(!!P.calm,'data-t="calm"',ru?'Без зацикленных анимаций':'No looping animations')+chip(!!P.dots,'data-t="dots"',ru?'Точки на карточке':'Dots on card')+'</div>';
  h+='<h4>'+(ru?'Плитки на главной':'Home tiles')+'</h4><div class="row">'+TL.map(function(t){return chip(!P.hide[t[0]],'data-tl="'+t[0]+'"',t[1])}).join('')+'</div>';
  h+='<button class="rs" data-reset>'+(ru?'Сбросить':'Reset')+'</button>';
  document.getElementById('csS').innerHTML=h}
