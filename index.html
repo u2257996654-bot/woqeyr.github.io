@@ -599,6 +599,26 @@ nav button span svg{width:19px;height:19px;display:block}
 .bt .nx em{display:block;font-style:normal;font-weight:500;color:var(--muted);font-size:12.5px}
 .bt b.sm{font-size:30px}
 </style>
+<style id="lv-custom">
+body{background:radial-gradient(120% 60% at 50% -10%,rgba(255,255,255,.07),transparent 60%),var(--bg)!important}
+.bt{border-radius:var(--lvr,24px)}
+.calm *,.calm *::before,.calm *::after{animation-iteration-count:1!important;animation-duration:.2s!important;animation-delay:0s!important}
+.nodots .bt.hero::before{display:none}
+#bCust{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);z-index:2}
+#bCust svg{width:18px;height:18px}
+#csO{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);display:none;align-items:flex-end}
+#csO.on{display:flex}
+#csS{width:100%;max-height:86vh;overflow:auto;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));border-radius:28px 28px 0 0;background:rgba(20,20,24,.96);border:1px solid rgba(255,255,255,.1);color:var(--text)}
+#csS .h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}#csS .h b{font-size:18px}
+#csS .h button{width:34px;height:34px;border-radius:12px;background:rgba(255,255,255,.08);color:var(--text);font-size:18px}
+#csS h4{margin:16px 0 8px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+#csS .row{display:flex;flex-wrap:wrap;gap:8px}
+#csS .c{padding:9px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--text);font-size:13.5px;font-weight:600}
+#csS .c.on{background:#fff;color:#0b0b0e;border-color:#fff}
+#csS .sw{width:34px;height:34px;border-radius:50%;border:2px solid transparent}
+#csS .sw.on{border-color:#fff;box-shadow:0 0 0 2px #000 inset}
+#csS .rs{margin-top:18px;width:100%;padding:12px;border-radius:14px;background:rgba(255,255,255,.06);color:var(--muted);font-weight:600}
+</style>
 </head>
 <body>
 <div id="lvBoot" aria-hidden="true">
@@ -1732,6 +1752,47 @@ var ev=S.entries.filter(function(e){return e.due_date===td&&!e.done&&e.due_time&
 var nx=document.getElementById('bMN'),p=document.getElementById('bMT'),pl=document.getElementById('bMP');
 if(ev){nx.hidden=false;nx.innerHTML=ev.due_time.slice(0,5)+'<em></em>';nx.querySelector('em').textContent=ev.title;p.hidden=true;pl.style.display='none'}else{nx.hidden=true;p.hidden=false;pl.style.display=''}
 }catch(e){}};
+})();
+</script>
+<script>
+(function(){
+var ru=L==='ru',K='lv_look',D={acc:'',bg:'#09090b',r:24,dots:1,calm:1,hide:{}},P;
+try{P=Object.assign({},D,JSON.parse(localStorage.getItem(K)||'{}'))}catch(e){P=Object.assign({},D)}
+var AC=[['#5b4ef0','#7d6fff'],['#1f9d68','#3fd29a'],['#d98a1f','#f5b04a'],['#e5566d','#ff8a9b'],['#2b8fe8','#6ab8ff'],['#8b5cf6','#b197fc']];
+var BG=[[ru?'Графит':'Graphite','#09090b'],['OLED','#000000'],[ru?'Ночной':'Night','#0b1020'],[ru?'Тёплый':'Warm','#100e0b']];
+var RD=[[ru?'Острые':'Sharp',14],[ru?'Мягкие':'Soft',24],[ru?'Круглые':'Round',32]];
+var TL=[['bTasks',ru?'Задачи':'Tasks'],['bNotes',ru?'Заметки':'Notes'],['bMeet',ru?'Встречи':'Meetings'],['bAI',ru?'Ассистент':'Assistant'],['bLife',ru?'Жизнь':'Life']];
+function apply(){var h=document.documentElement,s=h.style;
+ if(P.acc!==''){var a=AC[P.acc];s.setProperty('--acc',a[0],'important');s.setProperty('--acc2',a[1],'important')}
+ s.setProperty('--bg',P.bg,'important');s.setProperty('--lvr',P.r+'px');
+ h.classList.toggle('calm',!!P.calm);h.classList.toggle('nodots',!P.dots);
+ TL.forEach(function(t){var e=document.getElementById(t[0]);if(e)e.style.display=P.hide[t[0]]?'none':''});
+ try{localStorage.setItem(K,JSON.stringify(P))}catch(e){}}
+var hero=document.querySelector('.bt.hero');
+if(hero)hero.insertAdjacentHTML('beforeend','<button id="bCust" aria-label="look"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 100 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H17a4 4 0 004-4c0-4.4-4-8.2-9-8.2z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/></svg></button>');
+var o=document.createElement('div');o.id='csO';o.innerHTML='<div id="csS"></div>';document.body.appendChild(o);
+function chip(on,a,t){return '<button class="c'+(on?' on':'')+'" '+a+'>'+t+'</button>'}
+function draw(){var h='<div class="h"><b>'+(ru?'Внешний вид':'Appearance')+'</b><button data-x>×</button></div>';
+ h+='<h4>'+(ru?'Акцент':'Accent')+'</h4><div class="row">'+chip(P.acc==='','data-ac=""',ru?'Авто':'Auto')+AC.map(function(a,i){return '<button class="sw'+(P.acc===i?' on':'')+'" data-ac="'+i+'" style="background:'+a[0]+'"></button>'}).join('')+'</div>';
+ h+='<h4>'+(ru?'Фон':'Background')+'</h4><div class="row">'+BG.map(function(b){return chip(P.bg===b[1],'data-bg="'+b[1]+'"',b[0])}).join('')+'</div>';
+ h+='<h4>'+(ru?'Скругление':'Corners')+'</h4><div class="row">'+RD.map(function(r){return chip(P.r===r[1],'data-r="'+r[1]+'"',r[0])}).join('')+'</div>';
+ h+='<h4>'+(ru?'Эффекты':'Effects')+'</h4><div class="row">'+chip(!!P.calm,'data-t="calm"',ru?'Без анимаций':'No animations')+chip(!!P.dots,'data-t="dots"',ru?'Точки на карточке':'Dots on card')+'</div>';
+ h+='<h4>'+(ru?'Плитки на главной':'Home tiles')+'</h4><div class="row">'+TL.map(function(t){return chip(!P.hide[t[0]],'data-tl="'+t[0]+'"',t[1])}).join('')+'</div>';
+ h+='<button class="rs" data-reset>'+(ru?'Сбросить':'Reset')+'</button>';
+ document.getElementById('csS').innerHTML=h}
+document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('button');if(!t)return;
+ if(t.id==='bCust'){draw();o.classList.add('on');return}
+ if(e.target===o||t.hasAttribute('data-x')){o.classList.remove('on');return}
+ if(!o.contains(t))return;
+ if(t.hasAttribute('data-ac'))P.acc=t.dataset.ac===''?'':+t.dataset.ac;
+ else if(t.dataset.bg)P.bg=t.dataset.bg;
+ else if(t.dataset.r)P.r=+t.dataset.r;
+ else if(t.dataset.t)P[t.dataset.t]=P[t.dataset.t]?0:1;
+ else if(t.dataset.tl)P.hide[t.dataset.tl]=!P.hide[t.dataset.tl];
+ else if(t.hasAttribute('data-reset')){try{localStorage.removeItem(K)}catch(x){}location.reload();return}
+ apply();draw()});
+o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('on')});
+apply();
 })();
 </script>
 </body>
